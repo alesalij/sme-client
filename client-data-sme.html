@@ -237,6 +237,7 @@
       }
 
       input[type="text"],
+      input[type="date"],
       textarea,
       select {
         width: 100%;
@@ -246,6 +247,7 @@
         font-size: 1rem;
         transition: var(--transition);
         background-color: var(--white);
+        font-family: inherit;
       }
 
       input[type="text"]:focus,
@@ -534,6 +536,71 @@
         text-decoration: underline;
       }
 
+      /* Стиль для поля даты актуальности с календарем */
+      .date-input-container {
+        position: relative;
+        width: 100%;
+      }
+
+      #actualDateSearch,
+      #actualDateExport {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        transition: var(--transition);
+        background-color: var(--white);
+        font-family: inherit;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+      }
+
+      #actualDateSearch:focus,
+      #actualDateExport:focus {
+        border-color: var(--primary-blue);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(42, 90, 156, 0.1);
+      }
+
+      /* Стилизация календаря для webkit браузеров */
+      #actualDateSearch::-webkit-calendar-picker-indicator,
+      #actualDateExport::-webkit-calendar-picker-indicator {
+        background: transparent;
+        bottom: 0;
+        color: transparent;
+        cursor: pointer;
+        height: auto;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: auto;
+      }
+
+      /* Стилизация календаря для Firefox */
+      #actualDateSearch::-moz-calendar-picker-indicator,
+      #actualDateExport::-moz-calendar-picker-indicator {
+        background: transparent;
+        color: transparent;
+      }
+
+      .calendar-icon {
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--dark-gray);
+        pointer-events: none;
+        font-size: 1rem;
+      }
+
+      #actualDateSearch:focus + .calendar-icon,
+      #actualDateExport:focus + .calendar-icon {
+        color: var(--primary-blue);
+      }
+
       /* Утилиты */
       .hidden {
         display: none;
@@ -693,7 +760,7 @@
             <div class="user-info">
               <div class="user-avatar">SME</div>
               <div>
-                <div>Сотрудник SME</div>
+                <div>Иванов И.И.</div>
                 <div style="font-size: 0.9rem; opacity: 0.9">Отдел SME</div>
               </div>
               <button id="logoutBtn" class="btn-secondary">
@@ -713,9 +780,6 @@
           </div>
           <div class="tab" data-tab="tab2">
             <i class="fas fa-download"></i> Массовая выгрузка
-          </div>
-          <div class="tab" data-tab="tab3">
-            <i class="fas fa-link"></i> Связанные лица
           </div>
         </div>
 
@@ -781,6 +845,10 @@
 
             <div class="form-grid">
               <div class="form-group">
+                <label for="innInput">ID</label>
+                <input type="text" id="ID" placeholder="ID клиента" />
+              </div>
+              <div class="form-group">
                 <label for="innInput">ИНН</label>
                 <input
                   type="text"
@@ -797,7 +865,7 @@
                 />
               </div>
               <div class="form-group">
-                <label for="nameInput">Название (часть названия)</label>
+                <label for="nameInput">Краткое наименование</label>
                 <input
                   type="text"
                   id="nameInput"
@@ -821,17 +889,20 @@
                   placeholder="Введите ФИО для ИП"
                 />
               </div>
+
               <div class="form-group">
-                <label for="actualDate">Дата актуальности</label>
-                <input type="date" id="actualDate" />
+                <label for="actualDateSearch">Дата актуальности</label>
+                <div class="date-input-container">
+                  <input type="date" id="actualDateSearch" />
+                  <!-- <i class="fas fa-calendar-alt calendar-icon"></i> -->
+                </div>
               </div>
             </div>
 
             <!-- Панель выбора дополнительных данных для отображения -->
             <div class="section" style="margin-top: 20px">
               <h4 style="margin-bottom: 15px; color: var(--primary-blue)">
-                <i class="fas fa-cogs"></i> Дополнительные данные для
-                отображения
+                <i class="fas fa-cogs"></i> Дополнительные данные
               </h4>
 
               <h5 style="margin-bottom: 10px; color: var(--dark-gray)">
@@ -856,7 +927,7 @@
                 </div>
                 <div class="checkbox-item">
                   <input type="checkbox" id="searchShortAccount" checked />
-                  <label for="searchShortAccount">Счет (счета) + статус</label>
+                  <label for="searchShortAccount">Счет</label>
                 </div>
                 <div class="checkbox-item">
                   <input type="checkbox" id="searchShortRegAddress" checked />
@@ -880,7 +951,7 @@
                 </div>
                 <div class="checkbox-item">
                   <input type="checkbox" id="searchShortOkved" checked />
-                  <label for="searchShortOkved">Основной ОКВЭД</label>
+                  <label for="searchShortOkved">ОКВЭД</label>
                 </div>
               </div>
 
@@ -890,26 +961,20 @@
               <div class="checkbox-group">
                 <div class="checkbox-item">
                   <input type="checkbox" id="searchExtAccountDetails" />
-                  <label for="searchExtAccountDetails"
-                    >Счет с деталями (даты открытия/закрытия/блокировки)</label
-                  >
+                  <label for="searchExtAccountDetails">Счет</label>
                 </div>
                 <div class="checkbox-item">
                   <input type="checkbox" id="searchExtResidency" />
-                  <label for="searchExtResidency"
-                    >Статус резидент/не резидент</label
-                  >
+                  <label for="searchExtResidency">Статус (резидент)</label>
                 </div>
                 <div class="checkbox-item">
                   <input type="checkbox" id="searchExtCeoDetails" />
-                  <label for="searchExtCeoDetails"
-                    >ЕИО: полные данные + статус клиент/не клиент</label
-                  >
+                  <label for="searchExtCeoDetails">ЕИО: полные данные</label>
                 </div>
                 <div class="checkbox-item">
                   <input type="checkbox" id="searchExtBeneficiaryDetails" />
                   <label for="searchExtBeneficiaryDetails"
-                    >Бенефициар: полные данные + статус клиент/не клиент</label
+                    >Бенефициар: полные данные</label
                   >
                 </div>
                 <div class="checkbox-item">
@@ -1027,97 +1092,94 @@
             </button>
           </div>
 
-          <div class="section">
-            <h3 class="section-title">
-              <i class="fas fa-cogs"></i> Выбор дополнительных данных для сбора
-            </h3>
+          <div class="section" style="margin-top: 20px">
+            <h4 style="margin-bottom: 15px; color: var(--primary-blue)">
+              <i class="fas fa-cogs"></i> Дополнительные данные
+            </h4>
 
-            <h4 style="margin-bottom: 15px">Краткий набор:</h4>
+            <h5 style="margin-bottom: 10px; color: var(--dark-gray)">
+              Краткий набор:
+            </h5>
             <div class="checkbox-group">
               <div class="checkbox-item">
-                <input type="checkbox" id="shortName" checked />
-                <label for="shortName">Наименование клиента</label>
+                <input type="checkbox" id="searchShortName" checked />
+                <label for="searchShortName">Наименование клиента</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="shortInn" checked />
-                <label for="shortInn">ИНН</label>
+                <input type="checkbox" id="searchShortInn" checked />
+                <label for="searchShortInn">ИНН</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="shortOgrn" checked />
-                <label for="shortOgrn">ОГРН</label>
+                <input type="checkbox" id="searchShortOgrn" checked />
+                <label for="searchShortOgrn">ОГРН</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="shortKpp" checked />
-                <label for="shortKpp">КПП</label>
+                <input type="checkbox" id="searchShortKpp" checked />
+                <label for="searchShortKpp">КПП</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="shortAccount" checked />
-                <label for="shortAccount">Счет (счета) + статус</label>
+                <input type="checkbox" id="searchShortAccount" checked />
+                <label for="searchShortAccount">Счет</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="shortRegAddress" checked />
-                <label for="shortRegAddress">Адрес регистрации</label>
+                <input type="checkbox" id="searchShortRegAddress" checked />
+                <label for="searchShortRegAddress">Адрес регистрации</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="shortFactAddress" checked />
-                <label for="shortFactAddress">Адрес фактический</label>
+                <input type="checkbox" id="searchShortFactAddress" checked />
+                <label for="searchShortFactAddress">Адрес фактический</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="shortCeo" checked />
-                <label for="shortCeo">ЕИО: ФИО</label>
+                <input type="checkbox" id="searchShortCeo" checked />
+                <label for="searchShortCeo">ЕИО: ФИО</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="shortBeneficiary" checked />
-                <label for="shortBeneficiary">Бенефициар: ФИО</label>
+                <input type="checkbox" id="searchShortBeneficiary" checked />
+                <label for="searchShortBeneficiary">Бенефициар: ФИО</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="shortRegDate" checked />
-                <label for="shortRegDate">Дата регистрации</label>
+                <input type="checkbox" id="searchShortRegDate" checked />
+                <label for="searchShortRegDate">Дата регистрации</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="shortOkved" checked />
-                <label for="shortOkved">Основной ОКВЭД</label>
+                <input type="checkbox" id="searchShortOkved" checked />
+                <label for="searchShortOkved">ОКВЭД</label>
               </div>
             </div>
 
-            <h4 style="margin: 25px 0 15px 0">Расширенный набор:</h4>
+            <h5 style="margin: 20px 0 10px 0; color: var(--dark-gray)">
+              Расширенный набор:
+            </h5>
             <div class="checkbox-group">
               <div class="checkbox-item">
-                <input type="checkbox" id="extAccountDetails" />
-                <label for="extAccountDetails"
-                  >Счет с деталями (даты открытия/закрытия/блокировки)</label
+                <input type="checkbox" id="searchExtAccountDetails" />
+                <label for="searchExtAccountDetails">Счет</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="searchExtResidency" />
+                <label for="searchExtResidency">Статус (резидент)</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="searchExtCeoDetails" />
+                <label for="searchExtCeoDetails">ЕИО: полные данные</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="searchExtBeneficiaryDetails" />
+                <label for="searchExtBeneficiaryDetails"
+                  >Бенефициар: полные данные</label
                 >
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="extResidency" />
-                <label for="extResidency">Статус резидент/не резидент</label>
+                <input type="checkbox" id="searchExtAllOkved" />
+                <label for="searchExtAllOkved">ОКВЭД (все)</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="extCeoDetails" />
-                <label for="extCeoDetails"
-                  >ЕИО: полные данные + статус клиент/не клиент</label
+                <input type="checkbox" id="searchExtRelatedPersons" checked />
+                <label for="searchExtRelatedPersons"
+                  >Связанные лица из БД AML SME</label
                 >
-              </div>
-              <div class="checkbox-item">
-                <input type="checkbox" id="extBeneficiaryDetails" />
-                <label for="extBeneficiaryDetails"
-                  >Бенефициар: полные данные + статус клиент/не клиент</label
-                >
-              </div>
-              <div class="checkbox-item">
-                <input type="checkbox" id="extAllOkved" />
-                <label for="extAllOkved">ОКВЭД (все)</label>
               </div>
             </div>
-
-            <div class="form-group">
-              <label for="actualDate">Дата актуальности</label>
-              <input type="date" id="actualDate" />
-            </div>
-
-            <button id="startExportBtn">
-              <i class="fas fa-play"></i> Начать выгрузку
-            </button>
           </div>
 
           <div class="section hidden" id="exportProgressSection">
@@ -1139,37 +1201,6 @@
             <button id="downloadResultBtn" class="mt-20">
               <i class="fas fa-download"></i> Скачать результат
             </button>
-          </div>
-        </div>
-
-        <!-- Вкладка 3: Связанные лица -->
-        <div id="tab3" class="tab-content">
-          <div class="section">
-            <h3 class="section-title">
-              <i class="fas fa-link"></i> Управление связанными лицами
-            </h3>
-            <div class="form-group">
-              <label for="companyInnForRelations"
-                >ИНН компании для поиска связанных лиц</label
-              >
-              <input
-                type="text"
-                id="companyInnForRelations"
-                placeholder="Введите ИНН юридического лица"
-              />
-            </div>
-            <button id="searchRelationsBtn">
-              <i class="fas fa-search"></i> Найти связанные лица
-            </button>
-          </div>
-
-          <div class="section hidden" id="relationsResultsSection">
-            <h3 class="section-title">
-              <i class="fas fa-users"></i> Найденные связанные лица
-            </h3>
-            <div id="relationsResults">
-              <!-- Результаты поиска связанных лиц будут здесь -->
-            </div>
           </div>
         </div>
       </div>
@@ -1195,11 +1226,25 @@
       let currentTab = "tab1";
       let selectedClient = null;
       let exportData = [];
-      let currentUser = "Сотрудник SME";
+      let currentUser = "Иванов И.И.";
+
+      // Функция форматирования даты из YYYY-MM-DD в ДД.ММ.ГГГГ
+      function formatDate(dateString) {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}.${month}.${year}`;
+      }
 
       // Элементы DOM
       const tabs = document.querySelectorAll(".tab");
       const tabContents = document.querySelectorAll(".tab-content");
+
+      // Элементы дат
+      const actualDateSearch = document.getElementById("actualDateSearch");
+      const actualDateExport = document.getElementById("actualDateExport");
 
       // Элементы поиска
       const innInput = document.getElementById("innInput");
@@ -1255,7 +1300,13 @@
       const relationsResults = document.getElementById("relationsResults");
 
       // Установка текущей даты по умолчанию
-      actualDate.valueAsDate = new Date();
+      const today = new Date();
+      const day = String(today.getDate()).padStart(2, "0");
+      const month = String(today.getMonth() + 1).padStart(2, "0");
+      const year = today.getFullYear();
+      // Установка текущей даты по умолчанию для обоих полей
+      if (actualDateSearch) actualDateSearch.valueAsDate = today;
+      if (actualDateExport) actualDateExport.valueAsDate = today;
 
       // Обработчики событий для вкладок
       tabs.forEach((tab) => {
@@ -1370,6 +1421,39 @@
           showExamplesBtn.classList.add("hidden");
         });
       }
+
+      // Обработчик календаря для даты актуальности
+      const calendarIcons = document.querySelectorAll(".calendar-icon");
+      calendarIcons.forEach((icon) => {
+        icon.addEventListener("click", () => {
+          const dateInput = icon.previousElementSibling;
+          dateInput.focus();
+          dateInput.click();
+        });
+      });
+
+      // Обработчик форматирования даты при изменении
+      actualDate.addEventListener("change", () => {
+        if (actualDate.value) {
+          // Обновляем отображение в результатах выгрузки, если нужно
+          const exportResultsElement = document.getElementById("exportResults");
+          if (
+            exportResultsElement &&
+            !exportResultsElement.classList.contains("hidden")
+          ) {
+            // Перезапускаем отображение результатов с новой датой
+            const selectedFields = [];
+            document
+              .querySelectorAll(
+                '.checkbox-group input[type="checkbox"]:checked',
+              )
+              .forEach((checkbox) => {
+                selectedFields.push(checkbox.id);
+              });
+            showExportResults(selectedFields);
+          }
+        }
+      });
 
       // Обработчик поиска клиентов
       searchBtn.addEventListener("click", () => {
@@ -2027,7 +2111,7 @@
             <p><strong>Успешно обработано:</strong> ${successCount}</p>
             <p><strong>Ошибок:</strong> ${errorCount}</p>
             <p><strong>Выбранных полей:</strong> ${selectedFields.length}</p>
-            <p><strong>Дата актуальности:</strong> ${actualDate.value || new Date().toLocaleDateString()}</p>
+            <p><strong>Дата актуальности:</strong> ${actualDate.value ? formatDate(actualDate.value) : new Date().toLocaleDateString()}</p>
           </div>
         `;
 
