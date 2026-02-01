@@ -1,0 +1,2147 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Client Data SME | Ренессанс Кредит</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-blue: #7863ec;
+        --primary-pink: #ff0078;
+        --primary-dark: rgba(12, 12, 13, 0.4);
+        --light-blue: #e8f0fe;
+        --white: #ffffff;
+        --light-gray: #f5f7fa;
+        --medium-gray: #e4e7ec;
+        --dark-gray: #6b7280;
+        --text-color: #1f2937;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --border-radius: 8px;
+        --box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Mont", "Inter", Verdana, "Geneva", sans-serif;
+      }
+
+      body {
+        background-color: var(--light-gray);
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: var(--light-gray);
+        padding: 0;
+        box-shadow: var(--box-shadow);
+      }
+
+      .top-header {
+        background-color: var(--primary-dark);
+        padding: 8px 0;
+        font-size: 0.9rem;
+      }
+
+      .top-header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header-links a {
+        color: var(--white);
+        text-decoration: none;
+        margin-right: 20px;
+        font-size: 0.9rem;
+      }
+
+      .header-links a:hover {
+        text-decoration: underline;
+      }
+
+      .main-header {
+        background-color: var(--white);
+        padding: 15px 0;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-icon {
+        width: 150px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-pink);
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .logo-subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin-top: 2px;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .user-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.041);
+        border: 1px solid var(--primary-pink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      /* Навигационные вкладки */
+      .tabs-container {
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--box-shadow);
+        margin: 25px 0;
+      }
+
+      .tabs {
+        display: flex;
+        background-color: var(--white);
+        border-bottom: 1px solid var(--medium-gray);
+      }
+
+      .tab {
+        padding: 18px 30px;
+        cursor: pointer;
+        transition: var(--transition);
+        border-bottom: 3px solid transparent;
+        font-weight: 500;
+        color: var(--dark-gray);
+        position: relative;
+      }
+
+      .tab.active {
+        color: var(--primary-blue);
+        border-bottom: 3px solid var(--primary-blue);
+        background-color: var(--light-blue);
+      }
+
+      .tab:hover:not(.active) {
+        color: var(--primary-blue);
+        background-color: rgba(30, 61, 109, 0.05);
+      }
+
+      .tab i {
+        margin-right: 8px;
+      }
+
+      /* Контент вкладок */
+      .tab-content {
+        display: none;
+        background-color: var(--white);
+        padding: 30px;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Секции контента */
+      .section {
+        margin-bottom: 30px;
+        padding: 25px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        background-color: var(--white);
+        transition: var(--transition);
+      }
+
+      .section:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        color: var(--text-color);
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--medium-gray);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-title i {
+        color: var(--primary-pink);
+      }
+
+      /* Формы и элементы ввода */
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--text-color);
+      }
+
+      input[type="text"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        transition: var(--transition);
+        background-color: var(--white);
+      }
+
+      input[type="text"]:focus,
+      textarea:focus,
+      select:focus {
+        border-color: var(--primary-blue);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(42, 90, 156, 0.1);
+      }
+
+      button {
+        background-color: var(--white);
+        color: var(--text-color);
+        border: 1px solid var(--primary-blue);
+        padding: 14px 24px;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      button:hover {
+        background-color: var(--primary-blue);
+        border: none;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      button:disabled {
+        background-color: var(--dark-gray);
+        color: var(--medium-gray);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .btn-secondary {
+        background-color: var(--white);
+        border-color: var(--primary-pink);
+      }
+
+      .btn-secondary:hover {
+        background-color: var(--primary-pink);
+      }
+
+      .btn-success {
+        background-color: var(--success-color);
+      }
+
+      .btn-warning {
+        background-color: var(--warning-color);
+      }
+
+      .btn-danger {
+        background-color: var(--danger-color);
+      }
+
+      /* Блоки результатов */
+      .result-box {
+        padding: 20px;
+        border-radius: var(--border-radius);
+        margin-top: 15px;
+        border-left: 4px solid;
+        background-color: var(--light-gray);
+      }
+
+      .success {
+        background-color: rgba(16, 185, 129, 0.05);
+        border-left-color: var(--success-color);
+        color: #065f46;
+      }
+
+      .error {
+        background-color: rgba(239, 68, 68, 0.05);
+        border-left-color: var(--danger-color);
+        color: #7f1d1d;
+      }
+
+      .warning {
+        background-color: rgba(245, 158, 11, 0.05);
+        border-left-color: var(--warning-color);
+        color: #78350f;
+      }
+
+      .info {
+        background-color: rgba(30, 61, 109, 0.05);
+        border-left-color: var(--primary-blue);
+        color: var(--primary-blue);
+      }
+
+      /* Списки клиентов */
+      .client-list {
+        margin-top: 15px;
+      }
+
+      .client-item {
+        padding: 18px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .client-item:hover {
+        border-color: var(--primary-blue);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .client-item.selected {
+        background-color: rgba(30, 61, 109, 0.05);
+        border-color: var(--primary-blue);
+      }
+
+      .client-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--light-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-blue);
+        font-size: 1.2rem;
+      }
+
+      .client-details {
+        flex: 1;
+      }
+
+      .client-name {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .client-inn {
+        color: var(--dark-gray);
+        font-size: 0.9rem;
+      }
+
+      /* Бейджи статусов */
+      .status-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        margin-left: 10px;
+      }
+
+      .status-success {
+        background-color: var(--success-color);
+        color: white;
+      }
+
+      .status-warning {
+        background-color: var(--warning-color);
+        color: white;
+      }
+
+      .status-danger {
+        background-color: var(--danger-color);
+        color: white;
+      }
+
+      .status-info {
+        background-color: var(--primary-blue);
+        color: white;
+      }
+
+      /* Индикатор загрузки */
+      .loading {
+        text-align: center;
+        padding: 40px;
+      }
+
+      .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-left-color: var(--primary-blue);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Сетка для форм */
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      /* Загрузка файлов */
+      .file-upload {
+        border: 2px dashed var(--medium-gray);
+        padding: 40px;
+        text-align: center;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: var(--transition);
+        background-color: var(--light-gray);
+      }
+
+      .file-upload:hover {
+        border-color: var(--primary-blue);
+        background-color: rgba(42, 90, 156, 0.05);
+      }
+
+      .file-upload input {
+        display: none;
+      }
+
+      .file-name {
+        margin-top: 15px;
+        font-style: italic;
+        color: var(--dark-gray);
+      }
+
+      /* Чекбоксы */
+      .checkbox-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        transition: var(--transition);
+      }
+
+      .checkbox-item:hover {
+        background-color: rgba(30, 61, 109, 0.05);
+      }
+
+      .checkbox-item input[type="checkbox"] {
+        width: auto;
+        margin: 0;
+      }
+
+      /* Связанные лица */
+      .related-persons {
+        margin-top: 15px;
+      }
+
+      .person-card {
+        padding: 15px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        margin-bottom: 10px;
+        background-color: var(--light-gray);
+      }
+
+      .person-card a {
+        color: var(--primary-blue);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .person-card a:hover {
+        text-decoration: underline;
+      }
+
+      /* Утилиты */
+      .hidden {
+        display: none;
+      }
+
+      .mt-20 {
+        margin-top: 20px;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      /* Примеры ИНН */
+      .examples {
+        background-color: var(--light-blue);
+        padding: 20px;
+        border-radius: var(--border-radius);
+        margin-bottom: 20px;
+      }
+
+      .examples h4 {
+        margin-bottom: 15px;
+        color: var(--primary-blue);
+      }
+
+      .example-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+      }
+
+      .example-item {
+        padding: 10px;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        border: 1px solid var(--medium-gray);
+        cursor: pointer;
+        transition: var(--transition);
+      }
+
+      .example-item:hover {
+        border-color: var(--primary-blue);
+        background-color: rgba(30, 61, 109, 0.05);
+      }
+
+      .example-type {
+        font-size: 0.85rem;
+        color: var(--dark-gray);
+        margin-bottom: 5px;
+      }
+
+      .example-value {
+        font-weight: 600;
+        color: var(--primary-blue);
+      }
+
+      /* Футер */
+      footer {
+        background-color: var(--primary-dark);
+        color: var(--white);
+        padding: 30px 0;
+        margin-top: 50px;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .footer-links a {
+        color: var(--white);
+        text-decoration: none;
+        margin-right: 20px;
+        font-size: 0.9rem;
+      }
+
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+
+      .copyright {
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+
+      /* Адаптивность */
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          gap: 15px;
+          text-align: center;
+        }
+
+        .tabs {
+          flex-direction: column;
+        }
+
+        .tab {
+          text-align: center;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .checkbox-group {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 15px;
+          text-align: center;
+        }
+
+        .example-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="main-header">
+        <div class="container">
+          <div class="header-content">
+            <div class="logo-container">
+              <div class="logo">
+                <div class="logo-icon">
+                  <svg
+                    width="300"
+                    height="134"
+                    viewBox="0 0 300 134"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.0200195 60.55V132.08H22.03V60.55C22.03 39.28 39.27 22.03 60.55 22.03H110.07V49.54C110.07 70.81 92.83 88.06 71.55 88.06H33.03V110.07H71.55C104.98 110.07 132.08 82.97 132.08 49.54V5.53003C132.08 2.49003 129.62 0.0300293 126.58 0.0300293H60.55C27.12 0.0300293 0.0200195 27.13 0.0200195 60.56V60.55Z"
+                      fill="var(--primary-pink)"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div class="logo-text">Client Data SME</div>
+                  <div class="logo-subtitle">
+                    Система управления данными клиентов
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="user-info">
+              <div class="user-avatar">SME</div>
+              <div>
+                <div>Сотрудник SME</div>
+                <div style="font-size: 0.9rem; opacity: 0.9">Отдел SME</div>
+              </div>
+              <button id="logoutBtn" class="btn-secondary">
+                <i class="fas fa-sign-out-alt"></i> Выйти
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="tabs-container">
+        <div class="tabs">
+          <div class="tab active" data-tab="tab1">
+            <i class="fas fa-search"></i> Поиск клиентов
+          </div>
+          <div class="tab" data-tab="tab2">
+            <i class="fas fa-download"></i> Массовая выгрузка
+          </div>
+          <div class="tab" data-tab="tab3">
+            <i class="fas fa-link"></i> Связанные лица
+          </div>
+        </div>
+
+        <!-- Вкладка 1: Поиск клиентов -->
+        <div id="tab1" class="tab-content active">
+          <div class="section">
+            <h3 class="section-title">
+              <i class="fas fa-search"></i> Поиск клиентов
+            </h3>
+
+            <!-- Примеры ИНН -->
+            <div class="examples" id="examplesSection">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-bottom: 15px;
+                "
+              >
+                <h4>
+                  <i class="fas fa-lightbulb"></i> Примеры для тестирования:
+                </h4>
+                <button
+                  id="hideExamplesBtn"
+                  class="btn-secondary"
+                  style="padding: 8px 16px; font-size: 0.9rem"
+                >
+                  <i class="fas fa-eye-slash"></i> Скрыть примеры
+                </button>
+              </div>
+              <div class="example-grid">
+                <div
+                  class="example-item"
+                  onclick="fillExample('7713123456', 'ЮЛ')"
+                >
+                  <div class="example-type">Юридическое лицо</div>
+                  <div class="example-value">7713123456</div>
+                </div>
+                <div
+                  class="example-item"
+                  onclick="fillExample('7713987654', 'ЮЛ')"
+                >
+                  <div class="example-type">Юридическое лицо</div>
+                  <div class="example-value">7713987654</div>
+                </div>
+                <div
+                  class="example-item"
+                  onclick="fillExample('123456789012', 'ИП')"
+                >
+                  <div class="example-type">Индивидуальный предприниматель</div>
+                  <div class="example-value">123456789012</div>
+                </div>
+                <div
+                  class="example-item"
+                  onclick="fillExample('987654321098', 'ИП')"
+                >
+                  <div class="example-type">Индивидуальный предприниматель</div>
+                  <div class="example-value">987654321098</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="innInput">ИНН</label>
+                <input
+                  type="text"
+                  id="innInput"
+                  placeholder="Введите ИНН (10 или 12 знаков)"
+                />
+              </div>
+              <div class="form-group">
+                <label for="ogrnInput">ОГРН</label>
+                <input
+                  type="text"
+                  id="ogrnInput"
+                  placeholder="Введите ОГРН (13 или 15 знаков)"
+                />
+              </div>
+              <div class="form-group">
+                <label for="nameInput">Название (часть названия)</label>
+                <input
+                  type="text"
+                  id="nameInput"
+                  placeholder="Введите название или часть названия"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="accountInput">Номер счета</label>
+                <input
+                  type="text"
+                  id="accountInput"
+                  placeholder="Введите номер счета"
+                />
+              </div>
+              <div class="form-group">
+                <label for="fioInput">ФИО (для ИП)</label>
+                <input
+                  type="text"
+                  id="fioInput"
+                  placeholder="Введите ФИО для ИП"
+                />
+              </div>
+              <div class="form-group">
+                <label for="actualDate">Дата актуальности</label>
+                <input type="date" id="actualDate" />
+              </div>
+            </div>
+
+            <!-- Панель выбора дополнительных данных для отображения -->
+            <div class="section" style="margin-top: 20px">
+              <h4 style="margin-bottom: 15px; color: var(--primary-blue)">
+                <i class="fas fa-cogs"></i> Дополнительные данные для
+                отображения
+              </h4>
+
+              <h5 style="margin-bottom: 10px; color: var(--dark-gray)">
+                Краткий набор:
+              </h5>
+              <div class="checkbox-group">
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortName" checked />
+                  <label for="searchShortName">Наименование клиента</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortInn" checked />
+                  <label for="searchShortInn">ИНН</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortOgrn" checked />
+                  <label for="searchShortOgrn">ОГРН</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortKpp" checked />
+                  <label for="searchShortKpp">КПП</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortAccount" checked />
+                  <label for="searchShortAccount">Счет (счета) + статус</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortRegAddress" checked />
+                  <label for="searchShortRegAddress">Адрес регистрации</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortFactAddress" checked />
+                  <label for="searchShortFactAddress">Адрес фактический</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortCeo" checked />
+                  <label for="searchShortCeo">ЕИО: ФИО</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortBeneficiary" checked />
+                  <label for="searchShortBeneficiary">Бенефициар: ФИО</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortRegDate" checked />
+                  <label for="searchShortRegDate">Дата регистрации</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchShortOkved" checked />
+                  <label for="searchShortOkved">Основной ОКВЭД</label>
+                </div>
+              </div>
+
+              <h5 style="margin: 20px 0 10px 0; color: var(--dark-gray)">
+                Расширенный набор:
+              </h5>
+              <div class="checkbox-group">
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchExtAccountDetails" />
+                  <label for="searchExtAccountDetails"
+                    >Счет с деталями (даты открытия/закрытия/блокировки)</label
+                  >
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchExtResidency" />
+                  <label for="searchExtResidency"
+                    >Статус резидент/не резидент</label
+                  >
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchExtCeoDetails" />
+                  <label for="searchExtCeoDetails"
+                    >ЕИО: полные данные + статус клиент/не клиент</label
+                  >
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchExtBeneficiaryDetails" />
+                  <label for="searchExtBeneficiaryDetails"
+                    >Бенефициар: полные данные + статус клиент/не клиент</label
+                  >
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchExtAllOkved" />
+                  <label for="searchExtAllOkved">ОКВЭД (все)</label>
+                </div>
+                <div class="checkbox-item">
+                  <input type="checkbox" id="searchExtRelatedPersons" checked />
+                  <label for="searchExtRelatedPersons"
+                    >Связанные лица из БД AML SME</label
+                  >
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 20px">
+              <button id="searchBtn">
+                <i class="fas fa-search"></i> Поиск клиентов
+              </button>
+              <button id="clearBtn" class="btn-secondary">
+                <i class="fas fa-eraser"></i> Очистить форму
+              </button>
+              <button
+                id="showExamplesBtn"
+                class="btn-secondary hidden"
+                style="margin-left: 10px"
+              >
+                <i class="fas fa-eye"></i> Показать примеры
+              </button>
+            </div>
+          </div>
+
+          <div class="section hidden" id="searchResultsSection">
+            <h3 class="section-title">
+              <i class="fas fa-list"></i> Результаты поиска
+            </h3>
+            <div id="searchResults" class="client-list">
+              <!-- Результаты поиска будут здесь -->
+            </div>
+          </div>
+
+          <div class="section hidden" id="clientDetailsSection">
+            <h3 class="section-title">
+              <i class="fas fa-info-circle"></i> Детали клиента
+            </h3>
+            <div id="clientDetails">
+              <!-- Детали клиента будут здесь -->
+            </div>
+          </div>
+
+          <div class="section hidden" id="relatedPersonsSection">
+            <h3 class="section-title">
+              <i class="fas fa-users"></i> Связанные лица
+            </h3>
+            <div id="relatedPersons" class="related-persons">
+              <!-- Связанные лица будут здесь -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Вкладка 2: Массовая выгрузка -->
+        <div id="tab2" class="tab-content">
+          <div class="section">
+            <h3 class="section-title">
+              <i class="fas fa-upload"></i> Загрузка файла с входными данными
+            </h3>
+            <div class="file-upload" id="fileUploadArea">
+              <p>
+                <i
+                  class="fas fa-cloud-upload-alt"
+                  style="
+                    font-size: 3rem;
+                    color: var(--primary-blue);
+                    margin-bottom: 15px;
+                  "
+                ></i>
+              </p>
+              <p>Перетащите файл сюда или нажмите для выбора</p>
+              <p
+                style="
+                  font-size: 0.9rem;
+                  color: var(--dark-gray);
+                  margin-top: 10px;
+                "
+              >
+                Поддерживаемые форматы: XLS, XLSX, CSV
+              </p>
+              <input type="file" id="dataFile" accept=".xls,.xlsx,.csv" />
+              <div class="file-name" id="fileName">Файл не выбран</div>
+            </div>
+            <button id="uploadFileBtn" class="hidden mt-20">
+              <i class="fas fa-upload"></i> Загрузить файл
+            </button>
+          </div>
+
+          <div class="section">
+            <h3 class="section-title">
+              <i class="fas fa-edit"></i> Ручной ввод данных
+            </h3>
+            <div class="form-group">
+              <label for="manualDataInput"
+                >Входные данные (каждый клиент с новой строки)</label
+              >
+              <textarea
+                id="manualDataInput"
+                rows="8"
+                placeholder="Формат ввода:
+ИНН: 7713123456
+ИНН: 123456789012, Счет: 40817810099910004312
+ОГРН: 1027700132195, Краткое наименование: РОМАШКА"
+              ></textarea>
+            </div>
+            <button id="parseManualDataBtn">
+              <i class="fas fa-plus"></i> Добавить данные
+            </button>
+          </div>
+
+          <div class="section">
+            <h3 class="section-title">
+              <i class="fas fa-cogs"></i> Выбор дополнительных данных для сбора
+            </h3>
+
+            <h4 style="margin-bottom: 15px">Краткий набор:</h4>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortName" checked />
+                <label for="shortName">Наименование клиента</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortInn" checked />
+                <label for="shortInn">ИНН</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortOgrn" checked />
+                <label for="shortOgrn">ОГРН</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortKpp" checked />
+                <label for="shortKpp">КПП</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortAccount" checked />
+                <label for="shortAccount">Счет (счета) + статус</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortRegAddress" checked />
+                <label for="shortRegAddress">Адрес регистрации</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortFactAddress" checked />
+                <label for="shortFactAddress">Адрес фактический</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortCeo" checked />
+                <label for="shortCeo">ЕИО: ФИО</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortBeneficiary" checked />
+                <label for="shortBeneficiary">Бенефициар: ФИО</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortRegDate" checked />
+                <label for="shortRegDate">Дата регистрации</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="shortOkved" checked />
+                <label for="shortOkved">Основной ОКВЭД</label>
+              </div>
+            </div>
+
+            <h4 style="margin: 25px 0 15px 0">Расширенный набор:</h4>
+            <div class="checkbox-group">
+              <div class="checkbox-item">
+                <input type="checkbox" id="extAccountDetails" />
+                <label for="extAccountDetails"
+                  >Счет с деталями (даты открытия/закрытия/блокировки)</label
+                >
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="extResidency" />
+                <label for="extResidency">Статус резидент/не резидент</label>
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="extCeoDetails" />
+                <label for="extCeoDetails"
+                  >ЕИО: полные данные + статус клиент/не клиент</label
+                >
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="extBeneficiaryDetails" />
+                <label for="extBeneficiaryDetails"
+                  >Бенефициар: полные данные + статус клиент/не клиент</label
+                >
+              </div>
+              <div class="checkbox-item">
+                <input type="checkbox" id="extAllOkved" />
+                <label for="extAllOkved">ОКВЭД (все)</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="actualDate">Дата актуальности</label>
+              <input type="date" id="actualDate" />
+            </div>
+
+            <button id="startExportBtn">
+              <i class="fas fa-play"></i> Начать выгрузку
+            </button>
+          </div>
+
+          <div class="section hidden" id="exportProgressSection">
+            <h3 class="section-title">
+              <i class="fas fa-spinner"></i> Прогресс выгрузки
+            </h3>
+            <div id="exportProgress">
+              <!-- Прогресс выгрузки будет здесь -->
+            </div>
+          </div>
+
+          <div class="section hidden" id="exportResultsSection">
+            <h3 class="section-title">
+              <i class="fas fa-check-circle"></i> Результаты выгрузки
+            </h3>
+            <div id="exportResults">
+              <!-- Результаты выгрузки будут здесь -->
+            </div>
+            <button id="downloadResultBtn" class="mt-20">
+              <i class="fas fa-download"></i> Скачать результат
+            </button>
+          </div>
+        </div>
+
+        <!-- Вкладка 3: Связанные лица -->
+        <div id="tab3" class="tab-content">
+          <div class="section">
+            <h3 class="section-title">
+              <i class="fas fa-link"></i> Управление связанными лицами
+            </h3>
+            <div class="form-group">
+              <label for="companyInnForRelations"
+                >ИНН компании для поиска связанных лиц</label
+              >
+              <input
+                type="text"
+                id="companyInnForRelations"
+                placeholder="Введите ИНН юридического лица"
+              />
+            </div>
+            <button id="searchRelationsBtn">
+              <i class="fas fa-search"></i> Найти связанные лица
+            </button>
+          </div>
+
+          <div class="section hidden" id="relationsResultsSection">
+            <h3 class="section-title">
+              <i class="fas fa-users"></i> Найденные связанные лица
+            </h3>
+            <div id="relationsResults">
+              <!-- Результаты поиска связанных лиц будут здесь -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-links">
+            <a href="#">Документация</a>
+            <a href="#">Поддержка</a>
+            <a href="#">Контакты</a>
+          </div>
+          <div class="copyright">
+            © 2023 АО «Ренессанс Кредит». Все права защищены.
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Переменные для хранения состояния
+      let currentTab = "tab1";
+      let selectedClient = null;
+      let exportData = [];
+      let currentUser = "Сотрудник SME";
+
+      // Элементы DOM
+      const tabs = document.querySelectorAll(".tab");
+      const tabContents = document.querySelectorAll(".tab-content");
+
+      // Элементы поиска
+      const innInput = document.getElementById("innInput");
+      const ogrnInput = document.getElementById("ogrnInput");
+      const nameInput = document.getElementById("nameInput");
+      const clientNumberInput = document.getElementById("clientNumberInput");
+      const accountInput = document.getElementById("accountInput");
+      const fioInput = document.getElementById("fioInput");
+      const searchBtn = document.getElementById("searchBtn");
+      const clearBtn = document.getElementById("clearBtn");
+
+      // Элементы результатов поиска
+      const searchResultsSection = document.getElementById(
+        "searchResultsSection",
+      );
+      const searchResults = document.getElementById("searchResults");
+      const clientDetailsSection = document.getElementById(
+        "clientDetailsSection",
+      );
+      const clientDetails = document.getElementById("clientDetails");
+      const relatedPersonsSection = document.getElementById(
+        "relatedPersonsSection",
+      );
+      const relatedPersons = document.getElementById("relatedPersons");
+
+      // Элементы массовой выгрузки
+      const fileUploadArea = document.getElementById("fileUploadArea");
+      const dataFile = document.getElementById("dataFile");
+      const fileName = document.getElementById("fileName");
+      const uploadFileBtn = document.getElementById("uploadFileBtn");
+      const manualDataInput = document.getElementById("manualDataInput");
+      const parseManualDataBtn = document.getElementById("parseManualDataBtn");
+      const startExportBtn = document.getElementById("startExportBtn");
+      const exportProgressSection = document.getElementById(
+        "exportProgressSection",
+      );
+      const exportProgress = document.getElementById("exportProgress");
+      const exportResultsSection = document.getElementById(
+        "exportResultsSection",
+      );
+      const exportResults = document.getElementById("exportResults");
+      const downloadResultBtn = document.getElementById("downloadResultBtn");
+      const actualDate = document.getElementById("actualDate");
+
+      // Элементы связанных лиц
+      const companyInnForRelations = document.getElementById(
+        "companyInnForRelations",
+      );
+      const searchRelationsBtn = document.getElementById("searchRelationsBtn");
+      const relationsResultsSection = document.getElementById(
+        "relationsResultsSection",
+      );
+      const relationsResults = document.getElementById("relationsResults");
+
+      // Установка текущей даты по умолчанию
+      actualDate.valueAsDate = new Date();
+
+      // Обработчики событий для вкладок
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const tabId = tab.getAttribute("data-tab");
+          switchTab(tabId);
+        });
+      });
+
+      // Функция переключения вкладок
+      function switchTab(tabId) {
+        tabContents.forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        tabs.forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        document.getElementById(tabId).classList.add("active");
+        document
+          .querySelector(`.tab[data-tab="${tabId}"]`)
+          .classList.add("active");
+
+        currentTab = tabId;
+      }
+
+      // Функция заполнения примеров
+      function fillExample(value, type) {
+        if (type === "ЮЛ") {
+          innInput.value = value;
+        } else {
+          innInput.value = value;
+        }
+      }
+
+      // Обработчик очистки формы
+      clearBtn.addEventListener("click", () => {
+        innInput.value = "";
+        ogrnInput.value = "";
+        nameInput.value = "";
+        clientNumberInput.value = "";
+        accountInput.value = "";
+        fioInput.value = "";
+        searchResultsSection.classList.add("hidden");
+        clientDetailsSection.classList.add("hidden");
+        relatedPersonsSection.classList.add("hidden");
+
+        // Сбрасываем дополнительные данные к значениям по умолчанию
+        // Краткий набор - все включены по умолчанию
+        [
+          "searchShortName",
+          "searchShortInn",
+          "searchShortOgrn",
+          "searchShortKpp",
+          "searchShortAccount",
+          "searchShortRegAddress",
+          "searchShortFactAddress",
+          "searchShortCeo",
+          "searchShortBeneficiary",
+          "searchShortRegDate",
+          "searchShortOkved",
+        ].forEach((id) => {
+          const element = document.getElementById(id);
+          if (element) element.checked = true;
+        });
+
+        // Расширенный набор - все выключены, кроме связанных лиц
+        [
+          "searchExtAccountDetails",
+          "searchExtResidency",
+          "searchExtCeoDetails",
+          "searchExtBeneficiaryDetails",
+          "searchExtAllOkved",
+        ].forEach((id) => {
+          const element = document.getElementById(id);
+          if (element) element.checked = false;
+        });
+
+        const relatedPersonsElement = document.getElementById(
+          "searchExtRelatedPersons",
+        );
+        if (relatedPersonsElement) relatedPersonsElement.checked = true;
+
+        // Восстанавливаем видимость примеров если они были скрыты
+        if (examplesSection && examplesSection.style.display === "none") {
+          examplesSection.style.display = "block";
+          if (showExamplesBtn) {
+            showExamplesBtn.classList.add("hidden");
+          }
+        }
+      });
+
+      // Обработчик скрытия примеров
+      const hideExamplesBtn = document.getElementById("hideExamplesBtn");
+      const examplesSection = document.getElementById("examplesSection");
+      const showExamplesBtn = document.getElementById("showExamplesBtn");
+
+      if (hideExamplesBtn && examplesSection) {
+        hideExamplesBtn.addEventListener("click", () => {
+          examplesSection.style.display = "none";
+          if (showExamplesBtn) {
+            showExamplesBtn.classList.remove("hidden");
+          }
+        });
+      }
+
+      // Обработчик показа примеров
+      if (showExamplesBtn && examplesSection) {
+        showExamplesBtn.addEventListener("click", () => {
+          examplesSection.style.display = "block";
+          showExamplesBtn.classList.add("hidden");
+        });
+      }
+
+      // Обработчик поиска клиентов
+      searchBtn.addEventListener("click", () => {
+        const searchParams = {
+          inn: innInput.value.trim(),
+          ogrn: ogrnInput.value.trim(),
+          name: nameInput.value.trim(),
+          clientNumber: clientNumberInput.value.trim(),
+          account: accountInput.value.trim(),
+          fio: fioInput.value.trim(),
+        };
+
+        // Получаем выбранные дополнительные данные
+        const displayOptions = {
+          // Краткий набор
+          searchShortName:
+            document.getElementById("searchShortName")?.checked || false,
+          searchShortInn:
+            document.getElementById("searchShortInn")?.checked || false,
+          searchShortOgrn:
+            document.getElementById("searchShortOgrn")?.checked || false,
+          searchShortKpp:
+            document.getElementById("searchShortKpp")?.checked || false,
+          searchShortAccount:
+            document.getElementById("searchShortAccount")?.checked || false,
+          searchShortRegAddress:
+            document.getElementById("searchShortRegAddress")?.checked || false,
+          searchShortFactAddress:
+            document.getElementById("searchShortFactAddress")?.checked || false,
+          searchShortCeo:
+            document.getElementById("searchShortCeo")?.checked || false,
+          searchShortBeneficiary:
+            document.getElementById("searchShortBeneficiary")?.checked || false,
+          searchShortRegDate:
+            document.getElementById("searchShortRegDate")?.checked || false,
+          searchShortOkved:
+            document.getElementById("searchShortOkved")?.checked || false,
+          // Расширенный набор
+          searchExtAccountDetails:
+            document.getElementById("searchExtAccountDetails")?.checked ||
+            false,
+          searchExtResidency:
+            document.getElementById("searchExtResidency")?.checked || false,
+          searchExtCeoDetails:
+            document.getElementById("searchExtCeoDetails")?.checked || false,
+          searchExtBeneficiaryDetails:
+            document.getElementById("searchExtBeneficiaryDetails")?.checked ||
+            false,
+          searchExtAllOkved:
+            document.getElementById("searchExtAllOkved")?.checked || false,
+          searchExtRelatedPersons:
+            document.getElementById("searchExtRelatedPersons")?.checked ||
+            false,
+        };
+
+        // Проверка, что введен хотя бы один параметр
+        if (!Object.values(searchParams).some((param) => param)) {
+          alert("Пожалуйста, введите хотя бы один параметр поиска");
+          return;
+        }
+
+        // Показать индикатор загрузки
+        searchResults.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Поиск клиентов...</div>';
+        searchResultsSection.classList.remove("hidden");
+
+        // Имитация поиска клиентов
+        setTimeout(() => {
+          const mockClients = generateMockClients(searchParams);
+          displaySearchResults(mockClients, displayOptions);
+        }, 1500);
+      });
+
+      // Функция генерации мок-данных для клиентов
+      function generateMockClients(searchParams) {
+        const clients = [];
+
+        // Генерация различных типов клиентов в зависимости от параметров поиска
+        if (searchParams.inn) {
+          if (searchParams.inn.length === 10) {
+            // Юридическое лицо
+            clients.push({
+              id: 1,
+              type: "ЮЛ",
+              inn: searchParams.inn,
+              ogrn: "1027700132195",
+              name: 'ООО "РОМАШКА"',
+              fullName: 'Общество с ограниченной ответственностью "РОМАШКА"',
+              kpp: "771401001",
+              clientNumber: "CL001234",
+              accounts: [
+                {
+                  number: "40702810123456789012",
+                  status: "открыт",
+                  openDate: "2020-01-15",
+                },
+                {
+                  number: "40702810123456789013",
+                  status: "закрыт",
+                  openDate: "2019-01-15",
+                  closeDate: "2023-06-30",
+                },
+              ],
+              regAddress: "г. Москва, ул. Ленина, д. 1",
+              factAddress: "г. Москва, ул. Пушкина, д. 10",
+              ceo: "Иванов Иван Иванович",
+              beneficiary: "Петров Петр Петрович",
+              regDate: "2019-12-01",
+              okved:
+                "62.01 - Разработка компьютерного программного обеспечения",
+              status: "действующий",
+              dataSource: "БД",
+            });
+          } else if (searchParams.inn.length === 12) {
+            // Индивидуальный предприниматель
+            clients.push({
+              id: 1,
+              type: "ИП",
+              inn: searchParams.inn,
+              ogrn: "321774600401362",
+              name: "Иванов Иван Иванович",
+              fullName: "Иванов Иван Иванович",
+              clientNumber: "CL005678",
+              accounts: [
+                {
+                  number: "40817810099910004312",
+                  status: "открыт",
+                  openDate: "2021-03-10",
+                },
+              ],
+              regAddress: "г. Санкт-Петербург, пр. Невский, д. 28",
+              factAddress: "г. Санкт-Петербург, пр. Невский, д. 28",
+              ceo: "Иванов Иван Иванович",
+              beneficiary: "Иванов Иван Иванович",
+              regDate: "2021-03-01",
+              okved:
+                "47.91.2 - Торговля розничная, осуществляемая непосредственно при помощи информационно-коммуникационной сети Интернет",
+              status: "действующий",
+              dataSource: "БД",
+              fio: "Иванов Иван Иванович",
+            });
+          }
+        }
+
+        if (searchParams.name && !searchParams.inn) {
+          clients.push({
+            id: 2,
+            type: "ЮЛ",
+            inn: "7713987654",
+            ogrn: "1027700132196",
+            name: 'ООО "РОМАШКА ПЛЮС"',
+            fullName: 'Общество с ограниченной ответственностью "РОМАШКА ПЛЮС"',
+            kpp: "771401002",
+            clientNumber: "CL001235",
+            accounts: [
+              {
+                number: "40702810987654321098",
+                status: "открыт",
+                openDate: "2022-05-20",
+              },
+            ],
+            regAddress: "г. Москва, ул. Тверская, д. 15",
+            factAddress: "г. Москва, ул. Тверская, д. 15",
+            ceo: "Сидоров Сидор Сидорович",
+            beneficiary: "Сидоров Сидор Сидорович",
+            regDate: "2022-05-01",
+            okved:
+              "62.02 - Деятельность по оказанию услуг в области информационных технологий",
+            status: "действующий",
+            dataSource: "ручной ввод",
+          });
+        }
+
+        return clients;
+      }
+
+      // Функция отображения результатов поиска
+      function displaySearchResults(clients, displayOptions = {}) {
+        searchResults.innerHTML = "";
+
+        if (clients.length === 0) {
+          searchResults.innerHTML =
+            '<div class="result-box warning"><i class="fas fa-exclamation-triangle"></i> Клиенты не найдены</div>';
+          return;
+        }
+
+        clients.forEach((client) => {
+          const clientElement = document.createElement("div");
+          clientElement.className = "client-item";
+
+          // Формируем дополнительную информацию в зависимости от выбранных опций отображения
+          let additionalInfo = "";
+
+          if (displayOptions.searchShortOgrn && client.ogrn) {
+            additionalInfo += ` | <i class="fas fa-id-card"></i> ОГРН: ${client.ogrn}`;
+          }
+          if (displayOptions.searchShortKpp && client.kpp) {
+            additionalInfo += ` | <i class="fas fa-building"></i> КПП: ${client.kpp}`;
+          }
+          if (displayOptions.searchShortAccount && client.accounts.length > 0) {
+            additionalInfo += ` | <i class="fas fa-university"></i> Счетов: ${client.accounts.length}`;
+          }
+          if (displayOptions.searchShortRegAddress) {
+            additionalInfo += ` | <i class="fas fa-map-marker-alt"></i> Адрес: есть`;
+          }
+          if (displayOptions.searchShortRegDate) {
+            additionalInfo += ` | <i class="fas fa-calendar"></i> Рег. дата: есть`;
+          }
+          if (displayOptions.searchShortOkved) {
+            additionalInfo += ` | <i class="fas fa-list"></i> ОКВЭД: есть`;
+          }
+          if (displayOptions.searchExtResidency) {
+            additionalInfo += ` | <i class="fas fa-globe"></i> Резидент`;
+          }
+
+          clientElement.innerHTML = `
+            <div class="client-icon">
+              <i class="fas ${client.type === "ЮЛ" ? "fa-building" : "fa-user"}"></i>
+            </div>
+            <div class="client-details">
+              <div class="client-name">${client.name}</div>
+              <div class="client-inn">
+                <i class="fas fa-fingerprint"></i> ИНН: ${client.inn} | 
+                <i class="fas fa-id-card"></i> Тип: ${client.type} | 
+                <i class="fas fa-info-circle"></i> Статус: ${client.status}
+                ${additionalInfo}
+              </div>
+            </div>
+            <span class="status-badge status-${client.status === "действующий" ? "success" : "warning"}">${client.status}</span>
+          `;
+
+          clientElement.addEventListener("click", () => {
+            document.querySelectorAll(".client-item").forEach((item) => {
+              item.classList.remove("selected");
+            });
+            clientElement.classList.add("selected");
+            selectedClient = client;
+            showClientDetails(client, displayOptions);
+          });
+
+          searchResults.appendChild(clientElement);
+        });
+      }
+
+      // Функция показа деталей клиента
+      function showClientDetails(client, displayOptions = {}) {
+        const statusClass =
+          client.status === "действующий" ? "success" : "warning";
+        const dataSourceClass = client.dataSource === "БД" ? "info" : "warning";
+
+        let extendedInfoHTML = "";
+
+        // Добавляем расширенную информацию в зависимости от выбранных опций
+        if (displayOptions.searchExtAccountDetails) {
+          extendedInfoHTML += `
+            <div class="result-box info">
+              <h4><i class="fas fa-university"></i> Детальная информация по счетам</h4>
+              ${client.accounts
+                .map(
+                  (account) => `
+                <div style="margin: 10px 0; padding: 10px; background: white; border-radius: 4px; border-left: 4px solid var(--primary-blue);">
+                  <strong>${account.number}</strong> - 
+                  <span class="status-badge status-${account.status === "открыт" ? "success" : "danger"}">${account.status}</span>
+                  ${account.openDate ? `<br><i class="fas fa-calendar-plus"></i> Дата открытия: ${new Date(account.openDate).toLocaleDateString()}` : ""}
+                  ${account.closeDate ? `<br><i class="fas fa-calendar-minus"></i> Дата закрытия: ${new Date(account.closeDate).toLocaleDateString()}` : ""}
+                  ${account.blockDate ? `<br><i class="fas fa-ban"></i> Дата блокировки: ${new Date(account.blockDate).toLocaleDateString()}` : ""}
+                </div>
+              `,
+                )
+                .join("")}
+            </div>
+          `;
+        }
+
+        if (displayOptions.searchExtResidency) {
+          extendedInfoHTML += `
+            <div class="result-box info">
+              <h4><i class="fas fa-globe"></i> Статус резидентности</h4>
+              <p><strong>Статус:</strong> <span class="status-badge status-success">Резидент РФ</span></p>
+            </div>
+          `;
+        }
+
+        if (displayOptions.searchExtCeoDetails) {
+          extendedInfoHTML += `
+            <div class="result-box info">
+              <h4><i class="fas fa-user-tie"></i> Детальная информация по ЕИО</h4>
+              <p><strong>ФИО:</strong> ${client.ceo}</p>
+              <p><strong>Дата рождения:</strong> 15.03.1975</p>
+              <p><strong>Паспорт:</strong> 1234 567890</p>
+              <p><strong>ИНН:</strong> 123456789012</p>
+              <p><strong>Статус:</strong> <span class="status-badge status-success">Клиент банка</span></p>
+              <p><strong>Адрес регистрации:</strong> г. Москва, ул. Ленина, д. 1</p>
+              <p><strong>Фактический адрес:</strong> г. Москва, ул. Пушкина, д. 10</p>
+            </div>
+          `;
+        }
+
+        if (displayOptions.searchExtBeneficiaryDetails) {
+          extendedInfoHTML += `
+            <div class="result-box info">
+              <h4><i class="fas fa-crown"></i> Детальная информация по бенефициару</h4>
+              <p><strong>ФИО:</strong> ${client.beneficiary}</p>
+              <p><strong>Дата рождения:</strong> 22.07.1978</p>
+              <p><strong>Паспорт:</strong> 9876 543210</p>
+              <p><strong>ИНН:</strong> 987654321098</p>
+              <p><strong>Статус:</strong> <span class="status-badge status-warning">Не клиент банка</span></p>
+              <p><strong>Адрес регистрации:</strong> г. Санкт-Петербург, пр. Невский, д. 28</p>
+              <p><strong>Фактический адрес:</strong> г. Санкт-Петербург, пр. Невский, д. 28</p>
+            </div>
+          `;
+        }
+
+        if (displayOptions.searchExtAllOkved) {
+          extendedInfoHTML += `
+            <div class="result-box info">
+              <h4><i class="fas fa-list"></i> Все виды деятельности (ОКВЭД)</h4>
+              <ul style="margin-left: 20px;">
+                <li><strong>62.01</strong> - Разработка компьютерного программного обеспечения (основной)</li>
+                <li><strong>62.02</strong> - Деятельность по оказанию услуг в области информационных технологий</li>
+                <li><strong>63.11.1</strong> - Деятельность по созданию и использованию баз данных и информационных ресурсов</li>
+              </ul>
+            </div>
+          `;
+        }
+
+        clientDetails.innerHTML = `
+          <div class="result-box ${statusClass}">
+            <h4><i class="fas fa-info-circle"></i> Основная информация</h4>
+            <div class="form-grid">
+              <div><strong>Тип клиента:</strong> ${client.type}</div>
+              <div><strong>Наименование:</strong> ${client.fullName}</div>
+              <div><strong>ИНН:</strong> ${client.inn}</div>
+              <div><strong>ОГРН:</strong> ${client.ogrn}</div>
+              ${client.kpp ? `<div><strong>КПП:</strong> ${client.kpp}</div>` : ""}
+              <div><strong>Номер клиента:</strong> ${client.clientNumber}</div>
+              <div><strong>Статус:</strong> <span class="status-badge status-${statusClass}">${client.status}</span></div>
+              <div><strong>Источник данных:</strong> <span class="status-badge status-${dataSourceClass}">${client.dataSource}</span></div>
+            </div>
+          </div>
+
+          ${
+            displayOptions.searchShortRegAddress ||
+            displayOptions.searchShortFactAddress
+              ? `
+          <div class="result-box info">
+            <h4><i class="fas fa-map-marker-alt"></i> Адреса</h4>
+            ${displayOptions.searchShortRegAddress ? `<p><strong>Адрес регистрации:</strong> ${client.regAddress}</p>` : ""}
+            ${displayOptions.searchShortFactAddress ? `<p><strong>Фактический адрес:</strong> ${client.factAddress}</p>` : ""}
+          </div>
+          `
+              : ""
+          }
+
+          <div class="result-box info">
+            <h4><i class="fas fa-university"></i> Финансовая информация</h4>
+            ${displayOptions.searchShortRegDate ? `<p><strong>Дата регистрации:</strong> ${new Date(client.regDate).toLocaleDateString()}</p>` : ""}
+            ${displayOptions.searchShortOkved ? `<p><strong>Основной ОКВЭД:</strong> ${client.okved}</p>` : ""}
+            <div style="margin-top: 10px;">
+              <strong>Счета:</strong>
+              ${client.accounts
+                .map(
+                  (account) => `
+                <div style="margin: 5px 0; padding: 5px; background: white; border-radius: 4px;">
+                  <strong>${account.number}</strong> - 
+                  <span class="status-badge status-${account.status === "открыт" ? "success" : "danger"}">${account.status}</span>
+                  ${account.openDate ? `<br>Дата открытия: ${new Date(account.openDate).toLocaleDateString()}` : ""}
+                  ${account.closeDate ? `<br>Дата закрытия: ${new Date(account.closeDate).toLocaleDateString()}` : ""}
+                </div>
+              `,
+                )
+                .join("")}
+            </div>
+          </div>
+
+          <div class="result-box info">
+            <h4><i class="fas fa-users"></i> Управляющие лица</h4>
+            ${displayOptions.searchShortCeo ? `<p><strong>ЕИО:</strong> ${client.ceo}</p>` : ""}
+            ${displayOptions.searchShortBeneficiary ? `<p><strong>Бенефициар:</strong> ${client.beneficiary}</p>` : ""}
+          </div>
+
+          ${extendedInfoHTML}
+        `;
+
+        clientDetailsSection.classList.remove("hidden");
+
+        // Показываем связанные лица только если соответствующий чекбокс отмечен
+        if (displayOptions.searchExtRelatedPersons) {
+          showRelatedPersons(client);
+        } else {
+          relatedPersonsSection.classList.add("hidden");
+        }
+      }
+
+      // Функция показа связанных лиц
+      function showRelatedPersons(client) {
+        // Имитация связанных лиц
+        const relatedPersonsData = [
+          {
+            id: 1,
+            type: "ФЛ",
+            name: "Иванов Иван Иванович",
+            inn: "123456789012",
+            relation: "Единоличный исполнительный орган",
+            isClient: true,
+            clientLink: "client-data-fl.html?id=123",
+          },
+          {
+            id: 2,
+            type: "ИП",
+            name: "Петров Петр Петрович",
+            inn: "987654321098",
+            relation: "Бенефициарный владелец",
+            isClient: false,
+            clientLink: null,
+          },
+          {
+            id: 3,
+            type: "ФЛ",
+            name: "Сидоров Сидор Сидорович",
+            inn: "456789123456",
+            relation: "Связанное лицо",
+            isClient: true,
+            clientLink: "client-data-fl.html?id=456",
+          },
+        ];
+
+        if (relatedPersonsData.length === 0) {
+          relatedPersons.innerHTML =
+            '<div class="result-box info"><i class="fas fa-info-circle"></i> Связанные лица не найдены</div>';
+        } else {
+          relatedPersons.innerHTML = relatedPersonsData
+            .map(
+              (person) => `
+            <div class="person-card">
+              <div style="display: flex; justify-content: between; align-items: center;">
+                <div>
+                  <strong><i class="fas ${person.type === "ФЛ" ? "fa-user" : "fa-user-tie"}"></i> ${person.name}</strong>
+                  <div style="font-size: 0.9rem; color: var(--dark-gray); margin: 5px 0;">
+                    ИНН: ${person.inn} | Тип: ${person.type} | ${person.relation}
+                  </div>
+                  <div>
+                    <span class="status-badge status-${person.isClient ? "success" : "warning"}">
+                      ${person.isClient ? "Клиент банка" : "Не клиент банка"}
+                    </span>
+                  </div>
+                </div>
+                ${
+                  person.isClient && person.clientLink
+                    ? `
+                  <div>
+                    <a href="${person.clientLink}" target="_blank">
+                      <i class="fas fa-external-link-alt"></i> Карточка клиента ФЛ
+                    </a>
+                  </div>
+                `
+                    : ""
+                }
+              </div>
+            </div>
+          `,
+            )
+            .join("");
+        }
+
+        relatedPersonsSection.classList.remove("hidden");
+      }
+
+      // Обработчики загрузки файлов
+      fileUploadArea.addEventListener("click", () => {
+        dataFile.click();
+      });
+
+      fileUploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        fileUploadArea.style.borderColor = "var(--primary-blue)";
+      });
+
+      fileUploadArea.addEventListener("dragleave", () => {
+        fileUploadArea.style.borderColor = "var(--medium-gray)";
+      });
+
+      fileUploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        fileUploadArea.style.borderColor = "var(--medium-gray)";
+
+        if (e.dataTransfer.files.length) {
+          handleFileSelection(e.dataTransfer.files[0]);
+        }
+      });
+
+      dataFile.addEventListener("change", (e) => {
+        if (e.target.files.length) {
+          handleFileSelection(e.target.files[0]);
+        }
+      });
+
+      function handleFileSelection(file) {
+        fileName.textContent = file.name;
+        uploadFileBtn.classList.remove("hidden");
+      }
+
+      uploadFileBtn.addEventListener("click", () => {
+        if (!dataFile.files.length) {
+          alert("Пожалуйста, выберите файл для загрузки");
+          return;
+        }
+
+        // Имитация обработки файла
+        uploadFileBtn.innerHTML =
+          '<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div> Обработка...';
+        uploadFileBtn.disabled = true;
+
+        setTimeout(() => {
+          uploadFileBtn.innerHTML =
+            '<i class="fas fa-check"></i> Файл обработан';
+
+          // Добавляем пример данных в exportData
+          exportData = [
+            { inn: "7713123456", type: "ЮЛ" },
+            { inn: "123456789012", type: "ИП" },
+            { account: "40702810123456789012", type: "ЮЛ" },
+          ];
+
+          setTimeout(() => {
+            alert(
+              "Файл успешно обработан. Добавлено клиентов: " +
+                exportData.length,
+            );
+            uploadFileBtn.innerHTML =
+              '<i class="fas fa-upload"></i> Загрузить файл';
+            uploadFileBtn.disabled = false;
+          }, 500);
+        }, 1500);
+      });
+
+      // Обработчик ручного ввода данных
+      parseManualDataBtn.addEventListener("click", () => {
+        const manualData = manualDataInput.value.trim();
+        if (!manualData) {
+          alert("Пожалуйста, введите данные");
+          return;
+        }
+
+        const lines = manualData.split("\n").filter((line) => line.trim());
+        let addedCount = 0;
+
+        lines.forEach((line) => {
+          const clientData = {};
+
+          // Парсинг различных форматов ввода
+          const innMatch = line.match(/ИНН:\s*(\d+)/);
+          const ogrnMatch = line.match(/ОГРН:\s*(\d+)/);
+          const accountMatch = line.match(/Счет:\s*(\d+)/);
+          const nameMatch = line.match(/Краткое наименование:\s*(.+)/);
+          const fioMatch = line.match(/ФИО:\s*(.+)/);
+
+          if (innMatch) clientData.inn = innMatch[1];
+          if (ogrnMatch) clientData.ogrn = ogrnMatch[1];
+          if (accountMatch) clientData.account = accountMatch[1];
+          if (nameMatch) clientData.name = nameMatch[1];
+          if (fioMatch) clientData.fio = fioMatch[1];
+
+          if (Object.keys(clientData).length > 0) {
+            clientData.type = clientData.inn
+              ? clientData.inn.length === 10
+                ? "ЮЛ"
+                : "ИП"
+              : "ЮЛ";
+            exportData.push(clientData);
+            addedCount++;
+          }
+        });
+
+        if (addedCount > 0) {
+          alert(`Успешно добавлено клиентов: ${addedCount}`);
+          manualDataInput.value = "";
+        } else {
+          alert("Не удалось распознать данные. Проверьте формат ввода.");
+        }
+      });
+
+      // Обработчик начала выгрузки
+      startExportBtn.addEventListener("click", () => {
+        if (exportData.length === 0) {
+          alert(
+            "Нет данных для выгрузки. Загрузите файл или введите данные вручную.",
+          );
+          return;
+        }
+
+        // Проверка выбранных параметров
+        const selectedFields = [];
+        document
+          .querySelectorAll('.checkbox-group input[type="checkbox"]:checked')
+          .forEach((checkbox) => {
+            selectedFields.push(checkbox.id);
+          });
+
+        if (selectedFields.length === 0) {
+          alert("Пожалуйста, выберите хотя бы одно поле для выгрузки");
+          return;
+        }
+
+        startExport(selectedFields);
+      });
+
+      // Функция начала выгрузки
+      function startExport(selectedFields) {
+        exportProgress.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Подготовка к выгрузке...</div>';
+        exportProgressSection.classList.remove("hidden");
+
+        let progress = 0;
+        const totalClients = exportData.length;
+        const totalSteps = totalClients * 2; // Поиск + сбор данных
+
+        const progressInterval = setInterval(() => {
+          progress += Math.random() * 10;
+          if (progress > 100) progress = 100;
+
+          const completedSteps = Math.floor((progress / 100) * totalSteps);
+          const currentClient = Math.floor(completedSteps / 2) + 1;
+
+          exportProgress.innerHTML = `
+            <div class="progress-bar" style="background: var(--medium-gray); height: 20px; border-radius: 10px; overflow: hidden;">
+              <div style="background: var(--primary-blue); height: 100%; width: ${progress}%; transition: width 0.3s ease;"></div>
+            </div>
+            <p style="margin-top: 15px;">
+              <strong>Прогресс:</strong> ${Math.floor(progress)}%<br>
+              <strong>Обработано клиентов:</strong> ${Math.min(currentClient, totalClients)} из ${totalClients}
+            </p>
+          `;
+
+          if (progress >= 100) {
+            clearInterval(progressInterval);
+            setTimeout(() => {
+              showExportResults(selectedFields);
+            }, 500);
+          }
+        }, 200);
+      }
+
+      // Функция показа результатов выгрузки
+      function showExportResults(selectedFields) {
+        exportProgressSection.classList.add("hidden");
+
+        const successCount = Math.floor(exportData.length * 0.9); // 90% успех
+        const errorCount = exportData.length - successCount;
+
+        exportResults.innerHTML = `
+          <div class="result-box success">
+            <h4><i class="fas fa-check-circle"></i> Выгрузка завершена</h4>
+            <p><strong>Всего клиентов:</strong> ${exportData.length}</p>
+            <p><strong>Успешно обработано:</strong> ${successCount}</p>
+            <p><strong>Ошибок:</strong> ${errorCount}</p>
+            <p><strong>Выбранных полей:</strong> ${selectedFields.length}</p>
+            <p><strong>Дата актуальности:</strong> ${actualDate.value || new Date().toLocaleDateString()}</p>
+          </div>
+        `;
+
+        exportResultsSection.classList.remove("hidden");
+      }
+
+      // Обработчик скачивания результата
+      downloadResultBtn.addEventListener("click", () => {
+        // Имитация скачивания файла
+        const link = document.createElement("a");
+        link.href =
+          "data:text/plain;charset=utf-8," +
+          encodeURIComponent(
+            "Результат выгрузки Client Data SME\n\n" +
+              JSON.stringify(exportData, null, 2),
+          );
+        link.download = `client_data_export_${new Date().toISOString().split("T")[0]}.xlsx`;
+        link.click();
+      });
+
+      // Обработчик поиска связанных лиц
+      searchRelationsBtn.addEventListener("click", () => {
+        const inn = companyInnForRelations.value.trim();
+        if (!inn || inn.length !== 10) {
+          alert(
+            "Пожалуйста, введите корректный ИНН юридического лица (10 знаков)",
+          );
+          return;
+        }
+
+        relationsResults.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Поиск связанных лиц...</div>';
+        relationsResultsSection.classList.remove("hidden");
+
+        setTimeout(() => {
+          // Имитация поиска связанных лиц из БД AML SME
+          const mockRelations = [
+            {
+              id: 1,
+              type: "ФЛ",
+              name: "Иванов Иван Иванович",
+              inn: "123456789012",
+              relation: "Единоличный исполнительный орган",
+              isClient: true,
+              clientLink: "client-data-fl.html?id=123",
+              amlData: "Связь подтверждена в БД AML SME",
+            },
+            {
+              id: 2,
+              type: "ИП",
+              name: "Петров Петр Петрович",
+              inn: "987654321098",
+              relation: "Бенефициарный владелец 25%",
+              isClient: false,
+              clientLink: null,
+              amlData: "Связь подтверждена в БД AML SME",
+            },
+            {
+              id: 3,
+              type: "ФЛ",
+              name: "Сидоров Сидор Сидорович",
+              inn: "456789123456",
+              relation: "Связанное лицо (родственник ЕИО)",
+              isClient: true,
+              clientLink: "client-data-fl.html?id=456",
+              amlData: "Связь подтверждена в БД AML SME",
+            },
+          ];
+
+          relationsResults.innerHTML = mockRelations
+            .map(
+              (person) => `
+            <div class="person-card">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div style="flex: 1;">
+                  <strong><i class="fas ${person.type === "ФЛ" ? "fa-user" : "fa-user-tie"}"></i> ${person.name}</strong>
+                  <div style="font-size: 0.9rem; color: var(--dark-gray); margin: 5px 0;">
+                    ИНН: ${person.inn} | Тип: ${person.type} | ${person.relation}
+                  </div>
+                  <div style="font-size: 0.85rem; color: var(--primary-blue); margin: 5px 0;">
+                    <i class="fas fa-shield-alt"></i> ${person.amlData}
+                  </div>
+                  <div>
+                    <span class="status-badge status-${person.isClient ? "success" : "warning"}">
+                      ${person.isClient ? "Клиент банка (ФЛ)" : "Не клиент банка"}
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  ${
+                    person.isClient && person.clientLink
+                      ? `
+                    <a href="${person.clientLink}" target="_blank" style="color: var(--primary-blue); text-decoration: none;">
+                      <i class="fas fa-external-link-alt"></i> Карточка клиента ФЛ
+                    </a>
+                  `
+                      : ""
+                  }
+                </div>
+              </div>
+            </div>
+          `,
+            )
+            .join("");
+        }, 1500);
+      });
+
+      // Обработчик выхода
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        if (confirm("Вы уверены, что хотите выйти?")) {
+          alert("Вы вышли из системы");
+          // В реальном приложении здесь был бы редирект на страницу входа
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Проверка контрагентов | Ренессанс Кредит</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!--  -->
+    <style>
+      :root {
+        --primary-blue: #7863ec;
+        --primary-pink: #ff0078;
+        --primary-dark: rgba(12, 12, 13, 0.4);
+        --light-blue: #e8f0fe;
+        --white: #ffffff;
+        --light-gray: #f5f7fa;
+        --medium-gray: #e4e7ec;
+        --dark-gray: #6b7280;
+        --text-color: #1f2937;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --danger-color: #ef4444;
+        --border-radius: 8px;
+        --box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+          0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        --transition: all 0.3s ease;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Mont", "Inter", Verdana, "Geneva", sans-serif;
+      }
+
+      body {
+        background-color: var(--light-gray);
+        color: var(--text-color);
+        line-height: 1.6;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      header {
+        background-color: var(--light-gray);
+
+        padding: 0;
+        box-shadow: var(--box-shadow);
+      }
+
+      .top-header {
+        background-color: var(--primary-dark);
+        padding: 8px 0;
+        font-size: 0.9rem;
+      }
+
+      .top-header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .header-links a {
+        color: var(--white);
+        text-decoration: none;
+        margin-right: 20px;
+        font-size: 0.9rem;
+      }
+
+      .header-links a:hover {
+        text-decoration: underline;
+      }
+
+      .main-header {
+        background-color: var(--white);
+        padding: 15px 0;
+      }
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-icon {
+        width: 150px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-pink);
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+
+      .logo-subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin-top: 2px;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .user-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.041);
+        border: 1px solid var(--primary-pink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      /* Навигационные вкладки */
+      .tabs-container {
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--box-shadow);
+        margin: 25px 0;
+      }
+
+      .tabs {
+        display: flex;
+        background-color: var(--white);
+        border-bottom: 1px solid var(--medium-gray);
+      }
+
+      .tab {
+        padding: 18px 30px;
+        cursor: pointer;
+        transition: var(--transition);
+        border-bottom: 3px solid transparent;
+        font-weight: 500;
+        color: var(--dark-gray);
+        position: relative;
+      }
+
+      .tab.active {
+        color: var(--primary-blue);
+        border-bottom: 3px solid var(--primary-blue);
+        background-color: var(--light-blue);
+      }
+
+      .tab:hover:not(.active) {
+        color: var(--primary-blue);
+        background-color: rgba(30, 61, 109, 0.05);
+      }
+
+      .tab i {
+        margin-right: 8px;
+      }
+
+      /* Контент вкладок */
+      .tab-content {
+        display: none;
+        background-color: var(--white);
+        padding: 30px;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Секции контента */
+      .section {
+        margin-bottom: 30px;
+        padding: 25px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        background-color: var(--white);
+        transition: var(--transition);
+      }
+
+      .section:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+        margin-bottom: 20px;
+        color: var(--text-color);
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--medium-gray);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-title i {
+        color: var(--primary-pink);
+      }
+
+      /* Формы и элементы ввода */
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        color: var(--text-color);
+      }
+
+      input[type="text"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        transition: var(--transition);
+        background-color: var(--white);
+      }
+
+      input[type="text"]:focus,
+      textarea:focus,
+      select:focus {
+        border-color: var(--primary-blue);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(42, 90, 156, 0.1);
+      }
+
+      button {
+        background-color: var(--primary-white);
+        color: var(--text-color);
+        border: 1px solid var(--primary-blue);
+        padding: 14px 24px;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      button:hover {
+        background-color: var(--primary-blue);
+        border: none;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      button:disabled {
+        background-color: var(--dark-gray);
+        color: var(--medium-gray);
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .btn-secondary {
+        background-color: var(--primary-white);
+        border-color: var(--primary-pink);
+      }
+
+      .btn-secondary:hover {
+        background-color: var(--primary-pink);
+      }
+
+      .btn-success {
+        background-color: var(--success-color);
+      }
+
+      .btn-warning {
+        background-color: var(--warning-color);
+      }
+
+      .btn-danger {
+        background-color: var(--danger-color);
+      }
+
+      /* Блоки результатов */
+      .result-box {
+        padding: 20px;
+        border-radius: var(--border-radius);
+        margin-top: 15px;
+        border-left: 4px solid;
+        background-color: var(--light-gray);
+      }
+
+      .success {
+        background-color: rgba(16, 185, 129, 0.05);
+        border-left-color: var(--success-color);
+        color: #065f46;
+      }
+
+      .error {
+        background-color: rgba(239, 68, 68, 0.05);
+        border-left-color: var(--danger-color);
+        color: #7f1d1d;
+      }
+
+      .warning {
+        background-color: rgba(245, 158, 11, 0.05);
+        border-left-color: var(--warning-color);
+        color: #78350f;
+      }
+
+      .info {
+        background-color: rgba(30, 61, 109, 0.05);
+        border-left-color: var(--primary-blue);
+        color: var(--primary-blue);
+      }
+
+      /* Списки компаний */
+      .company-list {
+        margin-top: 15px;
+      }
+
+      .company-item {
+        padding: 18px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        margin-bottom: 12px;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .company-item:hover {
+        border-color: var(--primary-blue);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .company-item.selected {
+        background-color: rgba(30, 61, 109, 0.05);
+        border-color: var(--primary-blue);
+      }
+
+      .company-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--light-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--primary-blue);
+        font-size: 1.2rem;
+      }
+
+      .company-details {
+        flex: 1;
+      }
+
+      .company-name {
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+
+      .company-inn {
+        color: var(--dark-gray);
+        font-size: 0.9rem;
+      }
+
+      /* Бейджи статусов */
+      .status-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: bold;
+        margin-left: 10px;
+      }
+
+      .status-success {
+        background-color: var(--success-color);
+        color: white;
+      }
+
+      .status-warning {
+        background-color: var(--warning-color);
+        color: white;
+      }
+
+      .status-danger {
+        background-color: var(--danger-color);
+        color: white;
+      }
+
+      /* Индикатор загрузки */
+      .loading {
+        text-align: center;
+        padding: 40px;
+      }
+
+      .spinner {
+        border: 4px solid rgba(0, 0, 0, 0.1);
+        border-left-color: var(--primary-blue);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Сетка для форм */
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+
+      /* Загрузка файлов */
+      .file-upload {
+        border: 2px dashed var(--medium-gray);
+        padding: 40px;
+        text-align: center;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: var(--transition);
+        background-color: var(--light-gray);
+      }
+
+      .file-upload:hover {
+        border-color: var(--primary-blue);
+        background-color: rgba(42, 90, 156, 0.05);
+      }
+
+      .file-upload input {
+        display: none;
+      }
+
+      .file-name {
+        margin-top: 15px;
+        font-style: italic;
+        color: var(--dark-gray);
+      }
+
+      /* Утилиты */
+      .hidden {
+        display: none;
+      }
+
+      .mt-20 {
+        margin-top: 20px;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      /* Футер */
+      footer {
+        background-color: var(--primary-dark);
+        color: var(--white);
+        padding: 30px 0;
+        margin-top: 50px;
+      }
+
+      .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .footer-links a {
+        color: var(--white);
+        text-decoration: none;
+        margin-right: 20px;
+        font-size: 0.9rem;
+      }
+
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+
+      .copyright {
+        font-size: 0.9rem;
+        opacity: 0.8;
+      }
+
+      /* Адаптивность */
+      @media (max-width: 768px) {
+        .header-content {
+          flex-direction: column;
+          gap: 15px;
+          text-align: center;
+        }
+
+        .tabs {
+          flex-direction: column;
+        }
+
+        .tab {
+          text-align: center;
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .footer-content {
+          flex-direction: column;
+          gap: 15px;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="main-header">
+        <div class="container">
+          <div class="header-content">
+            <div class="logo-container">
+              <div class="logo">
+                <div class="logo-icon">
+                  <svg
+                    width="300"
+                    height="134"
+                    viewBox="0 0 300 134"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M0.0200195 60.55V132.08H22.03V60.55C22.03 39.28 39.27 22.03 60.55 22.03H110.07V49.54C110.07 70.81 92.83 88.06 71.55 88.06H33.03V110.07H71.55C104.98 110.07 132.08 82.97 132.08 49.54V5.53003C132.08 2.49003 129.62 0.0300293 126.58 0.0300293H60.55C27.12 0.0300293 0.0200195 27.13 0.0200195 60.56V60.55Z"
+                      fill="var(--primary-pink)"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <div class="logo-text">Проверка контрагентов</div>
+                </div>
+              </div>
+            </div>
+            <div class="user-info">
+              <div class="user-avatar">AML</div>
+              <div>
+                <div>Иванов И.И.</div>
+                <div style="font-size: 0.9rem; opacity: 0.9">
+                  Отдел мониторинга
+                </div>
+              </div>
+              <button id="logoutBtn" class="btn-secondary">
+                <i class="fas fa-sign-out-alt"></i> Выйти
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="tabs-container">
+        <div class="tabs">
+          <div class="tab active" data-tab="tab1">
+            <i class="fas fa-search"></i> Проверка контрагентов
+          </div>
+          <div class="tab" data-tab="tab2">
+            <i class="fas fa-sync-alt"></i> Периодические проверки
+          </div>
+        </div>
+
+        <!-- Вкладка 1 -->
+        <div id="tab1" class="tab-content active">
+          <div class="section">
+            <h3 class="section-title">
+              <i class="fas fa-building"></i> Ввод ИНН
+            </h3>
+            <div class="form-group">
+              <label for="innInput">ИНН юридического лица</label>
+              <input
+                type="text"
+                id="innInput"
+                placeholder="Введите 10-значный ИНН"
+                maxlength="10"
+              />
+            </div>
+            <button id="searchBtn">
+              <i class="fas fa-search"></i> Поиск по ИНН
+            </button>
+          </div>
+
+          <div class="section hidden" id="searchResultsSection">
+            <h3 class="section-title">
+              <i class="fas fa-list"></i> Результаты поиска по ИНН
+            </h3>
+            <div id="searchResults" class="company-list">
+              <!-- Результаты поиска будут здесь -->
+            </div>
+            <button id="confirmCompanyBtn" class="hidden mt-20">
+              <i class="fas fa-check"></i> Подтвердить выбор
+            </button>
+          </div>
+
+          <div class="section hidden" id="saveResultsSection">
+            <h3 class="section-title">
+              <i class="fas fa-database"></i> Сохранение данных о ЮЛ
+            </h3>
+            <div id="saveResults">
+              <!-- Результаты сохранения будут здесь -->
+            </div>
+          </div>
+
+          <div class="section hidden" id="questionnaireSection">
+            <h3 class="section-title">
+              <i class="fas fa-file-alt"></i> Анкета юридического лица
+            </h3>
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="companyName">Наименование</label>
+                <input type="text" id="companyName" readonly />
+              </div>
+              <div class="form-group">
+                <label for="companyInn">ИНН</label>
+                <input type="text" id="companyInn" readonly />
+              </div>
+              <div class="form-group">
+                <label for="companyAddress">Адрес</label>
+                <input type="text" id="companyAddress" />
+              </div>
+              <div class="form-group">
+                <label for="companyDirector">Генеральный директор</label>
+                <input type="text" id="companyDirector" />
+              </div>
+              <div class="form-group">
+                <label for="companyActivity">Основной вид деятельности</label>
+                <input type="text" id="companyActivity" />
+              </div>
+              <div class="form-group">
+                <label for="companyRegistrationDate">Дата регистрации</label>
+                <input type="text" id="companyRegistrationDate" />
+              </div>
+            </div>
+            <button id="saveQuestionnaireBtn">
+              <i class="fas fa-save"></i> Сохранить анкету
+            </button>
+          </div>
+
+          <div class="section hidden" id="sparkResultsSection">
+            <h3 class="section-title">
+              <i class="fas fa-chart-line"></i> Результаты проверок СПАРК
+            </h3>
+            <div id="sparkResults">
+              <!-- Результаты проверок СПАРК будут здесь -->
+            </div>
+          </div>
+
+          <div class="section hidden" id="internalChecksSection">
+            <h3 class="section-title">
+              <i class="fas fa-search-plus"></i> Результаты внутренних проверок
+              контрагентов
+            </h3>
+            <div id="internalChecksResults">
+              <!-- Результаты внутренних проверок будут здесь -->
+            </div>
+          </div>
+
+          <div class="section hidden" id="consolidatedResultsSection">
+            <h3 class="section-title">
+              <i class="fas fa-clipboard-check"></i> Консолидированный результат
+              проверки
+            </h3>
+            <div id="consolidatedResults">
+              <!-- Консолидированные результаты будут здесь -->
+            </div>
+            <div class="form-group hidden" id="additionalDataSection">
+              <label for="additionalData">Дополнительные данные</label>
+              <textarea
+                id="additionalData"
+                rows="4"
+                placeholder="Введите дополнительные данные, если требуется"
+              ></textarea>
+              <button id="saveAdditionalDataBtn" class="mt-20">
+                <i class="fas fa-save"></i> Сохранить дополнительные данные
+              </button>
+            </div>
+          </div>
+
+          <div class="section hidden" id="extendedInternalChecksSection">
+            <h3 class="section-title">
+              <i class="fas fa-search-location"></i> Результаты внутренних
+              проверок по расширенным данным
+            </h3>
+            <div id="extendedInternalChecksResults">
+              <!-- Результаты расширенных внутренних проверок будут здесь -->
+            </div>
+          </div>
+
+          <div class="section hidden" id="questionnaireInfoSection">
+            <h3 class="section-title">
+              <i class="fas fa-file-contract"></i> Информация о сгенерированной
+              анкете
+            </h3>
+            <div id="questionnaireInfo">
+              <!-- Информация об анкете будет здесь -->
+            </div>
+          </div>
+
+          <div class="section hidden" id="uploadSection">
+            <h3 class="section-title">
+              <i class="fas fa-file-upload"></i> Прикрепление скана подписанной
+              анкеты
+            </h3>
+            <div class="file-upload" id="fileUploadArea">
+              <p>
+                <i
+                  class="fas fa-cloud-upload-alt"
+                  style="
+                    font-size: 3rem;
+                    color: var(--primary-blue);
+                    margin-bottom: 15px;
+                  "
+                ></i>
+              </p>
+              <p>Перетащите файл сюда или нажмите для выбора</p>
+              <p
+                style="
+                  font-size: 0.9rem;
+                  color: var(--dark-gray);
+                  margin-top: 10px;
+                "
+              >
+                Поддерживаемые форматы: PDF, JPG, PNG
+              </p>
+              <input
+                type="file"
+                id="questionnaireFile"
+                accept=".pdf,.jpg,.jpeg,.png"
+              />
+              <div class="file-name" id="fileName">Файл не выбран</div>
+            </div>
+            <button id="uploadFileBtn" class="hidden mt-20">
+              <i class="fas fa-upload"></i> Загрузить файл
+            </button>
+          </div>
+        </div>
+
+        <!-- Вкладка 2 -->
+        <div id="tab2" class="tab-content">
+          <div class="section">
+            <h3 class="section-title">
+              <i class="fas fa-history"></i> Ввод ИНН для периодических проверок
+            </h3>
+            <div class="form-group">
+              <label for="periodicInnInput">ИНН юридического лица</label>
+              <input
+                type="text"
+                id="periodicInnInput"
+                placeholder="Введите 10-значный ИНН"
+                maxlength="10"
+              />
+            </div>
+            <button id="periodicSearchBtn">
+              <i class="fas fa-play"></i> Показать результатыы
+            </button>
+          </div>
+
+          <div class="section hidden" id="periodicResultsSection">
+            <h3 class="section-title">
+              <i class="fas fa-chart-bar"></i> Результаты периодических проверок
+            </h3>
+            <div id="periodicResults">
+              <!-- Результаты периодических проверок будут здесь -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-links"></div>
+          <div class="copyright">
+            © 2023 АО «Ренессанс Кредит». Все права защищены.
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Переменные для хранения состояния
+      let currentTab = "tab1";
+      let selectedCompany = null;
+      let currentUser = "Сотрудник АМЛ";
+      let userActions = []; // История действий пользователя
+
+      // Элементы DOM
+      const tabs = document.querySelectorAll(".tab");
+      const tabContents = document.querySelectorAll(".tab-content");
+      const innInput = document.getElementById("innInput");
+      const searchBtn = document.getElementById("searchBtn");
+      const searchResultsSection = document.getElementById(
+        "searchResultsSection"
+      );
+      const searchResults = document.getElementById("searchResults");
+      const confirmCompanyBtn = document.getElementById("confirmCompanyBtn");
+      const saveResultsSection = document.getElementById("saveResultsSection");
+      const saveResults = document.getElementById("saveResults");
+      const questionnaireSection = document.getElementById(
+        "questionnaireSection"
+      );
+      const sparkResultsSection = document.getElementById(
+        "sparkResultsSection"
+      );
+      const sparkResults = document.getElementById("sparkResults");
+      const internalChecksSection = document.getElementById(
+        "internalChecksSection"
+      );
+      const internalChecksResults = document.getElementById(
+        "internalChecksResults"
+      );
+      const consolidatedResultsSection = document.getElementById(
+        "consolidatedResultsSection"
+      );
+      const consolidatedResults = document.getElementById(
+        "consolidatedResults"
+      );
+      const additionalDataSection = document.getElementById(
+        "additionalDataSection"
+      );
+      const extendedInternalChecksSection = document.getElementById(
+        "extendedInternalChecksSection"
+      );
+      const extendedInternalChecksResults = document.getElementById(
+        "extendedInternalChecksResults"
+      );
+      const questionnaireInfoSection = document.getElementById(
+        "questionnaireInfoSection"
+      );
+      const questionnaireInfo = document.getElementById("questionnaireInfo");
+      const uploadSection = document.getElementById("uploadSection");
+      const fileUploadArea = document.getElementById("fileUploadArea");
+      const questionnaireFile = document.getElementById("questionnaireFile");
+      const fileName = document.getElementById("fileName");
+      const uploadFileBtn = document.getElementById("uploadFileBtn");
+      const periodicInnInput = document.getElementById("periodicInnInput");
+      const periodicSearchBtn = document.getElementById("periodicSearchBtn");
+      const periodicResultsSection = document.getElementById(
+        "periodicResultsSection"
+      );
+      const periodicResults = document.getElementById("periodicResults");
+
+      // Обработчики событий для вкладок
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const tabId = tab.getAttribute("data-tab");
+          switchTab(tabId);
+        });
+      });
+
+      // Функция переключения вкладок
+      function switchTab(tabId) {
+        // Скрыть все вкладки
+        tabContents.forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        // Убрать активный класс со всех вкладок
+        tabs.forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        // Показать выбранную вкладку
+        document.getElementById(tabId).classList.add("active");
+
+        // Активировать соответствующую вкладку
+        document
+          .querySelector(`.tab[data-tab="${tabId}"]`)
+          .classList.add("active");
+
+        currentTab = tabId;
+      }
+
+      // Функция добавления записи в историю действий
+      function addUserAction(action, inn, company, status) {
+        const actionRecord = {
+          timestamp: new Date().toLocaleString(),
+          action: action,
+          inn: inn,
+          company: company,
+          status: status,
+        };
+
+        userActions.push(actionRecord);
+
+        // Сохраняем в localStorage для демонстрации
+        localStorage.setItem("userActions", JSON.stringify(userActions));
+      }
+
+      // Функция получения класса для статуса
+      function getStatusClass(status) {
+        switch (status) {
+          case "успешно":
+            return "status-success";
+          case "ошибка":
+            return "status-danger";
+          case "предупреждение":
+            return "status-warning";
+          default:
+            return "status-warning";
+        }
+      }
+
+      // Загрузка истории действий из localStorage при загрузке страницы
+      document.addEventListener("DOMContentLoaded", function () {
+        const savedActions = localStorage.getItem("userActions");
+        if (savedActions) {
+          userActions = JSON.parse(savedActions);
+        }
+      });
+
+      // Обработчик поиска по ИНН
+      searchBtn.addEventListener("click", () => {
+        const inn = innInput.value.trim();
+        if (!inn) {
+          alert("Пожалуйста, введите ИНН");
+          return;
+        }
+
+        if (inn.length !== 10 || !/^\d+$/.test(inn)) {
+          alert("ИНН должен содержать 10 цифр");
+          return;
+        }
+
+        // Добавляем действие в историю
+        addUserAction("Поиск по ИНН", inn, null, "в процессе");
+
+        // Показать индикатор загрузки
+        searchResults.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Поиск данных в реестрах...</div>';
+        searchResultsSection.classList.remove("hidden");
+
+        // Имитация запроса к СПАРК (режим 1)
+        setTimeout(() => {
+          // Имитация ответа от СПАРК
+          const mockCompanies = [
+            {
+              id: 1,
+              inn: inn,
+              name: 'ООО "РОМАШКА"',
+              address: "г. Москва, ул. Ленина, д. 1",
+            },
+            {
+              id: 2,
+              inn: inn,
+              name: 'ООО "РОМАШКА ПЛЮС"',
+              address: "г. Москва, ул. Пушкина, д. 10",
+            },
+          ];
+
+          displaySearchResults(mockCompanies);
+
+          // Обновляем статус действия
+          userActions[userActions.length - 1].status = "успешно";
+          localStorage.setItem("userActions", JSON.stringify(userActions));
+        }, 1500);
+      });
+
+      // Функция отображения результатов поиска
+      function displaySearchResults(companies) {
+        searchResults.innerHTML = "";
+
+        if (companies.length === 0) {
+          searchResults.innerHTML =
+            '<div class="result-box warning"><i class="fas fa-exclamation-triangle"></i> По указанному ИНН юридические лица не найдены</div>';
+          confirmCompanyBtn.classList.add("hidden");
+
+          // Обновляем статус действия
+          userActions[userActions.length - 1].status = "предупреждение";
+          localStorage.setItem("userActions", JSON.stringify(userActions));
+          return;
+        }
+
+        companies.forEach((company) => {
+          const companyElement = document.createElement("div");
+          companyElement.className = "company-item";
+          companyElement.innerHTML = `
+                    <div class="company-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="company-details">
+                        <div class="company-name">${company.name}</div>
+                        <div class="company-inn"><i class="fas fa-fingerprint"></i> ИНН: ${company.inn} | <i class="fas fa-map-marker-alt"></i> ${company.address}</div>
+                    </div>
+                `;
+
+          companyElement.addEventListener("click", () => {
+            // Убрать выделение у всех элементов
+            document.querySelectorAll(".company-item").forEach((item) => {
+              item.classList.remove("selected");
+            });
+
+            // Выделить выбранный элемент
+            companyElement.classList.add("selected");
+            selectedCompany = company;
+            confirmCompanyBtn.classList.remove("hidden");
+          });
+
+          searchResults.appendChild(companyElement);
+        });
+      }
+
+      // Обработчик подтверждения выбора компании
+      confirmCompanyBtn.addEventListener("click", () => {
+        if (!selectedCompany) {
+          alert("Пожалуйста, выберите компанию из списка");
+          return;
+        }
+
+        // Добавляем действие в историю
+        addUserAction(
+          "Выбор компании",
+          selectedCompany.inn,
+          selectedCompany.name,
+          "в процессе"
+        );
+
+        // Показать индикатор загрузки
+        saveResults.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Сохранение данных о ЮЛ в базу данных...</div>';
+        saveResultsSection.classList.remove("hidden");
+
+        // Имитация сохранения данных о ЮЛ в БД
+        setTimeout(() => {
+          // Имитация ответа от БД
+          const saveSuccess = Math.random() > 0.2; // 80% вероятность успеха
+
+          if (saveSuccess) {
+            saveResults.innerHTML =
+              '<div class="result-box success"><i class="fas fa-check-circle"></i> Данные о ЮЛ успешно сохранены в БД</div>';
+
+            // Обновляем статус действия
+            userActions[userActions.length - 1].status = "успешно";
+            localStorage.setItem("userActions", JSON.stringify(userActions));
+
+            // Заполнить форму анкеты
+            document.getElementById("companyName").value = selectedCompany.name;
+            document.getElementById("companyInn").value = selectedCompany.inn;
+
+            // Показать следующие разделы
+            questionnaireSection.classList.remove("hidden");
+            sparkResultsSection.classList.remove("hidden");
+            internalChecksSection.classList.remove("hidden");
+            consolidatedResultsSection.classList.remove("hidden");
+            extendedInternalChecksSection.classList.remove("hidden");
+            questionnaireInfoSection.classList.remove("hidden");
+            uploadSection.classList.remove("hidden");
+
+            // Имитация получения данных проверок
+            simulateChecks();
+          } else {
+            saveResults.innerHTML =
+              '<div class="result-box error"><i class="fas fa-exclamation-circle"></i> Ошибка при сохранении данных о ЮЛ в БД</div>';
+
+            // Обновляем статус действия
+            userActions[userActions.length - 1].status = "ошибка";
+            localStorage.setItem("userActions", JSON.stringify(userActions));
+          }
+        }, 1000);
+      });
+
+      // Функция имитации проверок
+      function simulateChecks() {
+        // Имитация проверок СПАРК (режим 2)
+        sparkResults.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Получение данных из СПАРК...</div>';
+
+        setTimeout(() => {
+          const sparkSuccess = Math.random() > 0.1; // 90% вероятность успеха
+
+          if (sparkSuccess) {
+            sparkResults.innerHTML = `
+                        <div class="result-box success">
+                            <h4><i class="fas fa-check-circle"></i> Проверка СПАРК завершена успешно</h4>
+                            <p>Найдено 5 записей в реестрах, негативной информации не обнаружено.</p>
+                            <ul style="margin-top: 10px; padding-left: 20px;">
+                                <li>Отсутствие в реестре недобросовестных поставщиков</li>
+                                <li>Отсутствие в списке дисквалифицированных лиц</li>
+                                <li>Отсутствие признаков фирмы-однодневки</li>
+                            </ul>
+                        </div>
+                    `;
+
+            // Добавляем действие в историю
+            addUserAction(
+              "Проверка СПАРК",
+              selectedCompany.inn,
+              selectedCompany.name,
+              "успешно"
+            );
+          } else {
+            sparkResults.innerHTML = `
+                        <div class="result-box error">
+                            <h4><i class="fas fa-exclamation-circle"></i> Ошибка при получении данных из СПАРК</h4>
+                            <p>Повторите попытку позже или обратитесь к администратору.</p>
+                        </div>
+                    `;
+
+            // Добавляем действие в историю
+            addUserAction(
+              "Проверка СПАРК",
+              selectedCompany.inn,
+              selectedCompany.name,
+              "ошибка"
+            );
+          }
+        }, 2000);
+
+        // Имитация внутренних проверок
+        internalChecksResults.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Проведение внутренних проверок...</div>';
+
+        setTimeout(() => {
+          const internalSuccess = Math.random() > 0.1; // 90% вероятность успеха
+
+          if (internalSuccess) {
+            internalChecksResults.innerHTML = `
+                        <div class="result-box success">
+                            <h4><i class="fas fa-check-circle"></i> Внутренние проверки завершены успешно</h4>
+                            <p>Контрагент не найден в списках неблагонадежных компаний.</p>
+                            <ul style="margin-top: 10px; padding-left: 20px;">
+                                <li>Отсутствие в черном списке банка</li>
+                                <li>Отсутствие связей с дисквалифицированными лицами</li>
+                                <li>Положительная история сотрудничества (если имеется)</li>
+                            </ul>
+                        </div>
+                    `;
+
+            // Добавляем действие в историю
+            addUserAction(
+              "Внутренние проверки",
+              selectedCompany.inn,
+              selectedCompany.name,
+              "успешно"
+            );
+          } else {
+            internalChecksResults.innerHTML = `
+                        <div class="result-box error">
+                            <h4><i class="fas fa-exclamation-circle"></i> Ошибка при проведении внутренних проверок</h4>
+                            <p>Повторите попытку позже или обратитесь к администратору.</p>
+                        </div>
+                    `;
+
+            // Добавляем действие в историю
+            addUserAction(
+              "Внутренние проверки",
+              selectedCompany.inn,
+              selectedCompany.name,
+              "ошибка"
+            );
+          }
+        }, 2500);
+
+        // Имитация консолидированных результатов
+        consolidatedResults.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Формирование консолидированного результата...</div>';
+
+        setTimeout(() => {
+          const statuses = ["успешно", "требуются доп данные", "неуспешно"];
+          const randomStatus =
+            statuses[Math.floor(Math.random() * statuses.length)];
+
+          let statusClass, statusText;
+
+          switch (randomStatus) {
+            case "успешно":
+              statusClass = "success";
+              statusText =
+                "Проверка пройдена успешно. Контрагент соответствует требованиям банка.";
+              break;
+            case "требуются доп данные":
+              statusClass = "warning";
+              statusText =
+                "Требуются дополнительные данные для завершения проверки.";
+              additionalDataSection.classList.remove("hidden");
+              break;
+            case "неуспешно":
+              statusClass = "error";
+              statusText =
+                "Проверка не пройдена. Контрагент не соответствует требованиям банка.";
+              break;
+          }
+
+          consolidatedResults.innerHTML = `
+                    <div class="result-box ${statusClass}">
+                        <h4>Консолидированный результат проверки: <span class="status-badge status-${statusClass}">${randomStatus}</span></h4>
+                        <p>${statusText}</p>
+                    </div>
+                `;
+
+          // Добавляем действие в историю
+          addUserAction(
+            "Консолидированная проверка",
+            selectedCompany.inn,
+            selectedCompany.name,
+            randomStatus
+          );
+        }, 3000);
+
+        // Имитация расширенных внутренних проверок
+        extendedInternalChecksResults.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Проведение расширенных внутренних проверок...</div>';
+
+        setTimeout(() => {
+          const extendedSuccess = Math.random() > 0.1; // 90% вероятность успеха
+
+          if (extendedSuccess) {
+            extendedInternalChecksResults.innerHTML = `
+                        <div class="result-box success">
+                            <h4><i class="fas fa-check-circle"></i> Расширенные внутренние проверки завершены успешно</h4>
+                            <p>По расширенным данным негативной информации не обнаружено.</p>
+                            <ul style="margin-top: 10px; padding-left: 20px;">
+                                <li>Проверка бенефициарных владельцев завершена</li>
+                                <li>Анализ финансовой отчетности не выявил рисков</li>
+                                <li>Отсутствие признаков нелегальной деятельности</li>
+                            </ul>
+                        </div>
+                    `;
+
+            // Добавляем действие в историю
+            addUserAction(
+              "Расширенные проверки",
+              selectedCompany.inn,
+              selectedCompany.name,
+              "успешно"
+            );
+          } else {
+            extendedInternalChecksResults.innerHTML = `
+                        <div class="result-box error">
+                            <h4><i class="fas fa-exclamation-circle"></i> Ошибка при проведении расширенных внутренних проверок</h4>
+                            <p>Повторите попытку позже или обратитесь к администратору.</p>
+                        </div>
+                    `;
+
+            // Добавляем действие в историю
+            addUserAction(
+              "Расширенные проверки",
+              selectedCompany.inn,
+              selectedCompany.name,
+              "ошибка"
+            );
+          }
+        }, 3500);
+
+        // Имитация информации об анкете
+        questionnaireInfo.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Генерация анкеты...</div>';
+
+        setTimeout(() => {
+          questionnaireInfo.innerHTML = `
+                    <div class="result-box info">
+                        <h4><i class="fas fa-info-circle"></i> Анкета сгенерирована успешно</h4>
+                        <p><strong>ID анкеты:</strong> ANK-${Date.now()}</p>
+                        <p><strong>Дата создания:</strong> ${new Date().toLocaleDateString()}</p>
+                        <p><strong>Статус:</strong> ожидает подписания</p>
+                        <p><strong>Срок действия:</strong> 1 год с момента подписания</p>
+                    </div>
+                `;
+
+          // Добавляем действие в историю
+          addUserAction(
+            "Генерация анкеты",
+            selectedCompany.inn,
+            selectedCompany.name,
+            "успешно"
+          );
+        }, 4000);
+      }
+
+      // Обработчик загрузки файла
+      fileUploadArea.addEventListener("click", () => {
+        questionnaireFile.click();
+      });
+
+      fileUploadArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        fileUploadArea.style.borderColor = "var(--primary-blue)";
+      });
+
+      fileUploadArea.addEventListener("dragleave", () => {
+        fileUploadArea.style.borderColor = "var(--medium-gray)";
+      });
+
+      fileUploadArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        fileUploadArea.style.borderColor = "var(--medium-gray)";
+
+        if (e.dataTransfer.files.length) {
+          handleFileSelection(e.dataTransfer.files[0]);
+        }
+      });
+
+      questionnaireFile.addEventListener("change", (e) => {
+        if (e.target.files.length) {
+          handleFileSelection(e.target.files[0]);
+        }
+      });
+
+      function handleFileSelection(file) {
+        fileName.textContent = file.name;
+        uploadFileBtn.classList.remove("hidden");
+      }
+
+      uploadFileBtn.addEventListener("click", () => {
+        if (!questionnaireFile.files.length) {
+          alert("Пожалуйста, выберите файл для загрузки");
+          return;
+        }
+
+        // Имитация загрузки файла
+        uploadFileBtn.innerHTML =
+          '<div class="spinner" style="width: 20px; height: 20px; border-width: 2px;"></div> Загрузка...';
+        uploadFileBtn.disabled = true;
+
+        setTimeout(() => {
+          uploadFileBtn.innerHTML =
+            '<i class="fas fa-check"></i> Файл загружен';
+          setTimeout(() => {
+            alert("Файл успешно загружен и привязан к контрагенту");
+            uploadFileBtn.innerHTML =
+              '<i class="fas fa-upload"></i> Загрузить файл';
+            uploadFileBtn.disabled = false;
+
+            // Добавляем действие в историю
+            addUserAction(
+              "Загрузка анкеты",
+              selectedCompany.inn,
+              selectedCompany.name,
+              "успешно"
+            );
+          }, 500);
+        }, 1500);
+      });
+
+      // Обработчик периодической проверки
+      periodicSearchBtn.addEventListener("click", () => {
+        const inn = periodicInnInput.value.trim();
+        if (!inn) {
+          alert("Пожалуйста, введите ИНН");
+          return;
+        }
+
+        if (inn.length !== 10 || !/^\d+$/.test(inn)) {
+          alert("ИНН должен содержать 10 цифр");
+          return;
+        }
+
+        // Добавляем действие в историю
+        addUserAction("Загрузка результатов", inn, null, "в процессе");
+
+        // Показать индикатор загрузки
+        periodicResults.innerHTML =
+          '<div class="loading"><div class="spinner"></div>Загрузка результатов...</div>';
+        periodicResultsSection.classList.remove("hidden");
+
+        // Имитация периодической проверки (режим 2)
+        setTimeout(() => {
+          const hasIssues = Math.random() > 0.7; // 30% вероятность наличия проблем
+
+          if (hasIssues) {
+            periodicResults.innerHTML = `
+                        <div class="result-box warning">
+                            <h4><i class="fas fa-exclamation-triangle"></i> Обнаружены изменения, требующие внимания</h4>
+                            <ul>
+                                <li>Изменен генеральный директор - требуется переподписание анкеты</li>
+                                <li>Обновлен юридический адрес</li>
+                                <li>Изменен основной вид деятельности</li>
+                            </ul>
+                            <p style="margin-top: 15px;"><strong>Рекомендация:</strong> Запросить обновленные документы у контрагента.</p>
+                        </div>
+                    `;
+
+            // Обновляем статус действия
+            userActions[userActions.length - 1].status = "предупреждение";
+            localStorage.setItem("userActions", JSON.stringify(userActions));
+          } else {
+            periodicResults.innerHTML = `
+                        <div class="result-box success">
+                            <h4><i class="fas fa-check-circle"></i> Периодическая проверка завершена</h4>
+                            <p>Значительных изменений не обнаружено. Контрагент соответствует требованиям банка.</p>
+                            <ul style="margin-top: 10px; padding-left: 20px;">
+                                <li>Руководство компании не изменилось</li>
+                                <li>Юридический адрес остается прежним</li>
+                                <li>Финансовые показатели стабильны</li>
+                            </ul>
+                        </div>
+                    `;
+
+            // Обновляем статус действия
+            userActions[userActions.length - 1].status = "успешно";
+            localStorage.setItem("userActions", JSON.stringify(userActions));
+          }
+        }, 2000);
+      });
+
+      // Обработчик сохранения дополнительных данных
+      document
+        .getElementById("saveAdditionalDataBtn")
+        .addEventListener("click", () => {
+          const additionalData =
+            document.getElementById("additionalData").value;
+
+          if (!additionalData.trim()) {
+            alert("Пожалуйста, введите дополнительные данные");
+            return;
+          }
+
+          // Имитация сохранения дополнительных данных
+          alert("Дополнительные данные успешно сохранены");
+
+          // Добавляем действие в историю
+          addUserAction(
+            "Сохранение доп. данных",
+            selectedCompany.inn,
+            selectedCompany.name,
+            "успешно"
+          );
+        });
+
+      // Обработчик сохранения анкеты
+      document
+        .getElementById("saveQuestionnaireBtn")
+        .addEventListener("click", () => {
+          // Имитация сохранения анкеты
+          alert("Анкета успешно сохранена");
+
+          // Добавляем действие в историю
+          addUserAction(
+            "Сохранение анкеты",
+            selectedCompany.inn,
+            selectedCompany.name,
+            "успешно"
+          );
+        });
+
+      // Обработчик выхода
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        if (confirm("Вы уверены, что хотите выйти?")) {
+          // Имитация выхода из системы
+          alert("Вы вышли из системы");
+          // В реальном приложении здесь был бы редирект на страницу входа
+        }
+      });
+    </script>
+  </body>
+</html>
