@@ -489,9 +489,28 @@
       /* Чекбоксы */
       .checkbox-group {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        grid-template-columns: repeat(4, 1fr);
         gap: 15px;
         margin: 20px 0;
+      }
+
+      /* Адаптивность для чекбоксов */
+      @media (max-width: 1200px) {
+        .checkbox-group {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (max-width: 992px) {
+        .checkbox-group {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 576px) {
+        .checkbox-group {
+          grid-template-columns: 1fr;
+        }
       }
 
       .checkbox-item {
@@ -688,6 +707,25 @@
         opacity: 0.8;
       }
 
+      /* Адаптивность для чекбоксов */
+      @media (max-width: 1200px) {
+        .checkbox-group {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+
+      @media (max-width: 992px) {
+        .checkbox-group {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 576px) {
+        .checkbox-group {
+          grid-template-columns: 1fr;
+        }
+      }
+
       /* Адаптивность */
       @media (max-width: 768px) {
         .header-content {
@@ -712,9 +750,9 @@
           grid-template-columns: 1fr;
         }
 
-        .checkbox-group {
+        /* .checkbox-group {
           grid-template-columns: 1fr;
-        }
+        } */
 
         .footer-content {
           flex-direction: column;
@@ -846,7 +884,11 @@
             <div class="form-grid">
               <div class="form-group">
                 <label for="innInput">ID</label>
-                <input type="text" id="ID" placeholder="ID клиента" />
+                <input
+                  type="text"
+                  id="clientIdInput"
+                  placeholder="ID клиента"
+                />
               </div>
               <div class="form-group">
                 <label for="innInput">ИНН</label>
@@ -1102,48 +1144,48 @@
             </h5>
             <div class="checkbox-group">
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortName" checked />
-                <label for="searchShortName">Наименование клиента</label>
+                <input type="checkbox" id="exportShortName" checked />
+                <label for="exportShortName">Наименование клиента</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortInn" checked />
-                <label for="searchShortInn">ИНН</label>
+                <input type="checkbox" id="exportShortInn" checked />
+                <label for="exportShortInn">ИНН</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortOgrn" checked />
-                <label for="searchShortOgrn">ОГРН</label>
+                <input type="checkbox" id="exportShortOgrn" checked />
+                <label for="exportShortOgrn">ОГРН</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortKpp" checked />
-                <label for="searchShortKpp">КПП</label>
+                <input type="checkbox" id="exportShortKpp" checked />
+                <label for="exportShortKpp">КПП</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortAccount" checked />
-                <label for="searchShortAccount">Счет</label>
+                <input type="checkbox" id="exportShortAccount" checked />
+                <label for="exportShortAccount">Счет</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortRegAddress" checked />
-                <label for="searchShortRegAddress">Адрес регистрации</label>
+                <input type="checkbox" id="exportShortRegAddress" checked />
+                <label for="exportShortRegAddress">Адрес регистрации</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortFactAddress" checked />
-                <label for="searchShortFactAddress">Адрес фактический</label>
+                <input type="checkbox" id="exportShortFactAddress" checked />
+                <label for="exportShortFactAddress">Адрес фактический</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortCeo" checked />
-                <label for="searchShortCeo">ЕИО: ФИО</label>
+                <input type="checkbox" id="exportShortCeo" checked />
+                <label for="exportShortCeo">ЕИО: ФИО</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortBeneficiary" checked />
-                <label for="searchShortBeneficiary">Бенефициар: ФИО</label>
+                <input type="checkbox" id="exportShortBeneficiary" checked />
+                <label for="exportShortBeneficiary">Бенефициар: ФИО</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortRegDate" checked />
-                <label for="searchShortRegDate">Дата регистрации</label>
+                <input type="checkbox" id="exportShortRegDate" checked />
+                <label for="exportShortRegDate">Дата регистрации</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchShortOkved" checked />
-                <label for="searchShortOkved">ОКВЭД</label>
+                <input type="checkbox" id="exportShortOkved" checked />
+                <label for="exportShortOkved">ОКВЭД</label>
               </div>
             </div>
 
@@ -1152,30 +1194,30 @@
             </h5>
             <div class="checkbox-group">
               <div class="checkbox-item">
-                <input type="checkbox" id="searchExtAccountDetails" />
-                <label for="searchExtAccountDetails">Счет</label>
+                <input type="checkbox" id="exportExtAccountDetails" />
+                <label for="exportExtAccountDetails">Счет</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchExtResidency" />
-                <label for="searchExtResidency">Статус (резидент)</label>
+                <input type="checkbox" id="exportExtResidency" />
+                <label for="exportExtResidency">Статус (резидент)</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchExtCeoDetails" />
-                <label for="searchExtCeoDetails">ЕИО: полные данные</label>
+                <input type="checkbox" id="exportExtCeoDetails" />
+                <label for="exportExtCeoDetails">ЕИО: полные данные</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchExtBeneficiaryDetails" />
-                <label for="searchExtBeneficiaryDetails"
+                <input type="checkbox" id="exportExtBeneficiaryDetails" />
+                <label for="exportExtBeneficiaryDetails"
                   >Бенефициар: полные данные</label
                 >
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchExtAllOkved" />
-                <label for="searchExtAllOkved">ОКВЭД (все)</label>
+                <input type="checkbox" id="exportExtAllOkved" />
+                <label for="exportExtAllOkved">ОКВЭД (все)</label>
               </div>
               <div class="checkbox-item">
-                <input type="checkbox" id="searchExtRelatedPersons" checked />
-                <label for="searchExtRelatedPersons"
+                <input type="checkbox" id="exportExtRelatedPersons" checked />
+                <label for="exportExtRelatedPersons"
                   >Связанные лица из БД AML SME</label
                 >
               </div>
@@ -1250,7 +1292,7 @@
       const innInput = document.getElementById("innInput");
       const ogrnInput = document.getElementById("ogrnInput");
       const nameInput = document.getElementById("nameInput");
-      const clientNumberInput = document.getElementById("clientNumberInput");
+      const clientIdInput = document.getElementById("clientIdInput");
       const accountInput = document.getElementById("accountInput");
       const fioInput = document.getElementById("fioInput");
       const searchBtn = document.getElementById("searchBtn");
@@ -1348,7 +1390,7 @@
         innInput.value = "";
         ogrnInput.value = "";
         nameInput.value = "";
-        clientNumberInput.value = "";
+        clientIdInput.value = "";
         accountInput.value = "";
         fioInput.value = "";
         searchResultsSection.classList.add("hidden");
@@ -1432,36 +1474,13 @@
         });
       });
 
-      // Обработчик форматирования даты при изменении
-      actualDate.addEventListener("change", () => {
-        if (actualDate.value) {
-          // Обновляем отображение в результатах выгрузки, если нужно
-          const exportResultsElement = document.getElementById("exportResults");
-          if (
-            exportResultsElement &&
-            !exportResultsElement.classList.contains("hidden")
-          ) {
-            // Перезапускаем отображение результатов с новой датой
-            const selectedFields = [];
-            document
-              .querySelectorAll(
-                '.checkbox-group input[type="checkbox"]:checked',
-              )
-              .forEach((checkbox) => {
-                selectedFields.push(checkbox.id);
-              });
-            showExportResults(selectedFields);
-          }
-        }
-      });
-
       // Обработчик поиска клиентов
       searchBtn.addEventListener("click", () => {
         const searchParams = {
           inn: innInput.value.trim(),
           ogrn: ogrnInput.value.trim(),
           name: nameInput.value.trim(),
-          clientNumber: clientNumberInput.value.trim(),
+          clientNumber: clientIdInput.value.trim(),
           account: accountInput.value.trim(),
           fio: fioInput.value.trim(),
         };
@@ -2036,31 +2055,6 @@
         }
       });
 
-      // Обработчик начала выгрузки
-      startExportBtn.addEventListener("click", () => {
-        if (exportData.length === 0) {
-          alert(
-            "Нет данных для выгрузки. Загрузите файл или введите данные вручную.",
-          );
-          return;
-        }
-
-        // Проверка выбранных параметров
-        const selectedFields = [];
-        document
-          .querySelectorAll('.checkbox-group input[type="checkbox"]:checked')
-          .forEach((checkbox) => {
-            selectedFields.push(checkbox.id);
-          });
-
-        if (selectedFields.length === 0) {
-          alert("Пожалуйста, выберите хотя бы одно поле для выгрузки");
-          return;
-        }
-
-        startExport(selectedFields);
-      });
-
       // Функция начала выгрузки
       function startExport(selectedFields) {
         exportProgress.innerHTML =
@@ -2130,93 +2124,6 @@
           );
         link.download = `client_data_export_${new Date().toISOString().split("T")[0]}.xlsx`;
         link.click();
-      });
-
-      // Обработчик поиска связанных лиц
-      searchRelationsBtn.addEventListener("click", () => {
-        const inn = companyInnForRelations.value.trim();
-        if (!inn || inn.length !== 10) {
-          alert(
-            "Пожалуйста, введите корректный ИНН юридического лица (10 знаков)",
-          );
-          return;
-        }
-
-        relationsResults.innerHTML =
-          '<div class="loading"><div class="spinner"></div>Поиск связанных лиц...</div>';
-        relationsResultsSection.classList.remove("hidden");
-
-        setTimeout(() => {
-          // Имитация поиска связанных лиц из БД AML SME
-          const mockRelations = [
-            {
-              id: 1,
-              type: "ФЛ",
-              name: "Иванов Иван Иванович",
-              inn: "123456789012",
-              relation: "Единоличный исполнительный орган",
-              isClient: true,
-              clientLink: "client-data-fl.html?id=123",
-              amlData: "Связь подтверждена в БД AML SME",
-            },
-            {
-              id: 2,
-              type: "ИП",
-              name: "Петров Петр Петрович",
-              inn: "987654321098",
-              relation: "Бенефициарный владелец 25%",
-              isClient: false,
-              clientLink: null,
-              amlData: "Связь подтверждена в БД AML SME",
-            },
-            {
-              id: 3,
-              type: "ФЛ",
-              name: "Сидоров Сидор Сидорович",
-              inn: "456789123456",
-              relation: "Связанное лицо (родственник ЕИО)",
-              isClient: true,
-              clientLink: "client-data-fl.html?id=456",
-              amlData: "Связь подтверждена в БД AML SME",
-            },
-          ];
-
-          relationsResults.innerHTML = mockRelations
-            .map(
-              (person) => `
-            <div class="person-card">
-              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <div style="flex: 1;">
-                  <strong><i class="fas ${person.type === "ФЛ" ? "fa-user" : "fa-user-tie"}"></i> ${person.name}</strong>
-                  <div style="font-size: 0.9rem; color: var(--dark-gray); margin: 5px 0;">
-                    ИНН: ${person.inn} | Тип: ${person.type} | ${person.relation}
-                  </div>
-                  <div style="font-size: 0.85rem; color: var(--primary-blue); margin: 5px 0;">
-                    <i class="fas fa-shield-alt"></i> ${person.amlData}
-                  </div>
-                  <div>
-                    <span class="status-badge status-${person.isClient ? "success" : "warning"}">
-                      ${person.isClient ? "Клиент банка (ФЛ)" : "Не клиент банка"}
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  ${
-                    person.isClient && person.clientLink
-                      ? `
-                    <a href="${person.clientLink}" target="_blank" style="color: var(--primary-blue); text-decoration: none;">
-                      <i class="fas fa-external-link-alt"></i> Карточка клиента ФЛ
-                    </a>
-                  `
-                      : ""
-                  }
-                </div>
-              </div>
-            </div>
-          `,
-            )
-            .join("");
-        }, 1500);
       });
 
       // Обработчик выхода
