@@ -6,6 +6,7 @@ import {
   RelatedPerson,
   ExportItem,
   ExportResult,
+  ExportOptions,
 } from "@/types";
 import { mockSearchClients, mockGetRelatedPersons } from "./mockData";
 
@@ -107,7 +108,7 @@ export const searchApi = {
   },
 
   // Поиск через URSA
-  async searchThroughUrsa(params: SearchParams): Promise<any> {
+  async searchThroughUrsa(params: SearchParams): Promise<unknown> {
     const { data } = await api.post("/api/v1/clients/ursa-search", params);
     return data;
   },
@@ -118,12 +119,12 @@ export const exportApi = {
   // Массовая выгрузка клиентов
   async massExport(
     items: ExportItem[],
-    options: any,
+    options: ExportOptions,
     actualDate?: string,
   ): Promise<ExportResult> {
     const { data } = await api.post("/api/v1/export/mass", {
       items,
-      options,
+      options: options as Record<string, boolean>,
       actualDate,
     });
     return data;

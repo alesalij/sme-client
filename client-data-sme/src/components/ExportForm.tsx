@@ -1,8 +1,9 @@
 import { Download, Trash2 } from "lucide-react";
+import { ExportOptions } from "@/types";
 
 interface ExportFormProps {
-  displayOptions: any;
-  onDisplayOptionsChange: (options: any) => void;
+  displayOptions: ExportOptions;
+  onDisplayOptionsChange: (options: ExportOptions) => void;
   actualDate: string;
   onActualDateChange: (date: string) => void;
   exportItemsCount: number;
@@ -21,7 +22,7 @@ export function ExportForm({
   onClearData,
   isExporting,
 }: ExportFormProps) {
-  const toggleDisplayOption = (key: string) => {
+  const toggleDisplayOption = (key: keyof ExportOptions) => {
     onDisplayOptionsChange({
       ...displayOptions,
       [key]: !displayOptions[key],

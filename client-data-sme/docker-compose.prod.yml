@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: client-data-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - app
+    restart: always
+    networks:
+      - client-data-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: client-data-sme-app
+    restart: always
+    networks:
+      - client-data-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Watchtower (automatic updates)
+  watchtower:
+    image: containrrr/watchtower
+    container_name: client-data-watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=86400
+    restart: always
+    networks:
+      - client-data-network
+
+networks:
+  client-data-network:
+    driver: bridge
+
+volumes:
+  nginx-logs:

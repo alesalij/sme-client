@@ -1,3 +1,4 @@
+import React from "react";
 import { Client, DisplayOptions } from "@/types";
 import {
   MapPin,
@@ -48,8 +49,8 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
   };
 
   // Расширенная информация
-  const getExtendedInfoHTML = () => {
-    const infoParts: JSX.Element[] = [];
+  const getExtendedInfoHTML = (): React.ReactElement[] => {
+    const infoParts: React.ReactElement[] = [];
 
     // Детальная информация по счетам
     if (displayOptions.searchExtAccountDetails) {

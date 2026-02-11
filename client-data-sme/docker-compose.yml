@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # Frontend application
+  client-data-sme:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: client-data-sme
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - client-data-network
+
+  # Development version (optional - uncomment for development)
+  # client-data-sme-dev:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.dev
+  #   container_name: client-data-sme-dev
+  #   ports:
+  #     - "5173:5173"
+  #   volumes:
+  #     - ./src:/app/src
+  #     - ./public:/app/public
+  #   environment:
+  #     - NODE_ENV=development
+  #   command: npm run dev
+  #   restart: unless-stopped
+  #   networks:
+  #     - client-data-network
+
+networks:
+  client-data-network:
+    driver: bridge

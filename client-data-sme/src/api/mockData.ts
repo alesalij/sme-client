@@ -1,4 +1,4 @@
-import { Client, RelatedPerson } from "@/types";
+import { Client, RelatedPerson, SearchParams } from "@/types";
 
 // Mock данные для демонстрации
 export const mockClients: Client[] = [
@@ -145,20 +145,20 @@ export const mockRelatedPersons: RelatedPerson[] = [
 ];
 
 // Функция для поиска клиентов (mock)
-export function mockSearchClients(params: any) {
+export function mockSearchClients(params: SearchParams) {
   let filteredClients = [...mockClients];
 
   // Фильтрация по ИНН
   if (params.inn) {
     filteredClients = filteredClients.filter((client) =>
-      client.inn.includes(params.inn),
+      client.inn.includes(params.inn as string),
     );
   }
 
   // Фильтрация по ОГРН
   if (params.ogrn) {
     filteredClients = filteredClients.filter((client) =>
-      client.ogrn.includes(params.ogrn),
+      client.ogrn.includes(params.ogrn as string),
     );
   }
 
@@ -166,15 +166,19 @@ export function mockSearchClients(params: any) {
   if (params.name) {
     filteredClients = filteredClients.filter(
       (client) =>
-        client.name.toLowerCase().includes(params.name.toLowerCase()) ||
-        client.fullName.toLowerCase().includes(params.name.toLowerCase()),
+        client.name
+          .toLowerCase()
+          .includes((params.name as string).toLowerCase()) ||
+        client.fullName
+          .toLowerCase()
+          .includes((params.name as string).toLowerCase()),
     );
   }
 
   // Фильтрация по номеру клиента
   if (params.clientNumber) {
     filteredClients = filteredClients.filter((client) =>
-      client.clientNumber.includes(params.clientNumber),
+      client.clientNumber.includes(params.clientNumber as string),
     );
   }
 
@@ -182,7 +186,7 @@ export function mockSearchClients(params: any) {
   if (params.account) {
     filteredClients = filteredClients.filter((client) =>
       client.accounts.some((account) =>
-        account.number.includes(params.account),
+        account.number.includes(params.account as string),
       ),
     );
   }
@@ -192,7 +196,9 @@ export function mockSearchClients(params: any) {
     filteredClients = filteredClients.filter(
       (client) =>
         client.type === "ИП" &&
-        client.fio?.toLowerCase().includes(params.fio.toLowerCase()),
+        client.fio
+          ?.toLowerCase()
+          .includes((params.fio as string).toLowerCase()),
     );
   }
 

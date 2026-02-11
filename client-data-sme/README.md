@@ -9,6 +9,7 @@ Client Data SME — это веб-приложение для поиска и м
 ## Основные функции
 
 ### 🔍 Поиск клиентов
+
 - Поиск по ИНН (ЮЛ и ИП)
 - Поиск по ОГРН
 - Поиск по наименованию/названию компании
@@ -18,6 +19,7 @@ Client Data SME — это веб-приложение для поиска и м
 - Поиск по дате актуальности
 
 ### 📊 Отображение данных
+
 - **Краткий набор**: основная информация о клиенте
 - **Расширенный набор**: детальная информация включая:
   - Детальная информация по счетам
@@ -27,6 +29,7 @@ Client Data SME — это веб-приложение для поиска и м
   - Связанные лица из БД AML SME
 
 ### 📤 Массовая выгрузка
+
 - Загрузка файлов Excel/CSV с входными данными
 - Ручной ввод списка клиентов
 - Выбор набора данных для выгрузки
@@ -34,6 +37,7 @@ Client Data SME — это веб-приложение для поиска и м
 - Отслеживание прогресса выгрузки
 
 ### 🔗 Связанные лица
+
 - Отображение связанных лиц из БД AML SME
 - Ссылки на карточки клиентов ФЛ (если они являются клиентами банка)
 - Детальная информация о связях и ролях
@@ -53,27 +57,33 @@ Client Data SME — это веб-приложение для поиска и м
 ## Установка и запуск
 
 ### Предварительные требования
-- Node.js 18+ 
+
+- Node.js 18+
 - npm или yarn
 
 ### Клонирование репозитория
+
 ```bash
 git clone <repository-url>
 cd client-data-sme
 ```
 
 ### Установка зависимостей
+
 ```bash
 npm install
 ```
 
 ### Настройка окружения
+
 Скопируйте файл окружения и настройте переменные:
+
 ```bash
 cp .env.example .env
 ```
 
 Отредактируйте `.env` файл:
+
 ```env
 VITE_API_BASE_URL=https://your-api-server:8090
 VITE_APP_TITLE=Client Data SME
@@ -81,6 +91,7 @@ VITE_ENABLE_MOCK_DATA=false
 ```
 
 ### Запуск в режиме разработки
+
 ```bash
 npm run dev
 ```
@@ -88,14 +99,78 @@ npm run dev
 Приложение будет доступно по адресу: http://localhost:5173
 
 ### Сборка для продакшена
+
 ```bash
 npm run build
 ```
 
 ### Предварительный просмотр сборки
+
 ```bash
 npm run preview
 ```
+
+## Docker
+
+### Сборка и запуск с Docker
+
+#### Production версия
+
+```bash
+# Сборка образа
+docker build -t client-data-sme .
+
+# Запуск контейнера
+docker run -p 80:80 client-data-sme
+
+# Или с помощью docker-compose
+docker-compose up -d
+```
+
+#### Development версия
+
+```bash
+# Запуск с hot-reload
+docker-compose -f docker-compose.dev.yml up
+
+# Запуск в фоновом режиме
+docker-compose -f docker-compose.dev.yml up -d
+```
+
+### Docker команды
+
+```bash
+# Остановка контейнеров
+docker-compose down
+
+# Просмотр логов
+docker-compose logs -f
+
+# Пересборка образа
+docker-compose build --no-cache
+
+# Вход в контейнер
+docker-compose exec client-data-sme sh
+```
+
+### Docker файлы
+
+- `Dockerfile` - Production версия с nginx
+- `Dockerfile.dev` - Development версия с hot-reload
+- `docker-compose.yml` - Production compose файл
+- `docker-compose.dev.yml` - Development compose файл
+- `nginx.conf` - Конфигурация nginx
+- `.dockerignore` - Исключаемые файлы
+
+### Особенности Docker версии
+
+- **Multi-stage build**: Оптимизированный размер образа
+- **Nginx**: Быстрый статический сервер
+- **Gzip compression**: Сжатие статических файлов
+- **Cache headers**: Оптимизация кеширования
+- **Health checks**: Мониторинг здоровья контейнера
+- **Security headers**: Заголовки безопасности
+- **Hot-reload (dev)**: Автоматическая перезагрузка при разработке
 
 ## Структура проекта
 
@@ -127,26 +202,31 @@ src/
 ### Основные эндпоинты
 
 #### Поиск клиентов
+
 ```
 POST /api/v1/clients/search
 ```
 
 #### Получение связанных лиц
+
 ```
 GET /api/v1/clients/related?inn={inn}
 ```
 
 #### Массовая выгрузка
+
 ```
 POST /api/v1/export/mass
 ```
 
 #### Загрузка файла
+
 ```
 POST /api/v1/export/upload
 ```
 
 ### Аутентификация
+
 Система использует существующую аутентификацию банка через cookies.
 
 ## Использование
@@ -171,29 +251,35 @@ POST /api/v1/export/upload
 ### Примеры данных
 
 Для тестирования используйте примеры ИНН:
+
 - **ЮЛ**: 7713123456, 7713987654
 - **ИП**: 123456789012, 987654321098
 
 ## Разработка
 
 ### Лinting
+
 ```bash
 npm run lint
 ```
 
 ### Исправление ошибок linting
+
 ```bash
 npm run lint:fix
 ```
 
 ### Добавление новых компонентов
+
 Используйте существующие компоненты как образец:
+
 - Соблюдайте TypeScript типизацию
 - Используйте CSS классы из globals.css
 - Добавляйте обработку ошибок
 - Следуйте паттернам React Hooks
 
 ### Добавление новых API endpoints
+
 1. Добавьте методы в `src/api/client.ts`
 2. Обновите типы в `src/types/index.ts`
 3. Используйте TanStack Query для кеширования
@@ -201,6 +287,7 @@ npm run lint:fix
 ## Поддержка
 
 Для получения поддержки обращайтесь:
+
 - Email: support@rencredit.ru
 - Документация: [ссылка на Confluence]
 - Техническая поддержка: [контакты]

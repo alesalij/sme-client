@@ -1,17 +1,17 @@
-import { useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { Upload, Plus, FileText } from "lucide-react";
 import { toast } from "react-hot-toast";
 import * as XLSX from "xlsx";
 import { exportApi, validationApi } from "@/api/client";
-import { ExportItem, ExportResult } from "@/types";
+import { ExportItem, ExportResult, ExportOptions } from "@/types";
 import { ExportForm } from "@/components/ExportForm";
 import { ExportProgress } from "@/components/ExportProgress";
 import { ExportResults } from "@/components/ExportResults";
 
 export function ExportPage() {
   const [exportItems, setExportItems] = useState<ExportItem[]>([]);
-  const [displayOptions, setDisplayOptions] = useState({
+  const [displayOptions, setDisplayOptions] = useState<ExportOptions>({
     // Краткий набор
     exportShortName: true,
     exportShortInn: true,
@@ -44,7 +44,7 @@ export function ExportPage() {
   const massExportMutation = useMutation({
     mutationFn: (params: {
       items: ExportItem[];
-      options: any;
+      options: ExportOptions;
       actualDate?: string;
     }) => exportApi.massExport(params.items, params.options, params.actualDate),
     onSuccess: (data) => {
@@ -53,12 +53,12 @@ export function ExportPage() {
       setProgress(100);
       toast.success("Массовая выгрузка завершена успешно");
     },
-    onError: (error: any) => {
+    onError: (error: unknown) => {
       setIsExporting(false);
       setProgress(0);
-      toast.error(
-        `Ошибка при выгрузке: ${error.message || "Неизвестная ошибка"}`,
-      );
+      const errorMessage =
+        error instanceof Error ? error.message : "Неизвестная ошибка";
+      toast.error(`Ошибка при выгрузке: ${errorMessage}`);
     },
   });
 
@@ -185,7 +185,7 @@ export function ExportPage() {
         options: displayOptions,
         actualDate: actualDate || undefined,
       });
-    } catch (error) {
+    } catch {
       clearInterval(progressInterval);
       setProgress(0);
     }

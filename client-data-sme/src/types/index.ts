@@ -142,6 +142,30 @@ export interface DisplayOptions {
   searchExtRelatedPersons?: boolean;
 }
 
+// Опции для массовой выгрузки (расширенный набор DisplayOptions)
+export interface ExportOptions extends DisplayOptions {
+  // Краткий набор для экспорта
+  exportShortName?: boolean;
+  exportShortInn?: boolean;
+  exportShortOgrn?: boolean;
+  exportShortKpp?: boolean;
+  exportShortAccount?: boolean;
+  exportShortRegAddress?: boolean;
+  exportShortFactAddress?: boolean;
+  exportShortCeo?: boolean;
+  exportShortBeneficiary?: boolean;
+  exportShortRegDate?: boolean;
+  exportShortOkved?: boolean;
+
+  // Расширенный набор для экспорта
+  exportExtAccountDetails?: boolean;
+  exportExtResidency?: boolean;
+  exportExtCeoDetails?: boolean;
+  exportExtBeneficiaryDetails?: boolean;
+  exportExtAllOkved?: boolean;
+  exportExtRelatedPersons?: boolean;
+}
+
 // Результат поиска
 export interface SearchResult {
   clients: Client[];

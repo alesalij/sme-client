@@ -1,25 +1,25 @@
-import { ReactNode } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { User, LogOut } from 'lucide-react'
-import { toast } from 'react-hot-toast'
+import { ReactNode } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { User, LogOut } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 interface LayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function Layout({ children }: LayoutProps) {
-  const location = useLocation()
+  const location = useLocation();
 
   const handleLogout = () => {
-    if (confirm('Вы уверены, что хотите выйти?')) {
-      toast.success('Вы вышли из системы')
+    if (confirm("Вы уверены, что хотите выйти?")) {
+      toast.success("Вы вышли из системы");
       // В реальном приложении здесь был бы редирект на страницу входа
     }
-  }
+  };
 
   const isActive = (path: string) => {
-    return location.pathname === path
-  }
+    return location.pathname === path;
+  };
 
   return (
     <div>
@@ -58,7 +58,9 @@ export function Layout({ children }: LayoutProps) {
                 </div>
                 <div>
                   <div>Иванов И.И.</div>
-                  <div style={{ fontSize: '0.9rem', opacity: 0.9 }}>Отдел SME</div>
+                  <div style={{ fontSize: "0.9rem", opacity: 0.9 }}>
+                    Отдел SME
+                  </div>
                 </div>
                 <button className="btn-secondary" onClick={handleLogout}>
                   <LogOut size={16} /> Выйти
@@ -75,23 +77,21 @@ export function Layout({ children }: LayoutProps) {
           <div className="tabs">
             <Link
               to="/search"
-              className={`tab ${isActive('/search') || isActive('/') ? 'active' : ''}`}
+              className={`tab ${isActive("/search") || isActive("/") ? "active" : ""}`}
             >
               <i className="fas fa-search"></i>
               Поиск клиентов
             </Link>
             <Link
               to="/export"
-              className={`tab ${isActive('/export') ? 'active' : ''}`}
+              className={`tab ${isActive("/export") ? "active" : ""}`}
             >
               <i className="fas fa-download"></i>
               Массовая выгрузка
             </Link>
           </div>
 
-          <div className="tab-content active">
-            {children}
-          </div>
+          <div className="tab-content active">{children}</div>
         </div>
       </div>
 
@@ -111,5 +111,5 @@ export function Layout({ children }: LayoutProps) {
         </div>
       </footer>
     </div>
-  )
+  );
 }
