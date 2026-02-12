@@ -1,20 +1,20 @@
-# Development stage
+# Этап разработки
 FROM node:18-alpine
 
-# Set working directory
+# Установка рабочей директории
 WORKDIR /app
 
-# Copy package files
+# Копирование файлов package
 COPY package*.json ./
 
-# Install dependencies
+# Установка зависимостей
 RUN npm install
 
-# Copy source code
+# Копирование исходного кода
 COPY . .
 
-# Expose development port
+# Открытие порта разработки
 EXPOSE 5173
 
-# Start development server
+# Запуск сервера разработки
 CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

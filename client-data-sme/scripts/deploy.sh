@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# Quick Deploy Script
-# This script builds and deploys the application using Docker
+# Скрипт быстрого деплоя
+# Этот скрипт собирает и разворачивает приложение используя Docker
 
-set -e  # Exit on error
+set -e  # Выход при ошибке
 
-# Colors for output
+# Цвета для вывода
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m' # Без цвета
 
-# Functions
+# Функции
 log_info() {
     echo -e "${BLUE}ℹ️  $1${NC}"
 }
@@ -29,19 +29,19 @@ log_error() {
     echo -e "${RED}❌ $1${NC}"
 }
 
-# Check if Docker is installed
+# Проверка установки Docker
 if ! command -v docker &> /dev/null; then
-    log_error "Docker is not installed. Please install Docker first."
+    log_error "Docker не установлен. Пожалуйста, установите Docker сначала."
     exit 1
 fi
 
-# Check if Docker Compose is installed
+# Проверка установки Docker Compose
 if ! command -v docker-compose &> /dev/null; then
-    log_error "Docker Compose is not installed. Please install Docker Compose first."
+    log_error "Docker Compose не установлен. Пожалуйста, установите Docker Compose сначала."
     exit 1
 fi
 
-# Parse arguments
+# Парсинг аргументов
 MODE="production"
 REBUILD=false
 DETACHED=true
@@ -61,52 +61,52 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --help)
-            echo "Usage: ./deploy.sh [OPTIONS]"
+            echo "Использование: ./deploy.sh [ОПЦИИ]"
             echo ""
-            echo "Options:"
-            echo "  --dev        Run in development mode"
-            echo "  --rebuild    Rebuild images before starting"
-            echo "  --no-detach  Don't run in detached mode"
-            echo "  --help       Show this help message"
+            echo "Опции:"
+            echo "  --dev        Запуск в режиме разработки"
+            echo "  --rebuild    Пересобрать образы перед запуском"
+            echo "  --no-detach  Не запускать в фоновом режиме"
+            echo "  --help       Показать справку"
             exit 0
             ;;
         *)
-            log_error "Unknown option: $1"
-            echo "Use --help for usage information"
+            log_error "Неизвестная опция: $1"
+            echo "Используйте --help для получения справки"
             exit 1
             ;;
     esac
 done
 
-# Deploy function
+# Функция деплоя
 deploy() {
-    log_info "Starting deployment in $MODE mode..."
+    log_info "Запуск деплоя в режиме $MODE..."
     echo ""
 
-    # Stop existing containers
-    log_info "Stopping existing containers..."
+    # Остановка существующих контейнеров
+    log_info "Остановка существующих контейнеров..."
     if [ "$MODE" = "development" ]; then
         docker-compose -f docker-compose.dev.yml down 2>/dev/null || true
     else
         docker-compose down 2>/dev/null || true
     fi
-    log_success "Containers stopped"
+    log_success "Контейнеры остановлены"
     echo ""
 
-    # Rebuild if requested
+    # Пересборка если запрошено
     if [ "$REBUILD" = true ]; then
-        log_info "Rebuilding Docker images..."
+        log_info "Пересборка Docker образов..."
         if [ "$MODE" = "development" ]; then
             docker-compose -f docker-compose.dev.yml build --no-cache
         else
             docker-compose build --no-cache
         fi
-        log_success "Images rebuilt"
+        log_success "Образы пересобраны"
         echo ""
     fi
 
-    # Start containers
-    log_info "Starting containers..."
+    # Запуск контейнеров
+    log_info "Запуск контейнеров..."
     if [ "$MODE" = "development" ]; then
         COMPOSE_FILE="docker-compose.dev.yml"
         SERVICE_NAME="client-data-sme-dev"
@@ -129,19 +129,19 @@ deploy() {
         fi
     fi
 
-    log_success "Containers started"
+    log_success "Контейнеры запущены"
     echo ""
 
-    # Wait for health check
+    # Ожидание health check
     if [ "$DETACHED" = true ]; then
-        log_info "Waiting for application to be healthy..."
+        log_info "Ожидание готовности приложения..."
         for i in {1..30}; do
             if curl -s http://localhost:$PORT/health > /dev/null 2>&1; then
-                log_success "Application is healthy!"
+                log_success "Приложение готово!"
                 break
             fi
             if [ $i -eq 30 ]; then
-                log_warning "Health check timed out, but containers are running"
+                log_warning "Health check истекло время ожидания, но контейнеры запущены"
                 break
             fi
             sleep 2
@@ -149,8 +149,8 @@ deploy() {
         echo ""
     fi
 
-    # Show status
-    log_info "Container status:"
+    # Показать статус
+    log_info "Статус контейнеров:"
     if [ "$MODE" = "development" ]; then
         docker-compose -f $COMPOSE_FILE ps
     else
@@ -158,22 +158,22 @@ deploy() {
     fi
     echo ""
 
-    # Success message
-    log_success "Deployment completed successfully!"
+    # Сообщение об успехе
+    log_success "Деплой успешно завершен!"
     echo ""
-    echo "📝 Application information:"
-    echo "   - Mode: $MODE"
-    echo "   - Service: $SERVICE_NAME"
+    echo "📝 Информация о приложении:"
+    echo "   - Режим: $MODE"
+    echo "   - Сервис: $SERVICE_NAME"
     echo "   - URL: http://localhost:$PORT"
     echo "   - Health check: http://localhost:$PORT/health"
     echo ""
-    echo "📋 Useful commands:"
-    echo "   - View logs: docker-compose -f $COMPOSE_FILE logs -f"
-    echo "   - Stop containers: docker-compose -f $COMPOSE_FILE down"
-    echo "   - Restart containers: docker-compose -f $COMPOSE_FILE restart"
-    echo "   - Execute in container: docker-compose -f $COMPOSE_FILE exec $SERVICE_NAME sh"
+    echo "📋 Полезные команды:"
+    echo "   - Просмотр логов: docker-compose -f $COMPOSE_FILE logs -f"
+    echo "   - Остановка контейнеров: docker-compose -f $COMPOSE_FILE down"
+    echo "   - Перезапуск контейнеров: docker-compose -f $COMPOSE_FILE restart"
+    echo "   - Выполнение в контейнере: docker-compose -f $COMPOSE_FILE exec $SERVICE_NAME sh"
 }
 
-# Run deployment
+# Запуск деплоя
 deploy
 exit 0

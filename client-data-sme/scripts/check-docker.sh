@@ -1,119 +1,119 @@
 #!/bin/bash
 
-# Docker Environment Check Script
-# This script checks if Docker and Docker Compose are properly installed and configured
+# Скрипт проверки Docker окружения
+# Этот скрипт проверяет, установлены ли Docker и Docker Compose и правильно ли они настроены
 
-echo "🔍 Checking Docker environment..."
+echo "🔍 Проверка Docker окружения..."
 echo ""
 
-# Check Docker installation
+# Проверка установки Docker
 if ! command -v docker &> /dev/null; then
-    echo "❌ Docker is not installed"
-    echo "Please install Docker from https://docs.docker.com/get-docker/"
+    echo "❌ Docker не установлен"
+    echo "Пожалуйста, установите Docker с https://docs.docker.com/get-docker/"
     exit 1
 fi
 
-echo "✅ Docker is installed"
+echo "✅ Docker установлен"
 docker --version
 echo ""
 
-# Check Docker daemon
+# Проверка работы Docker демона
 if ! docker info &> /dev/null; then
-    echo "❌ Docker daemon is not running"
-    echo "Please start Docker daemon"
+    echo "❌ Docker демон не запущен"
+    echo "Пожалуйста, запустите Docker демон"
     exit 1
 fi
 
-echo "✅ Docker daemon is running"
+echo "✅ Docker демон запущен"
 echo ""
 
-# Check Docker Compose
+# Проверка установки Docker Compose
 if ! command -v docker-compose &> /dev/null; then
-    echo "❌ Docker Compose is not installed"
-    echo "Please install Docker Compose from https://docs.docker.com/compose/install/"
+    echo "❌ Docker Compose не установлен"
+    echo "Пожалуйста, установите Docker Compose с https://docs.docker.com/compose/install/"
     exit 1
 fi
 
-echo "✅ Docker Compose is installed"
+echo "✅ Docker Compose установлен"
 docker-compose --version
 echo ""
 
-# Check Docker Compose files
+# Проверка наличия файлов Docker Compose
 if [ ! -f "docker-compose.yml" ]; then
-    echo "❌ docker-compose.yml not found"
+    echo "❌ docker-compose.yml не найден"
     exit 1
 fi
 
-echo "✅ docker-compose.yml found"
+echo "✅ docker-compose.yml найден"
 echo ""
 
 if [ ! -f "docker-compose.dev.yml" ]; then
-    echo "❌ docker-compose.dev.yml not found"
+    echo "❌ docker-compose.dev.yml не найден"
     exit 1
 fi
 
-echo "✅ docker-compose.dev.yml found"
+echo "✅ docker-compose.dev.yml найден"
 echo ""
 
-# Validate Docker Compose files
-echo "🔍 Validating Docker Compose files..."
+# Проверка валидности файлов Docker Compose
+echo "🔍 Проверка валидности файлов Docker Compose..."
 
 if docker-compose config > /dev/null 2>&1; then
-    echo "✅ docker-compose.yml is valid"
+    echo "✅ docker-compose.yml валиден"
 else
-    echo "❌ docker-compose.yml has errors"
+    echo "❌ docker-compose.yml содержит ошибки"
     exit 1
 fi
 
 if docker-compose -f docker-compose.dev.yml config > /dev/null 2>&1; then
-    echo "✅ docker-compose.dev.yml is valid"
+    echo "✅ docker-compose.dev.yml валиден"
 else
-    echo "❌ docker-compose.dev.yml has errors"
+    echo "❌ docker-compose.dev.yml содержит ошибки"
     exit 1
 fi
 
 echo ""
 
-# Check Dockerfile
+# Проверка наличия Dockerfile
 if [ ! -f "Dockerfile" ]; then
-    echo "❌ Dockerfile not found"
+    echo "❌ Dockerfile не найден"
     exit 1
 fi
 
-echo "✅ Dockerfile found"
+echo "✅ Dockerfile найден"
 echo ""
 
-# Check nginx.conf
+# Проверка наличия nginx.conf
 if [ ! -f "nginx.conf" ]; then
-    echo "❌ nginx.conf not found"
+    echo "❌ nginx.conf не найден"
     exit 1
 fi
 
-echo "✅ nginx.conf found"
+echo "✅ nginx.conf найден"
 echo ""
 
-# Check .dockerignore
+# Проверка наличия .dockerignore
 if [ ! -f ".dockerignore" ]; then
-    echo "❌ .dockerignore not found"
+    echo "❌ .dockerignore не найден"
     exit 1
 fi
 
-echo "✅ .dockerignore found"
+echo "✅ .dockerignore найден"
 echo ""
 
-# Check Docker resources
-echo "🔍 Checking Docker resources..."
+# Проверка ресурсов Docker
+echo "🔍 Проверка ресурсов Docker..."
 docker system df
 echo ""
 
-# Check running containers
-echo "🔍 Checking running containers..."
+# Проверка запущенных контейнеров
+echo "🔍 Проверка запущенных контейнеров..."
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 echo ""
 
-echo "✅ All checks passed! Docker environment is ready to use."
+echo "✅ Все проверки пройдены! Docker окружение готово к использованию."
 echo ""
-echo "Next steps:"
-echo "  - Run 'make docker:up' to start production containers"
-echo "  - Run 'make docker:dev:up' to start development containers"
-echo "  - Run 'make docker:build' to build Docker images"
+echo "Следующие шаги:"
+echo "  - Запустите 'make docker:up' для запуска production контейнеров"
+echo "  - Запустите 'make docker:dev:up' для запуска development контейнеров"
+echo "  - Запустите 'make docker:build' для сборки Docker образов"

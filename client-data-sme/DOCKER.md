@@ -40,6 +40,7 @@ open http://localhost:5173
 ### Dockerfile (Production)
 
 Multi-stage build that:
+
 1. **Build stage**: Builds the React application using Node.js
 2. **Production stage**: Serves the built files using nginx
 
@@ -63,6 +64,7 @@ CMD ["nginx", "-g", "daemon off;"]
 ### Dockerfile.dev (Development)
 
 Development environment with:
+
 - Hot module replacement
 - Volume mounting for live updates
 - Development server on port 5173
@@ -82,7 +84,7 @@ CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
 ### docker-compose.yml (Production)
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   client-data-sme:
@@ -96,7 +98,15 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost/health",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -112,7 +122,7 @@ networks:
 ### docker-compose.dev.yml (Development)
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   client-data-sme-dev:
@@ -143,6 +153,7 @@ networks:
 ### nginx.conf
 
 The nginx configuration includes:
+
 - Gzip compression
 - Security headers
 - Static asset caching
@@ -516,10 +527,11 @@ build-image:
 ## Support
 
 For Docker-specific issues:
+
 - Docker documentation: https://docs.docker.com
 - Docker Compose documentation: https://docs.docker.com/compose
 - Nginx documentation: https://nginx.org/en/docs/
 
 ---
 
-© 2023 АО «Ренессанс Кредит». Все права защищены.
+© 2026 АО «Ренессанс Кредит». Все права защищены.

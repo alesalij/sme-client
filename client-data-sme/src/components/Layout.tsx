@@ -99,13 +99,9 @@ export function Layout({ children }: LayoutProps) {
       <footer>
         <div className="container">
           <div className="footer-content">
-            <div className="footer-links">
-              <a href="#">Документация</a>
-              <a href="#">Поддержка</a>
-              <a href="#">Контакты</a>
-            </div>
+            <div className="footer-links"></div>
             <div className="copyright">
-              © 2023 АО «Ренессанс Кредит». Все права защищены.
+              © 2026 АО «Ренессанс Кредит». Все права защищены.
             </div>
           </div>
         </div>

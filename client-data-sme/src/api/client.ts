@@ -57,10 +57,10 @@ api.interceptors.response.use(
 export const searchApi = {
   // Поиск клиентов по параметрам
   async searchClients(params: SearchParams): Promise<SearchResult> {
-    // В продакшене здесь был бы реальный API вызов
+    // В продакшене здесь будет реальный API вызов
     // const { data } = await api.post('/api/v1/clients/search', params)
 
-    // Пока используем mock данные для демонстрации
+    // Пока используем тестовые данные для демонстрации
     const enableMockData = import.meta.env.VITE_ENABLE_MOCK_DATA === "true";
 
     if (enableMockData) {
@@ -80,11 +80,11 @@ export const searchApi = {
 
     if (enableMockData) {
       await new Promise((resolve) => setTimeout(resolve, 500));
-      // Находим клиента в mock данных
+      // Находим клиента в тестовых данных
       const { mockSearchClients } = await import("./mockData");
       const result = mockSearchClients({});
       const client = result.clients.find((c) => c.id === clientId);
-      if (!client) throw new Error("Client not found");
+      if (!client) throw new Error("Клиент не найден");
       return client;
     }
 

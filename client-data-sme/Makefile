@@ -1,30 +1,30 @@
 .PHONY: help install dev build preview lint lint:fix clean docker:up docker:down docker:dev:up docker:dev:down docker:build docker:rebuild docker:logs docker:ps docker:exec
 
-# Default target
+# Цель по умолчанию
 help:
-	@echo "Client Data SME - Make commands"
+	@echo "Client Data SME - Команды Make"
 	@echo ""
-	@echo "Development:"
-	@echo "  make install           - Install dependencies"
-	@echo "  make dev               - Start development server"
-	@echo "  make build             - Build for production"
-	@echo "  make preview           - Preview production build"
-	@echo "  make lint              - Run ESLint"
-	@echo "  make lint:fix          - Fix ESLint errors"
-	@echo "  make clean             - Clean build artifacts"
+	@echo "Разработка:"
+	@echo "  make install           - Установить зависимости"
+	@echo "  make dev               - Запустить сервер разработки"
+	@echo "  make build             - Собрать для продакшена"
+	@echo "  make preview           - Предварительный просмотр сборки"
+	@echo "  make lint              - Запустить ESLint"
+	@echo "  make lint:fix          - Исправить ошибки ESLint"
+	@echo "  make clean             - Очистить артефакты сборки"
 	@echo ""
 	@echo "Docker:"
-	@echo "  make docker:up         - Start production containers"
-	@echo "  make docker:down       - Stop production containers"
-	@echo "  make docker:dev:up     - Start development containers"
-	@echo "  make docker:dev:down   - Stop development containers"
-	@echo "  make docker:build      - Build Docker images"
-	@echo "  make docker:rebuild    - Rebuild Docker images"
-	@echo "  make docker:logs       - View container logs"
-	@echo "  make docker:ps         - Show container status"
-	@echo "  make docker:exec       - Execute command in container"
+	@echo "  make docker:up         - Запустить production контейнеры"
+	@echo "  make docker:down       - Остановить production контейнеры"
+	@echo "  make docker:dev:up     - Запустить development контейнеры"
+	@echo "  make docker:dev:down   - Остановить development контейнеры"
+	@echo "  make docker:build      - Собрать Docker образы"
+	@echo "  make docker:rebuild    - Пересобрать Docker образы"
+	@echo "  make docker:logs       - Просмотреть логи контейнеров"
+	@echo "  make docker:ps         - Показать статус контейнеров"
+	@echo "  make docker:exec       - Выполнить команду в контейнере"
 
-# Development
+# Разработка
 install:
 	npm install
 

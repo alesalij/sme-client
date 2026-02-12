@@ -1,6 +1,6 @@
 import { Client, RelatedPerson, SearchParams } from "@/types";
 
-// Mock данные для демонстрации
+// Тестовые данные для демонстрации
 export const mockClients: Client[] = [
   {
     id: 1,
@@ -23,7 +23,7 @@ export const mockClients: Client[] = [
         number: "40702810123456789013",
         status: "закрыт",
         openDate: "2019-01-15",
-        closeDate: "2023-06-30",
+        closeDate: "2026-06-30",
       },
     ],
     regAddress: "г. Москва, ул. Ленина, д. 1",
@@ -101,7 +101,7 @@ export const mockClients: Client[] = [
         number: "40817810099910004313",
         status: "закрыт",
         openDate: "2020-01-01",
-        closeDate: "2023-01-01",
+        closeDate: "2026-01-01",
       },
     ],
     regAddress: "г. Екатеринбург, ул. Ленина, д. 50",
@@ -144,7 +144,7 @@ export const mockRelatedPersons: RelatedPerson[] = [
   },
 ];
 
-// Функция для поиска клиентов (mock)
+// Функция для поиска клиентов (тестовая)
 export function mockSearchClients(params: SearchParams) {
   let filteredClients = [...mockClients];
 
@@ -209,7 +209,7 @@ export function mockSearchClients(params: SearchParams) {
   };
 }
 
-// Функция для получения связанных лиц (mock)
+// Функция для получения связанных лиц (тестовая)
 export function mockGetRelatedPersons(inn: string): RelatedPerson[] {
   return mockRelatedPersons.filter(
     (person) => person.inn !== inn, // Исключаем самого клиента

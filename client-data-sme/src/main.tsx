@@ -6,13 +6,13 @@ import { Toaster } from "react-hot-toast";
 import App from "./App";
 import "./styles/globals.css";
 
-// Create a client
+// Создание клиента
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 2,
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes
+      staleTime: 5 * 60 * 1000, // 5 минут
+      gcTime: 10 * 60 * 1000, // 10 минут
     },
   },
 });
