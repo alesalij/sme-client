@@ -1,5 +1,6 @@
 import { Search, Eraser } from "lucide-react";
 import { SearchParams, DisplayOptions } from "@/types";
+import { InputMask } from "./InputMask";
 
 interface SearchFormProps {
   searchParams: SearchParams;
@@ -40,34 +41,34 @@ export function SearchForm({
       <div className="form-grid">
         <div className="form-group">
           <label htmlFor="clientIdInput">ID</label>
-          <input
-            type="text"
+          <InputMask
             id="clientIdInput"
+            mask={/\d*/}
             placeholder="ID клиента"
-            value={searchParams.clientNumber || ""}
-            onChange={(e) => updateSearchParams("clientNumber", e.target.value)}
+            value={searchParams.clientNumber}
+            onChange={(value) => updateSearchParams("clientNumber", value)}
           />
         </div>
 
         <div className="form-group">
           <label htmlFor="innInput">ИНН</label>
-          <input
-            type="text"
+          <InputMask
             id="innInput"
+            mask={/\d{10}|\d{12}/}
             placeholder="Введите ИНН (10 или 12 знаков)"
-            value={searchParams.inn || ""}
-            onChange={(e) => updateSearchParams("inn", e.target.value)}
+            value={searchParams.inn}
+            onChange={(value) => updateSearchParams("inn", value)}
           />
         </div>
 
         <div className="form-group">
           <label htmlFor="ogrnInput">ОГРН</label>
-          <input
-            type="text"
+          <InputMask
             id="ogrnInput"
+            mask={/\d{13}|\d{15}/}
             placeholder="Введите ОГРН (13 или 15 знаков)"
-            value={searchParams.ogrn || ""}
-            onChange={(e) => updateSearchParams("ogrn", e.target.value)}
+            value={searchParams.ogrn}
+            onChange={(value) => updateSearchParams("ogrn", value)}
           />
         </div>
 
@@ -84,12 +85,12 @@ export function SearchForm({
 
         <div className="form-group">
           <label htmlFor="accountInput">Номер счета</label>
-          <input
-            type="text"
+          <InputMask
             id="accountInput"
+            mask={/\d{20}/}
             placeholder="Введите номер счета"
-            value={searchParams.account || ""}
-            onChange={(e) => updateSearchParams("account", e.target.value)}
+            value={searchParams.account}
+            onChange={(value) => updateSearchParams("account", value)}
           />
         </div>
 

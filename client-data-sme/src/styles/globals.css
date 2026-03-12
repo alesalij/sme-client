@@ -241,7 +241,8 @@ label {
 input[type="text"],
 input[type="date"],
 textarea,
-select {
+select,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
   width: 100%;
   padding: 14px 16px;
   border: 1px solid var(--medium-gray);
@@ -254,7 +255,8 @@ select {
 
 input[type="text"]:focus,
 textarea:focus,
-select:focus {
+select:focus,
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus {
   border-color: var(--primary-blue);
   outline: none;
   box-shadow: 0 0 0 3px rgba(42, 90, 156, 0.1);
