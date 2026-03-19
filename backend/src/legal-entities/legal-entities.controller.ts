@@ -1,0 +1,80 @@
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Param,
+  Body,
+  Query,
+} from "@nestjs/common";
+import { ApiTags, ApiOperation } from "@nestjs/swagger";
+import { LegalEntitiesService } from "./legal-entities.service";
+import {
+  SearchByInnDto,
+  CreateLegalEntityDto,
+  UpdateLegalEntityDto,
+  SaveQuestionnaireDto,
+} from "./dto/legal-entity.dto";
+
+@ApiTags("legal-entities")
+@Controller("legal-entities")
+export class LegalEntitiesController {
+  constructor(private legalEntitiesService: LegalEntitiesService) {}
+
+  @Get()
+  @ApiOperation({ summary: "Get all legal entities" })
+  findAll(@Query("page") page: string, @Query("limit") limit: string) {
+    const skip = (parseInt(page || "1") - 1) * parseInt(limit || "20");
+    const take = parseInt(limit || "20");
+    return this.legalEntitiesService.findAll({ skip, take });
+  }
+
+  @Get("search")
+  @ApiOperation({ summary: "Search companies in Spark API by INN" })
+  searchInSpark(@Query() dto: SearchByInnDto) {
+    return this.legalEntitiesService.searchInSpark(dto.inn);
+  }
+
+  @Get(":id")
+  @ApiOperation({ summary: "Get legal entity by ID" })
+  findOne(@Param("id") id: string) {
+    return this.legalEntitiesService.findById(id);
+  }
+
+  @Get(":id/spark-details")
+  @ApiOperation({ summary: "Get Spark details for legal entity" })
+  getSparkDetails(@Param("id") id: string, @Query("inn") inn: string) {
+    return this.legalEntitiesService.getSparkDetails(id, inn);
+  }
+
+  @Post()
+  @ApiOperation({ summary: "Create legal entity" })
+  create(@Body() dto: CreateLegalEntityDto) {
+    return this.legalEntitiesService.create(dto);
+  }
+
+  @Patch(":id")
+  @ApiOperation({ summary: "Update legal entity" })
+  update(@Param("id") id: string, @Body() dto: UpdateLegalEntityDto) {
+    return this.legalEntitiesService.update(id, dto);
+  }
+
+  @Delete(":id")
+  @ApiOperation({ summary: "Delete legal entity" })
+  remove(@Param("id") id: string) {
+    return this.legalEntitiesService.delete(id);
+  }
+
+  @Post("questionnaire")
+  @ApiOperation({ summary: "Save questionnaire" })
+  saveQuestionnaire(@Body() dto: SaveQuestionnaireDto) {
+    return this.legalEntitiesService.saveQuestionnaire(dto);
+  }
+
+  @Get(":id/questionnaire")
+  @ApiOperation({ summary: "Get latest questionnaire" })
+  getQuestionnaire(@Param("id") id: string) {
+    return this.legalEntitiesService.getQuestionnaire(id);
+  }
+}
