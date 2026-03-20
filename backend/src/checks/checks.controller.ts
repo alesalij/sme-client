@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Patch, Param, Body } from "@nestjs/common";
 import { ApiTags, ApiOperation } from "@nestjs/swagger";
-import type { Prisma } from "@prisma/client";
 import { ChecksService } from "./checks.service";
 import {
   StartChecksDto,
@@ -16,15 +15,13 @@ export class ChecksController {
   @Post("start")
   @ApiOperation({ summary: "Start checks for legal entity" })
   startChecks(@Body() dto: StartChecksDto) {
-    return this.checksService.startChecks(dto.legalEntityId);
+    return this.checksService.startChecks(dto.legalEntityId, dto.userId);
   }
 
   @Post("perform")
   @ApiOperation({ summary: "Perform specific check" })
   performCheck(@Body() dto: PerformCheckDto) {
     switch (dto.checkType) {
-      case "SPARK":
-        return this.checksService.performSparkCheck(dto.legalEntityId);
       case "INTERNAL_BASIC":
       case "INTERNAL_EXTENDED":
         return this.checksService.performInternalCheck(
@@ -55,7 +52,7 @@ export class ChecksController {
       id,
       dto.status,
       dto.result,
-      dto.data as Prisma.InputJsonValue,
+      dto.data,
     );
   }
 

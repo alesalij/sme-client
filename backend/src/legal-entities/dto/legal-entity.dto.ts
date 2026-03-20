@@ -90,4 +90,8 @@ export class SaveQuestionnaireDto {
 
   @ApiProperty()
   questionnaireData: Record<string, unknown>;
+
+  @ApiProperty()
+  @IsUUID()
+  userId: string;
 }

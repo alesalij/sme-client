@@ -1,17 +1,20 @@
-import { IsString, IsUUID, IsOptional, IsEnum } from "class-validator";
+import { IsString, IsUUID, IsOptional } from "class-validator";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
-import { CheckStatus } from "@prisma/client";
 
 export class StartChecksDto {
   @ApiProperty()
   @IsUUID()
   legalEntityId: string;
+
+  @ApiProperty()
+  @IsUUID()
+  userId: string;
 }
 
 export class UpdateCheckDto {
   @ApiProperty({ enum: ["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"] })
-  @IsEnum(["PENDING", "IN_PROGRESS", "COMPLETED", "FAILED"])
-  status: CheckStatus;
+  @IsString()
+  status: string;
 
   @ApiPropertyOptional()
   @IsOptional()
@@ -28,7 +31,7 @@ export class PerformCheckDto {
   @IsUUID()
   legalEntityId: string;
 
-  @ApiProperty({ enum: ["SPARK", "INTERNAL_BASIC", "INTERNAL_EXTENDED"] })
+  @ApiProperty({ enum: ["INTERNAL_BASIC", "INTERNAL_EXTENDED"] })
   @IsString()
-  checkType: "SPARK" | "INTERNAL_BASIC" | "INTERNAL_EXTENDED";
+  checkType: "INTERNAL_BASIC" | "INTERNAL_EXTENDED";
 }

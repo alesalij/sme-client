@@ -27,10 +27,7 @@
     "@nestjs/jwt": "^11.0.2",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.1.16",
-    "@nestjs/sequelize": "^11.0.1",
     "@nestjs/swagger": "^11.2.6",
-    "@nestjs/typeorm": "^11.0.0",
-    "@prisma/client": "^6.19.2",
     "bcryptjs": "^3.0.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.4",
@@ -54,7 +51,6 @@
     "@typescript-eslint/eslint-plugin": "^8.57.0",
     "@typescript-eslint/parser": "^8.57.0",
     "eslint": "^9.39.4",
-    "prisma": "^6.19.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.9.3"

@@ -1,46 +1,28 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres:15-alpine
-    container_name: spark_postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER:-spark}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-spark_password}
-      POSTGRES_DB: ${POSTGRES_DB:-spark_db}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-spark}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: spark_backend
+    container_name: sme_client_backend
     environment:
-      DATABASE_URL: postgresql://${POSTGRES_USER:-spark}:${POSTGRES_PASSWORD:-spark_password}@postgres:5432/${POSTGRES_DB:-spark_db}
-      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-in-production}
-      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-24h}
+      # Server
       PORT: "3001"
       NODE_ENV: ${NODE_ENV:-production}
       CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
-      SPARK_MOCK: "true"
+
+      # External Services (dev/prod)
+      LEGAL_ENTITIES_API_DEV_URL: ${LEGAL_ENTITIES_API_DEV_URL:-http://localhost:4001}
+      LEGAL_ENTITIES_API_PROD_URL: ${LEGAL_ENTITIES_API_PROD_URL:-https://legal-entities-api.production.com}
+      CHECKS_API_DEV_URL: ${CHECKS_API_DEV_URL:-http://localhost:4002}
+      CHECKS_API_PROD_URL: ${CHECKS_API_PROD_URL:-https://checks-api.production.com}
+      USERS_API_DEV_URL: ${USERS_API_DEV_URL:-http://localhost:4003}
+      USERS_API_PROD_URL: ${USERS_API_PROD_URL:-https://users-api.production.com}
     ports:
       - "3001:3001"
-    depends_on:
-      postgres:
-        condition: service_healthy
     restart: unless-stopped
-
-volumes:
-  postgres_data:
 
 networks:
   default:
-    name: spark_network
+    name: sme_client_network

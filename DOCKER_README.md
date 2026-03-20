@@ -18,21 +18,17 @@ docker-compose down -v
 
 ## Services
 
-| Service | Port | URL |
-|---------|------|-----|
-| PostgreSQL | 5432 | postgresql://localhost:5432 |
-| Backend (NestJS) | 3001 | http://localhost:3001 |
-| Swagger API Docs | 3001 | http://localhost:3001/docs |
+| Service          | Port | URL                         |
+| ---------------- | ---- | --------------------------- |
+| PostgreSQL       | 5432 | postgresql://localhost:5432 |
+| Backend (NestJS) | 3001 | http://localhost:3001       |
+| Swagger API Docs | 3001 | http://localhost:3001/docs  |
 
 ## Environment Variables
 
 Create `.env` file in root directory:
 
 ```env
-# Database
-POSTGRES_USER=spark
-POSTGRES_PASSWORD=spark_password
-POSTGRES_DB=spark_db
 
 # JWT
 JWT_SECRET=your-super-secret-jwt-key-change-in-production
@@ -81,7 +77,7 @@ docker-compose up -d backend
 
 ## Default Users
 
-| Email | Password | Role |
-|-------|----------|------|
-| admin@example.com | admin123 | ADMIN |
-| test@example.com | test123 | AML_OFFICER |
+| Email             | Password | Role        |
+| ----------------- | -------- | ----------- |
+| admin@example.com | admin123 | ADMIN       |
+| test@example.com  | test123  | AML_OFFICER |

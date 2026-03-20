@@ -30,22 +30,10 @@ export class LegalEntitiesController {
     return this.legalEntitiesService.findAll({ skip, take });
   }
 
-  @Get("search")
-  @ApiOperation({ summary: "Search companies in Spark API by INN" })
-  searchInSpark(@Query() dto: SearchByInnDto) {
-    return this.legalEntitiesService.searchInSpark(dto.inn);
-  }
-
   @Get(":id")
   @ApiOperation({ summary: "Get legal entity by ID" })
   findOne(@Param("id") id: string) {
     return this.legalEntitiesService.findById(id);
-  }
-
-  @Get(":id/spark-details")
-  @ApiOperation({ summary: "Get Spark details for legal entity" })
-  getSparkDetails(@Param("id") id: string, @Query("inn") inn: string) {
-    return this.legalEntitiesService.getSparkDetails(id, inn);
   }
 
   @Post()

@@ -1,49 +1,58 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { PrismaService } from "../prisma/prisma.service";
+import { Injectable } from '@nestjs/common';
+import { ProxyService } from '../common/proxy.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private proxy: ProxyService) {}
 
+  /**
+   * Получить всех пользователей
+   */
   async findAll() {
-    return this.prisma.user.findMany({
-      select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        department: true,
-        role: true,
-        isActive: true,
-        lastLoginAt: true,
-        createdAt: true,
-      },
-    });
+    return this.proxy.get('USERS_API', '/users');
   }
 
+  /**
+   * Получить пользователя по ID
+   */
   async findOne(id: string) {
-    const user = await this.prisma.user.findUnique({ where: { id } });
-    if (!user) {
-      throw new NotFoundException("Пользователь не найден");
-    }
-    const { passwordHash: _, ...result } = user;
-    return result;
+    return this.proxy.get('USERS_API', `/users/${id}`);
   }
 
-  async update(id: string, data: Record<string, unknown>) {
-    const user = await this.prisma.user.update({
-      where: { id },
-      data,
-    });
-    const { passwordHash: _, ...result } = user;
-    return result;
+  /**
+   * Обновить пользователя
+   */
+  async update(
+    id: string,
+    data: {
+      firstName?: string;
+      lastName?: string;
+      department?: string;
+      role?: string;
+      isActive?: boolean;
+    },
+  ) {
+    return this.proxy.patch('USERS_API', `/users/${id}`, data);
   }
 
+  /**
+   * Деактивировать пользователя
+   */
   async remove(id: string) {
-    await this.prisma.user.update({
-      where: { id },
-      data: { isActive: false },
-    });
-    return { success: true };
+    return this.proxy.delete('USERS_API', `/users/${id}`);
+  }
+
+  /**
+   * Создать пользователя
+   */
+  async create(data: {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    department: string;
+    role?: string;
+  }) {
+    return this.proxy.post('USERS_API', '/users', data);
   }
 }
