@@ -11,9 +11,6 @@ RUN npm ci
 # Copy source
 COPY . .
 
-# Generate Prisma client
-RUN npx prisma generate
-
 # Build
 RUN npm run build
 
@@ -33,7 +30,6 @@ RUN npm ci --only=production
 
 # Copy built files
 COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
 
 # Expose port
 EXPOSE 3001

@@ -38,21 +38,6 @@ JWT_EXPIRES_IN=24h
 NODE_ENV=production
 ```
 
-## Database Setup
-
-After starting PostgreSQL, run migrations:
-
-```bash
-# Generate Prisma client
-docker-compose exec backend npx prisma generate
-
-# Run migrations
-docker-compose exec backend npx prisma migrate deploy
-
-# Seed database (optional)
-docker-compose exec backend npm run prisma:seed
-```
-
 ## Development
 
 For development, you can run services individually:
@@ -70,8 +55,6 @@ cd backend && npm run start:dev
 ```bash
 docker-compose down -v
 docker-compose up -d postgres
-docker-compose exec backend npx prisma migrate deploy
-docker-compose exec backend npm run prisma:seed
 docker-compose up -d backend
 ```
 

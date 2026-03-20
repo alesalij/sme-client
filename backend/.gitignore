@@ -28,8 +28,6 @@ Thumbs.db
 coverage
 .nyc_output
 
-# Prisma
-prisma/migrations/*_*
 
 # Misc
 .eslintcache

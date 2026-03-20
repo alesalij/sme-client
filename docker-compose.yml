@@ -1,6 +1,25 @@
 version: '3.8'
 
 services:
+  # Frontend (Client)
+  client:
+    build:
+      context: ./client-data-sme
+      dockerfile: Dockerfile
+    container_name: sme_client
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - VITE_API_URL=${VITE_API_URL:-http://localhost:3001}
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - sme_network
+
+  # Backend (API Gateway)
   backend:
     build:
       context: ./backend
@@ -10,7 +29,7 @@ services:
       # Server
       PORT: "3001"
       NODE_ENV: ${NODE_ENV:-production}
-      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost}
 
       # External Services (dev/prod)
       LEGAL_ENTITIES_API_DEV_URL: ${LEGAL_ENTITIES_API_DEV_URL:-http://localhost:4001}
@@ -22,7 +41,9 @@ services:
     ports:
       - "3001:3001"
     restart: unless-stopped
+    networks:
+      - sme_network
 
 networks:
-  default:
-    name: sme_client_network
+  sme_network:
+    driver: bridge

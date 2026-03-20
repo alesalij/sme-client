@@ -73,7 +73,7 @@ export const servicesConfig: ServiceConfig[] = [
 # Режим работы
 NODE_ENV=development  # или production
 
-# Переопределение URL (опционально)
+# Переопределение URL (пример опционально)
 LEGAL_ENTITIES_API_DEV_URL=http://localhost:4001
 LEGAL_ENTITIES_API_PROD_URL=https://legal-entities-api.production.com
 CHECKS_API_DEV_URL=http://localhost:4002

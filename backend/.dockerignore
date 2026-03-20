@@ -9,4 +9,3 @@ coverage
 .vscode
 .git
 .DS_Store
-prisma/migrations

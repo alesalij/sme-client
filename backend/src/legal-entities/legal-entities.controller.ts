@@ -11,7 +11,6 @@ import {
 import { ApiTags, ApiOperation } from "@nestjs/swagger";
 import { LegalEntitiesService } from "./legal-entities.service";
 import {
-  SearchByInnDto,
   CreateLegalEntityDto,
   UpdateLegalEntityDto,
   SaveQuestionnaireDto,
