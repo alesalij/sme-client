@@ -1,36 +1,38 @@
-import { IMaskInput } from "react-imask";
+import InputMask from "react-input-mask";
 
-interface InputMaskProps {
+interface MaskedInputProps {
   value: string | undefined;
   onChange: (value: string) => void;
-  mask: any;
+  mask: string;
   placeholder?: string;
   id?: string;
   disabled?: boolean;
-  unmask?: boolean;
   className?: string;
 }
 
-export function InputMask({
+export function MaskedInput({
   value,
   onChange,
   mask,
   placeholder,
   id,
   disabled,
-  unmask = true,
   className,
-}: InputMaskProps) {
+}: MaskedInputProps) {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  };
+
   return (
-    <IMaskInput
+    <InputMask
       mask={mask}
       value={value || ""}
-      onAccept={(value: string) => onChange(value)}
+      onChange={handleChange}
       placeholder={placeholder}
       id={id}
       disabled={disabled}
-      unmask={unmask}
       className={className}
+      maskChar={null}
     />
   );
 }

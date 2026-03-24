@@ -262,6 +262,17 @@ input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):focus {
   box-shadow: 0 0 0 3px rgba(42, 90, 156, 0.1);
 }
 
+/* Ensure inputs are interactive */
+input[type="text"],
+input[type="date"],
+input[type="number"],
+textarea,
+select {
+  pointer-events: auto !important;
+  cursor: text !important;
+  opacity: 1 !important;
+}
+
 /* Buttons */
 button {
   background-color: var(--white);
