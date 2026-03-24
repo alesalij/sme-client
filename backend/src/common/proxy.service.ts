@@ -1,10 +1,15 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { servicesConfig, getServiceConfig, ServiceConfig } from '../config/services.config';
+import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import {
+  servicesConfig,
+  getServiceConfig,
+  ServiceConfig,
+} from "../config/services.config";
 
 export interface ProxyRequestOptions {
   path?: string;
-  method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   params?: Record<string, string>;
   body?: unknown;
   headers?: Record<string, string>;
@@ -25,11 +30,8 @@ class RateLimiter {
   check(key: string): boolean {
     const now = Date.now();
     const timestamps = this.requests.get(key) || [];
-    
-    // Фильтруем старые запросы
-    const validTimestamps = timestamps.filter(
-      ts => now - ts < this.windowMs
-    );
+
+    const validTimestamps = timestamps.filter((ts) => now - ts < this.windowMs);
 
     if (validTimestamps.length >= this.maxRequests) {
       return false;
@@ -47,9 +49,7 @@ class RateLimiter {
   getRemaining(key: string): number {
     const now = Date.now();
     const timestamps = this.requests.get(key) || [];
-    const validTimestamps = timestamps.filter(
-      ts => now - ts < this.windowMs
-    );
+    const validTimestamps = timestamps.filter((ts) => now - ts < this.windowMs);
     return this.maxRequests - validTimestamps.length;
   }
 }
@@ -62,37 +62,27 @@ export class ProxyService {
     this.initRateLimiters();
   }
 
-  /**
-   * Инициализировать rate limiters для всех сервисов
-   */
   private initRateLimiters(): void {
-    servicesConfig.forEach(service => {
+    servicesConfig.forEach((service) => {
       this.rateLimiters.set(
         service.key,
-        new RateLimiter(service.rateLimit.max, service.rateLimit.windowMs)
+        new RateLimiter(service.rateLimit.max, service.rateLimit.windowMs),
       );
     });
   }
 
-  /**
-   * Получить конфигурацию сервиса
-   */
   private getConfig(serviceKey: string): ServiceConfig | undefined {
     return getServiceConfig(serviceKey);
   }
 
-  /**
-   * Получить URL для внешнего сервиса
-   * Автоматически выбирает dev или prod в зависимости от NODE_ENV
-   */
   getServiceUrl(serviceKey: string): string {
     const config = this.getConfig(serviceKey);
     if (!config) {
       console.warn(`Service config not found for key: ${serviceKey}`);
-      return '';
+      return "";
     }
 
-    const isProduction = this.config.get('NODE_ENV') === 'production';
+    const isProduction = this.config.get("NODE_ENV") === "production";
 
     if (isProduction && config.prodUrl) {
       return config.prodUrl;
@@ -101,117 +91,93 @@ export class ProxyService {
       return config.devUrl;
     }
 
-    return config.devUrl || config.prodUrl || '';
+    return config.devUrl || config.prodUrl || "";
   }
 
-  /**
-   * Проверить rate limit для сервиса
-   */
   private checkRateLimit(serviceKey: string): void {
     const limiter = this.rateLimiters.get(serviceKey);
     if (limiter && !limiter.check(serviceKey)) {
       throw new HttpException(
         `Rate limit exceeded for service: ${serviceKey}. Too many requests.`,
-        HttpStatus.TOO_MANY_REQUESTS
+        HttpStatus.TOO_MANY_REQUESTS,
       );
     }
   }
 
-  /**
-   * Получить таймаут для сервиса
-   */
   private getTimeout(serviceKey: string, customTimeout?: number): number {
     const config = this.getConfig(serviceKey);
     return customTimeout || config?.timeout || 30000;
   }
 
-  /**
-   * Переслать запрос на внешний сервис
-   */
   async forward<T = unknown>(
     serviceKey: string,
     options: ProxyRequestOptions,
   ): Promise<T> {
     const baseUrl = this.getServiceUrl(serviceKey);
-    
+
     if (!baseUrl) {
       throw new HttpException(
         `Service URL not configured: ${serviceKey}`,
-        HttpStatus.BAD_GATEWAY
+        HttpStatus.BAD_GATEWAY,
       );
     }
 
-    // Проверка rate limit
     this.checkRateLimit(serviceKey);
 
-    const {
-      path = '',
-      method = 'GET',
-      params,
-      body,
-      headers = {},
-    } = options;
+    const { path = "", method = "GET", params, body, headers = {} } = options;
 
     const timeout = this.getTimeout(serviceKey, options.timeout);
-    const url = new URL(path, baseUrl);
 
-    if (params) {
-      Object.entries(params).forEach(([key, value]) => {
-        url.searchParams.append(key, value);
-      });
+    // Формируем полный URL
+    let url = baseUrl;
+    if (path) {
+      // Убираем trailing slash из baseUrl и добавляем path
+      const base = baseUrl.replace(/\/$/, "");
+      url = path.startsWith("/") ? `${base}${path}` : `${base}/${path}`;
     }
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeout);
+    const config: AxiosRequestConfig = {
+      method,
+      url,
+      params,
+      data: body,
+      timeout,
+      headers: {
+        "Content-Type": "application/json",
+        ...headers,
+      },
+      validateStatus: () => true,
+    };
 
     try {
-      const response = await fetch(url.toString(), {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          ...headers,
-        },
-        body: body ? JSON.stringify(body) : undefined,
-        signal: controller.signal,
-      });
+      const response = await axios(config);
 
-      clearTimeout(timeoutId);
+      if (response.status >= 400) {
+        const errorBody =
+          response.data || `External service error: ${response.status}`;
 
-      const contentType = response.headers.get('content-type');
+        const errorMessage =
+          typeof errorBody === "string" ? errorBody : JSON.stringify(errorBody);
 
-      if (!response.ok) {
-        const errorBody = contentType?.includes('application/json')
-          ? await response.json()
-          : await response.text();
-
-        throw new HttpException(
-          errorBody || `External service error: ${response.status}`,
-          HttpStatus.BAD_GATEWAY,
-        );
+        throw new HttpException(errorMessage, HttpStatus.BAD_GATEWAY);
       }
 
-      if (contentType?.includes('application/json')) {
-        return response.json();
-      }
-
-      return response.text() as T;
+      return response.data as T;
     } catch (error) {
-      clearTimeout(timeoutId);
-
       if (error instanceof HttpException) {
         throw error;
       }
 
-      const errorMessage = (error as Error).message;
+      const axiosError = error as AxiosError;
 
-      // Обработка таймаута
-      if (errorMessage.includes('aborted')) {
+      if (axiosError.code === "ECONNABORTED") {
         throw new HttpException(
           `Service timeout (${timeout}ms): ${serviceKey}`,
           HttpStatus.GATEWAY_TIMEOUT,
         );
       }
 
+      const errorMessage = axiosError.message || "Unknown error";
       throw new HttpException(
         `Failed to connect to external service: ${errorMessage}`,
         HttpStatus.BAD_GATEWAY,
@@ -219,15 +185,12 @@ export class ProxyService {
     }
   }
 
-  /**
-   * Упрощённые методы для типичных операций
-   */
   async get<T = unknown>(
     serviceKey: string,
     path: string,
     params?: Record<string, string>,
   ): Promise<T> {
-    return this.forward<T>(serviceKey, { path, method: 'GET', params });
+    return this.forward<T>(serviceKey, { path, method: "GET", params });
   }
 
   async post<T = unknown>(
@@ -235,7 +198,7 @@ export class ProxyService {
     path: string,
     body: unknown,
   ): Promise<T> {
-    return this.forward<T>(serviceKey, { path, method: 'POST', body });
+    return this.forward<T>(serviceKey, { path, method: "POST", body });
   }
 
   async put<T = unknown>(
@@ -243,7 +206,7 @@ export class ProxyService {
     path: string,
     body: unknown,
   ): Promise<T> {
-    return this.forward<T>(serviceKey, { path, method: 'PUT', body });
+    return this.forward<T>(serviceKey, { path, method: "PUT", body });
   }
 
   async patch<T = unknown>(
@@ -251,19 +214,13 @@ export class ProxyService {
     path: string,
     body: unknown,
   ): Promise<T> {
-    return this.forward<T>(serviceKey, { path, method: 'PATCH', body });
+    return this.forward<T>(serviceKey, { path, method: "PATCH", body });
   }
 
-  async delete<T = unknown>(
-    serviceKey: string,
-    path: string,
-  ): Promise<T> {
-    return this.forward<T>(serviceKey, { path, method: 'DELETE' });
+  async delete<T = unknown>(serviceKey: string, path: string): Promise<T> {
+    return this.forward<T>(serviceKey, { path, method: "DELETE" });
   }
 
-  /**
-   * Сбросить rate limit для сервиса (для админских целей)
-   */
   resetRateLimit(serviceKey: string): void {
     const limiter = this.rateLimiters.get(serviceKey);
     if (limiter) {
@@ -271,10 +228,9 @@ export class ProxyService {
     }
   }
 
-  /**
-   * Получить статус rate limit для сервиса
-   */
-  getRateLimitStatus(serviceKey: string): { remaining: number; resetAt: number } | null {
+  getRateLimitStatus(
+    serviceKey: string,
+  ): { remaining: number; resetAt: number } | null {
     const limiter = this.rateLimiters.get(serviceKey);
     if (!limiter) return null;
 
