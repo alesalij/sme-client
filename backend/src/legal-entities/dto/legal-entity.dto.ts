@@ -4,7 +4,10 @@ import {
   IsUUID,
   IsDateString,
   MinLength,
+  IsArray,
+  ValidateNested,
 } from "class-validator";
+import { Type } from "class-transformer";
 import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 
 export class SearchByInnDto {
@@ -94,4 +97,82 @@ export class SaveQuestionnaireDto {
   @ApiProperty()
   @IsUUID()
   userId: string;
+}
+
+export class LegalEntityDataDto {
+  @ApiPropertyOptional({ description: "INN (10 digits for UL, 12 for IP)" })
+  @IsOptional()
+  @IsString()
+  inn?: string;
+
+  @ApiPropertyOptional({ description: "OGRN (13 digits for UL, 15 for IP)" })
+  @IsOptional()
+  @IsString()
+  ogrn?: string;
+
+  @ApiPropertyOptional({ description: "Account number" })
+  @IsOptional()
+  @IsString()
+  account?: string;
+
+  @ApiPropertyOptional({ description: "Short name" })
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @ApiPropertyOptional({ description: "Full name" })
+  @IsOptional()
+  @IsString()
+  fullName?: string;
+
+  @ApiPropertyOptional({ description: "KPP" })
+  @IsOptional()
+  @IsString()
+  kpp?: string;
+
+  @ApiPropertyOptional({ description: "Registration address" })
+  @IsOptional()
+  @IsString()
+  regAddress?: string;
+
+  @ApiPropertyOptional({ description: "Fact address" })
+  @IsOptional()
+  @IsString()
+  factAddress?: string;
+
+  @ApiPropertyOptional({ description: "CEO name" })
+  @IsOptional()
+  @IsString()
+  ceo?: string;
+
+  @ApiPropertyOptional({ description: "Beneficiary name" })
+  @IsOptional()
+  @IsString()
+  beneficiary?: string;
+
+  @ApiPropertyOptional({ description: "Registration date" })
+  @IsOptional()
+  @IsString()
+  regDate?: string;
+
+  @ApiPropertyOptional({ description: "OKVED code" })
+  @IsOptional()
+  @IsString()
+  okved?: string;
+
+  @ApiPropertyOptional({ description: "Client type: ЮЛ or ИП" })
+  @IsOptional()
+  @IsString()
+  type?: string;
+}
+
+export class ParseXlsxDto {
+  @ApiProperty({
+    type: [LegalEntityDataDto],
+    description: "Array of parsed legal entities",
+  })
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => LegalEntityDataDto)
+  items: LegalEntityDataDto[];
 }

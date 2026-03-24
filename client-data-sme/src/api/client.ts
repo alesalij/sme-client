@@ -114,6 +114,17 @@ export const searchApi = {
   },
 };
 
+// API для работы с юридическими лицами
+export const legalEntitiesApi = {
+  // Batch import from parsed XLSX
+  async batchImport(
+    items: ExportItem[],
+  ): Promise<{ success: number; failed: number; errors: string[] }> {
+    const { data } = await api.post("/api/legal-entities/batch", { items });
+    return data;
+  },
+};
+
 // API для массовой выгрузки
 export const exportApi = {
   // Массовая выгрузка клиентов

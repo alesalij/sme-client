@@ -94,4 +94,45 @@ export class LegalEntitiesService {
       legalEntityId,
     });
   }
+
+  /**
+   * Batch import legal entities
+   */
+  async batchImport(
+    items: Array<{
+      inn?: string;
+      ogrn?: string;
+      account?: string;
+      name?: string;
+      fullName?: string;
+      kpp?: string;
+      regAddress?: string;
+      factAddress?: string;
+      ceo?: string;
+      beneficiary?: string;
+      regDate?: string;
+      okved?: string;
+      type?: string;
+    }>,
+  ) {
+    const results = {
+      success: 0,
+      failed: 0,
+      errors: [] as string[],
+    };
+
+    for (const item of items) {
+      try {
+        await this.proxy.post("LEGAL_ENTITIES_API", "/legal-entities", item);
+        results.success++;
+      } catch (error) {
+        results.failed++;
+        results.errors.push(
+          `Failed to import ${item.inn || item.name}: ${(error as Error).message}`,
+        );
+      }
+    }
+
+    return results;
+  }
 }

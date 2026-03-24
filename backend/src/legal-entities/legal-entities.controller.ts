@@ -14,6 +14,7 @@ import {
   CreateLegalEntityDto,
   UpdateLegalEntityDto,
   SaveQuestionnaireDto,
+  ParseXlsxDto,
 } from "./dto/legal-entity.dto";
 
 @ApiTags("legal-entities")
@@ -39,6 +40,14 @@ export class LegalEntitiesController {
   @ApiOperation({ summary: "Create legal entity" })
   create(@Body() dto: CreateLegalEntityDto) {
     return this.legalEntitiesService.create(dto);
+  }
+
+  @Post("batch")
+  @ApiOperation({
+    summary: "Batch import legal entities from parsed XLSX data",
+  })
+  batchImport(@Body() dto: ParseXlsxDto) {
+    return this.legalEntitiesService.batchImport(dto.items);
   }
 
   @Patch(":id")

@@ -3,11 +3,61 @@ import { useMutation } from "@tanstack/react-query";
 import { Upload, Plus, FileText } from "lucide-react";
 import { toast } from "react-hot-toast";
 import * as XLSX from "xlsx";
-import { exportApi, validationApi } from "@/api/client";
+import { exportApi, validationApi, legalEntitiesApi } from "@/api/client";
 import { ExportItem, ExportResult, ExportOptions } from "@/types";
 import { ExportForm } from "@/components/ExportForm";
 import { ExportProgress } from "@/components/ExportProgress";
 import { ExportResults } from "@/components/ExportResults";
+
+// Функция парсинга XLSX файла
+function parseXlsxFile(file: File): Promise<ExportItem[]> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      try {
+        const data = e.target?.result;
+        const workbook = XLSX.read(data, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const sheet = workbook.Sheets[sheetName];
+        const jsonData = XLSX.utils.sheet_to_json(sheet);
+
+        const items: ExportItem[] = (jsonData as Record<string, unknown>[])
+          .map((row) => {
+            const item: ExportItem = {};
+
+            // Маппинг полей из Excel
+            const inn = row["ИНН"] || row["inn"] || row["INN"];
+            const ogrn = row["ОГРН"] || row["ogrn"] || row["OGRN"];
+            const account =
+              row["Счет"] || row["account"] || row["Расчетный счет"];
+            const name =
+              row["Наименование"] || row["name"] || row["Краткое наименование"];
+
+            if (inn) item.inn = String(inn);
+            if (ogrn) item.ogrn = String(ogrn);
+            if (account) item.account = String(account);
+            if (name) item.name = String(name);
+
+            // Определение типа
+            if (item.inn) {
+              item.type = item.inn.length === 10 ? "ЮЛ" : "ИП";
+            }
+
+            return item;
+          })
+          .filter((item) => item.inn || item.ogrn || item.account || item.name);
+
+        resolve(items);
+      } catch (error) {
+        reject(error);
+      }
+    };
+
+    reader.onerror = () => reject(new Error("Ошибка чтения файла"));
+    reader.readAsBinaryString(file);
+  });
+}
 
 export function ExportPage() {
   const [exportItems, setExportItems] = useState<ExportItem[]>([]);
@@ -65,10 +115,17 @@ export function ExportPage() {
   // Обработка загрузки файла
   const handleFileUpload = useCallback(async (file: File) => {
     try {
-      const items = await exportApi.uploadExportFile(file);
+      // Парсим XLSX локально
+      const items = await parseXlsxFile(file);
+
+      // Отправляем JSON на бэк
+      await legalEntitiesApi.batchImport(items);
+
+      // Также добавляем в локальный стейт для отображения
       setExportItems((prev) => [...prev, ...items]);
+
       toast.success(
-        `Файл "${file.name}" успешно загружен. Добавлено клиентов: ${items.length}`,
+        `Файл "${file.name}" успешно обработан. Добавлено клиентов: ${items.length}`,
       );
       setSelectedFile(null);
     } catch (error) {
