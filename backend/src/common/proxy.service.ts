@@ -1,6 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
+import { httpAgent, httpsAgent, httpsOverHttpAgent } from "./https";
 import {
   servicesConfig,
   getServiceConfig,
@@ -135,7 +136,9 @@ export class ProxyService {
       const base = baseUrl.replace(/\/$/, "");
       url = path.startsWith("/") ? `${base}${path}` : `${base}/${path}`;
     }
-
+    const defaultHttpsAgent = https.agent({
+      rejectUnauthorized: false,
+    });
     const config: AxiosRequestConfig = {
       method,
       url,
@@ -148,6 +151,17 @@ export class ProxyService {
       },
       validateStatus: () => true,
     };
+    if (
+      config.baseURL !== "mock" &&
+      !baseUrl.match(/^https?:\/\/\w+(\.rccf\.ru)?(:\d+)?(\/|$)/i)
+    ) {
+      // внешний URL, использовать прокси туннель
+      config.httpAgent = httpAgent;
+      config.httpsAgent = httpsOverHttpAgent;
+    } else if (baseUrl.match(/^https:\/\/\w+\.rccf\.ru/i)) {
+      // внутренний HTTPS, использовать стандартный агент
+      config.httpsAgent = defaultHttpsAgent;
+    }
 
     try {
       const response = await axios(config);
