@@ -1,19 +1,25 @@
-const fs = require("fs");
-const path = require("path");
-const https = require("https");
-const tunnel = require("tunnel");
+import * as fs from "fs";
+import * as path from "path";
+import * as https from "https";
+import * as tunnel from "tunnel";
 
 const certDir = path.resolve(__dirname, "./resources/cacerts");
 
-/** @type {Buffer[]} */
-const ca = fs
-  .readdirSync(certDir)
-  .filter((file) => file.endsWith(".cer"))
-  .map((file) => fs.readFileSync(path.resolve(certDir, file)));
+// Читаем сертификаты из директории
+let ca: Buffer[] = [];
+try {
+  if (fs.existsSync(certDir)) {
+    ca = fs
+      .readdirSync(certDir)
+      .filter((file) => file.endsWith(".cer"))
+      .map((file) => fs.readFileSync(path.resolve(certDir, file)));
+  }
+} catch (error) {
+  console.warn("Could not load CA certificates:", error);
+}
 
-/** @type {HttpOptions} */
-const httpProxyAgentConfig = {
-  /** @type {ProxyOptions} */
+// Конфигурация прокси
+const httpProxyAgentConfig: tunnel.HttpOptions = {
   proxy: {
     host: "proxy.rccf.ru",
     port: 8080,
@@ -21,19 +27,21 @@ const httpProxyAgentConfig = {
     headers: {},
   },
 };
-/** @type {HttpsOverHttpOptions} */
-const httpsProxyAgentConfig = {
+
+const httpsProxyAgentConfig: tunnel.HttpsOverHttpOptions = {
   ...httpProxyAgentConfig,
   ca,
-  rejectUnauthorized: false, // to prevent the UNABLE_TO_GET_ISSUER_CERT_LOCALLY error
+  rejectUnauthorized: false,
 };
 
-/** @type {Agent} */
-export httpAgent = tunnel.httpOverHttp();
-/** @type {Agent} */
-export httpsOverHttpAgent = tunnel.httpsOverHttp(httpsProxyAgentConfig);
-/** @type {Agent} */
-export httpsAgent = new https.Agent({
+export const httpAgent = tunnel.httpOverHttp(httpProxyAgentConfig);
+export const httpsOverHttpAgent = tunnel.httpsOverHttp(httpsProxyAgentConfig);
+export const httpsAgent = new https.Agent({
   ca,
+  rejectUnauthorized: false,
+});
+
+// Дефолтный агент для HTTPS без прокси
+export const defaultHttpsAgent = new https.Agent({
   rejectUnauthorized: false,
 });

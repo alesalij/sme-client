@@ -1,12 +1,8 @@
 import { Injectable, HttpException, HttpStatus } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
-import { httpAgent, httpsAgent, httpsOverHttpAgent } from "./https";
-import {
-  servicesConfig,
-  getServiceConfig,
-  ServiceConfig,
-} from "../config/services.config";
+import { httpAgent, httpsAgent, httpsOverHttpAgent, defaultHttpsAgent } from "./https";
+import { servicesConfig, getServiceConfig, ServiceConfig } from "../config/services.config";
 
 export interface ProxyRequestOptions {
   path?: string;
@@ -132,13 +128,10 @@ export class ProxyService {
     // Формируем полный URL
     let url = baseUrl;
     if (path) {
-      // Убираем trailing slash из baseUrl и добавляем path
       const base = baseUrl.replace(/\/$/, "");
       url = path.startsWith("/") ? `${base}${path}` : `${base}/${path}`;
     }
-    const defaultHttpsAgent = https.agent({
-      rejectUnauthorized: false,
-    });
+
     const config: AxiosRequestConfig = {
       method,
       url,
@@ -151,28 +144,29 @@ export class ProxyService {
       },
       validateStatus: () => true,
     };
-    if (
-      config.baseURL !== "mock" &&
-      !baseUrl.match(/^https?:\/\/\w+(\.rccf\.ru)?(:\d+)?(\/|$)/i)
-    ) {
-      // внешний URL, использовать прокси туннель
+
+    // Определяем какой агент использовать
+    const isInternalRccf = baseUrl.match(/^https:\/\/\w+\.rccf\.ru/i);
+    const isExternalUrl = !baseUrl.match(/^https?:\/\/\w+(\.rccf\.ru)?(:\d+)?(\/|$)/i);
+
+    if (isExternalUrl) {
+      // Внешний URL - используем прокси туннель
       config.httpAgent = httpAgent;
       config.httpsAgent = httpsOverHttpAgent;
-    } else if (baseUrl.match(/^https:\/\/\w+\.rccf\.ru/i)) {
-      // внутренний HTTPS, использовать стандартный агент
+    } else if (isInternalRccf) {
+      // Внутренний HTTPS rccf.ru
       config.httpsAgent = defaultHttpsAgent;
+    } else {
+      // HTTP для локальной разработки
+      config.httpAgent = httpAgent;
     }
 
     try {
       const response = await axios(config);
 
       if (response.status >= 400) {
-        const errorBody =
-          response.data || `External service error: ${response.status}`;
-
-        const errorMessage =
-          typeof errorBody === "string" ? errorBody : JSON.stringify(errorBody);
-
+        const errorBody = response.data || `External service error: ${response.status}`;
+        const errorMessage = typeof errorBody === "string" ? errorBody : JSON.stringify(errorBody);
         throw new HttpException(errorMessage, HttpStatus.BAD_GATEWAY);
       }
 
@@ -242,9 +236,7 @@ export class ProxyService {
     }
   }
 
-  getRateLimitStatus(
-    serviceKey: string,
-  ): { remaining: number; resetAt: number } | null {
+  getRateLimitStatus(serviceKey: string): { remaining: number; resetAt: number } | null {
     const limiter = this.rateLimiters.get(serviceKey);
     if (!limiter) return null;
 
