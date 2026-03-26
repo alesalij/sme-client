@@ -1,4 +1,4 @@
-import { Download, Trash2 } from "lucide-react";
+import { Download, Trash2, Mail } from "lucide-react";
 import { ExportOptions } from "@/types";
 
 interface ExportFormProps {
@@ -6,6 +6,8 @@ interface ExportFormProps {
   onDisplayOptionsChange: (options: ExportOptions) => void;
   actualDate: string;
   onActualDateChange: (date: string) => void;
+  notifyEmail: string;
+  onNotifyEmailChange: (email: string) => void;
   exportItemsCount: number;
   onStartExport: () => void;
   onClearData: () => void;
@@ -17,6 +19,8 @@ export function ExportForm({
   onDisplayOptionsChange,
   actualDate,
   onActualDateChange,
+  notifyEmail,
+  onNotifyEmailChange,
   exportItemsCount,
   onStartExport,
   onClearData,
@@ -215,6 +219,21 @@ export function ExportForm({
             onChange={(e) => onActualDateChange(e.target.value)}
           />
         </div>
+      </div>
+
+      {/* Email для уведомления */}
+      <div className="form-group" style={{ marginTop: "15px" }}>
+        <label htmlFor="notifyEmail">
+          <Mail size={14} style={{ marginRight: "5px" }} />
+          Email для отправки результата
+        </label>
+        <input
+          type="email"
+          id="notifyEmail"
+          placeholder="email@example.com"
+          value={notifyEmail}
+          onChange={(e) => onNotifyEmailChange(e.target.value)}
+        />
       </div>
 
       {/* Кнопки действий */}

@@ -132,11 +132,13 @@ export const exportApi = {
     items: ExportItem[],
     options: ExportOptions,
     actualDate?: string,
+    notifyEmail?: string,
   ): Promise<ExportResult> {
     const { data } = await api.post("/api/v1/export/mass", {
       items,
       options: options as Record<string, boolean>,
       actualDate,
+      notifyEmail,
     });
     return data;
   },

@@ -84,11 +84,20 @@ export function ExportPage() {
     exportExtRelatedPersons: true,
   });
   const [actualDate, setActualDate] = useState<string>("");
+  const [notifyEmail, setNotifyEmail] = useState<string>(() => {
+    return localStorage.getItem("notifyEmail") || "";
+  });
   const [manualData, setManualData] = useState("");
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [progress, setProgress] = useState(0);
   const [isExporting, setIsExporting] = useState(false);
   const [exportResult, setExportResult] = useState<ExportResult | null>(null);
+
+  // Сохранение email в localStorage при изменении
+  const handleNotifyEmailChange = (email: string) => {
+    setNotifyEmail(email);
+    localStorage.setItem("notifyEmail", email);
+  };
 
   // Мутация для массовой выгрузки
   const massExportMutation = useMutation({
@@ -96,7 +105,14 @@ export function ExportPage() {
       items: ExportItem[];
       options: ExportOptions;
       actualDate?: string;
-    }) => exportApi.massExport(params.items, params.options, params.actualDate),
+      notifyEmail?: string;
+    }) =>
+      exportApi.massExport(
+        params.items,
+        params.options,
+        params.actualDate,
+        params.notifyEmail,
+      ),
     onSuccess: (data) => {
       setExportResult(data);
       setIsExporting(false);
@@ -238,6 +254,7 @@ export function ExportPage() {
         items: exportItems,
         options: displayOptions,
         actualDate: actualDate || undefined,
+        notifyEmail: notifyEmail || undefined,
       });
     } catch {
       clearInterval(progressInterval);
@@ -354,6 +371,8 @@ export function ExportPage() {
         onDisplayOptionsChange={setDisplayOptions}
         actualDate={actualDate}
         onActualDateChange={setActualDate}
+        notifyEmail={notifyEmail}
+        onNotifyEmailChange={handleNotifyEmailChange}
         exportItemsCount={exportItems.length}
         onStartExport={handleStartExport}
         onClearData={handleClearData}
