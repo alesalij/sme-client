@@ -1,0 +1,78 @@
+// This is your Prisma schema file
+
+generator client {
+ provider = "prisma-client-js"
+}
+
+datasource db {
+ provider = "postgresql"
+ url = env("DATABASE_URL")
+}
+
+// Юридические лица
+model LegalEntity {
+ id Int @id @default(autoincrement())
+ inn String @unique
+ ogrn String?
+ kpp String?
+ name String?
+ fullName String?
+ regAddress String?
+ factAddress String?
+ ceo String?
+ beneficiary String?
+ regDate DateTime?
+ okved String?
+ type String @default("ЮЛ")
+ account String?
+ isResident Boolean @default(true)
+ createdAt DateTime @default(now())
+ updatedAt DateTime @updatedAt
+
+ @@index([inn])
+ @@index([ogrn])
+ @@index([name])
+}
+
+// Связанные лица
+model RelatedPerson {
+ id Int @id @default(autoincrement())
+ legalEntityInn String
+ inn String
+ name String
+ type String
+ relation String
+ isClient Boolean @default(false)
+ createdAt DateTime @default(now())
+
+ @@index([legalEntityInn])
+ @@index([inn])
+}
+
+// История поиска
+model SearchHistory {
+ id Int @id @default(autoincrement())
+ userId String?
+ searchParams Json
+ resultsCount Int @default(0)
+ createdAt DateTime @default(now())
+
+ @@index([userId])
+ @@index([createdAt])
+}
+
+// История экспорта
+model ExportHistory {
+ id Int @id @default(autoincrement())
+ userId String?
+ itemsCount Int @default(0)
+ options Json
+ status String @default("pending")
+ result Json?
+ createdAt DateTime @default(now())
+ completedAt DateTime?
+
+ @@index([userId])
+ @@index([status])
+ @@index([createdAt])
+}

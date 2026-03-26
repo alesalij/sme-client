@@ -3,7 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Upload, Plus, FileText } from "lucide-react";
 import { toast } from "react-hot-toast";
 import * as XLSX from "xlsx";
-import { exportApi, validationApi, legalEntitiesApi } from "@/api/client";
+import { exportApi, validationApi } from "@/api/client";
 import { ExportItem, ExportResult, ExportOptions } from "@/types";
 import { ExportForm } from "@/components/ExportForm";
 import { ExportProgress } from "@/components/ExportProgress";
@@ -118,10 +118,7 @@ export function ExportPage() {
       // Парсим XLSX локально
       const items = await parseXlsxFile(file);
 
-      // Отправляем JSON на бэк
-      await legalEntitiesApi.batchImport(items);
-
-      // Также добавляем в локальный стейт для отображения
+      // Сохраняем в локальный стейт (НЕ отправляем на бэк)
       setExportItems((prev) => [...prev, ...items]);
 
       toast.success(
