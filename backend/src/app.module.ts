@@ -7,6 +7,8 @@ import { ProxyModule } from "./common/proxy.module";
 import { LegalEntitiesModule } from "./legal-entities/legal-entities.module";
 import { ChecksModule } from "./checks/checks.module";
 import { UsersModule } from "./users/users.module";
+import { ExportModule } from "./export/export.module";
+import { PersonsModule } from "./persons/persons.module";
 import { HealthController } from "./common/health.controller";
 import { RootController } from "./common/root.controller";
 
@@ -23,6 +25,8 @@ import { RootController } from "./common/root.controller";
  LegalEntitiesModule,
  ChecksModule,
  UsersModule,
+ ExportModule,
+ PersonsModule,
  ],
  controllers: [HealthController, RootController],
 })

@@ -35,7 +35,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
     return new Date(dateString).toLocaleDateString("ru-RU");
   };
 
-  const getAccountStatusClass = (status: string) => {
+  const getAccountStatusClass = (status?: string) => {
     switch (status) {
       case "открыт":
         return "success";
@@ -63,7 +63,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
             <div
               key={index}
               style={{
-                margin: "10px 0",
+                margin: "10px0",
                 padding: "10px",
                 background: "white",
                 borderRadius: "4px",
@@ -74,7 +74,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
               <span
                 className={`status-badge status-${getAccountStatusClass(account.status)}`}
               >
-                {account.status}
+                {account.status || "неизвестно"}
               </span>
               {account.openDate && (
                 <>
@@ -308,7 +308,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
             <div
               key={index}
               style={{
-                margin: "5px 0",
+                margin: "5px0",
                 padding: "5px",
                 background: "white",
                 borderRadius: "4px",
@@ -318,7 +318,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
               <span
                 className={`status-badge status-${getAccountStatusClass(account.status)}`}
               >
-                {account.status}
+                {account.status || "неизвестно"}
               </span>
               {account.openDate && (
                 <>

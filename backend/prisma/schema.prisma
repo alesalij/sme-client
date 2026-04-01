@@ -76,3 +76,26 @@ model ExportHistory {
  @@index([status])
  @@index([createdAt])
 }
+
+// Представление v_dm_person (данные о персонах из DM)
+model VDmPerson {
+ id Int @id
+ inn String @map("inn")
+ ogrn String? @map("ogrn")
+ name String? @map("name")
+ fullName String? @map("full_name")
+ type String? @map("type")
+ status String? @map("status")
+ regDate DateTime? @map("reg_date")
+ kpp String? @map("kpp")
+ regAddress String? @map("reg_address")
+ factAddress String? @map("fact_address")
+ ceo String? @map("ceo")
+ beneficiary String? @map("beneficiary")
+ okved String? @map("okved")
+ isResident Boolean? @map("is_resident")
+ createdAt DateTime? @map("created_at")
+ updatedAt DateTime? @map("updated_at")
+
+ @@ignore
+}

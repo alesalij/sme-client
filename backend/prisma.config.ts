@@ -4,13 +4,23 @@
 import "dotenv/config";
 import { defineConfig, env } from "prisma/config";
 
+// Собираем URL из отдельных параметров
+const dbHost = env("DB_HOST") || "localhost";
+const dbPort = env("DB_PORT") || "5432";
+const dbUser = env("DB_USER") || "postgres";
+const dbPassword = env("DB_PASSWORD") || "postgres";
+const dbName = env("DB_NAME") || "sme_client";
+const dbSchema = env("DB_SCHEMA") || "public";
+
+const databaseUrl = `postgresql://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}?schema=${dbSchema}`;
+
 export default defineConfig({
-  schema: "prisma/schema.prisma",
-  migrations: {
-    path: "prisma/migrations",
-  },
-  engine: "classic",
-  datasource: {
-    url: env("DATABASE_URL"),
-  },
+ schema: "prisma/schema.prisma",
+ migrations: {
+ path: "prisma/migrations",
+ },
+ engine: "classic",
+ datasource: {
+ url: databaseUrl,
+ },
 });

@@ -217,7 +217,7 @@ export function SearchPage() {
             <div className="client-list">
               {searchResult.clients.map((client) => (
                 <ClientCard
-                  key={client.id}
+                  key={`${client.id}-${client.inn}`}
                   client={client}
                   displayOptions={displayOptions}
                   isSelected={selectedClient?.id === client.id}
