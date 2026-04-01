@@ -15,10 +15,7 @@ const databaseUrl = `postgresql://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${
 
 export default defineConfig({
   schema: "../../prisma/schema.prisma",
-  migrations: {
-    path: "../../prisma/migrations",
-  },
-  engine: "classic",
+  // Миграции НЕ используются - только чтение из view
   datasource: {
     url: databaseUrl,
   },
