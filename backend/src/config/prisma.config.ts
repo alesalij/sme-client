@@ -14,9 +14,9 @@ const dbSchema = env("DB_SCHEMA") || "public";
 const databaseUrl = `postgresql://${dbUser}:${dbPassword}@${dbHost}:${dbPort}/${dbName}?schema=${dbSchema}`;
 
 export default defineConfig({
-  schema: "../prisma/schema.prisma",
+  schema: "../../prisma/schema.prisma",
   migrations: {
-    path: "../prisma/migrations",
+    path: "../../prisma/migrations",
   },
   engine: "classic",
   datasource: {

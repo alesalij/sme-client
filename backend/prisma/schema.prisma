@@ -1,9 +1,9 @@
 // This is your Prisma schema file
-// Используется только для подключения к чужой БД (без миграций)
+// Используется ТОЛЬКО для чтения из view v_dm_person (без миграций, без изменений)
 
 generator client {
  provider = "prisma-client-js"
- output = "../node_modules/.prisma/client"
+ output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -11,93 +11,25 @@ datasource db {
  url      = env("DATABASE_URL")
 }
 
-// Юридические лица
-model LegalEntity {
- id Int @id @default(autoincrement())
- inn String @unique
- ogrn String?
- kpp String?
- name String?
- fullName String?
- regAddress String?
- factAddress String?
- ceo String?
- beneficiary String?
- regDate DateTime?
- okved String?
- type String @default("ЮЛ")
- account String?
- isResident Boolean @default(true)
- createdAt DateTime @default(now())
- updatedAt DateTime @updatedAt
-
- @@index([inn])
- @@index([ogrn])
- @@index([name])
-}
-
-// Связанные лица
-model RelatedPerson {
- id Int @id @default(autoincrement())
- legalEntityInn String
- inn String
- name String
- type String
- relation String
- isClient Boolean @default(false)
- createdAt DateTime @default(now())
-
- @@index([legalEntityInn])
- @@index([inn])
-}
-
-// История поиска
-model SearchHistory {
- id Int @id @default(autoincrement())
- userId String?
- searchParams Json
- resultsCount Int @default(0)
- createdAt DateTime @default(now())
-
- @@index([userId])
- @@index([createdAt])
-}
-
-// История экспорта
-model ExportHistory {
- id Int @id @default(autoincrement())
- userId String?
- itemsCount Int @default(0)
- options Json
- status String @default("pending")
- result Json?
- createdAt DateTime @default(now())
- completedAt DateTime?
-
- @@index([userId])
- @@index([status])
- @@index([createdAt])
-}
-
-// Представление v_dm_person (данные о персонах из DM)
+// Представление v_dm_person (только для чтения)
 model VDmPerson {
- id Int @id
- inn String @map("inn")
- ogrn String? @map("ogrn")
- name String? @map("name")
- fullName String? @map("full_name")
- type String? @map("type")
- status String? @map("status")
- regDate DateTime? @map("reg_date")
- kpp String? @map("kpp")
- regAddress String? @map("reg_address")
- factAddress String? @map("fact_address")
- ceo String? @map("ceo")
- beneficiary String? @map("beneficiary")
- okved String? @map("okved")
- isResident Boolean? @map("is_resident")
- createdAt DateTime? @map("created_at")
- updatedAt DateTime? @map("updated_at")
+ id          Int       @id
+ inn         String    @map("inn")
+ ogrn        String?   @map("ogrn")
+ name        String?   @map("name")
+ fullName    String?   @map("full_name")
+ type        String?   @map("type")
+ status      String?   @map("status")
+ regDate     DateTime? @map("reg_date")
+ kpp         String?   @map("kpp")
+ regAddress  String?   @map("reg_address")
+ factAddress String?   @map("fact_address")
+ ceo         String?   @map("ceo")
+ beneficiary String?   @map("beneficiary")
+ okved       String?   @map("okved")
+ isResident  Boolean?  @map("is_resident")
+ createdAt   DateTime? @map("created_at")
+ updatedAt   DateTime? @map("updated_at")
 
  @@ignore
 }
