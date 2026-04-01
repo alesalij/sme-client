@@ -1,12 +1,14 @@
 // This is your Prisma schema file
+// Используется только для подключения к чужой БД (без миграций)
 
 generator client {
  provider = "prisma-client-js"
+ output = "../node_modules/.prisma/client"
 }
 
 datasource db {
  provider = "postgresql"
- url = env("DATABASE_URL")
+ url      = env("DATABASE_URL")
 }
 
 // Юридические лица
