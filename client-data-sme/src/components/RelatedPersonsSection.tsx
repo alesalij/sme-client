@@ -1,5 +1,5 @@
-import { RelatedPerson } from "@/types";
-import { User, UserCheck, ExternalLink } from "lucide-react";
+import { RelatedPerson } from '@/types';
+import { User, UserCheck, ExternalLink } from 'lucide-react';
 
 interface RelatedPersonsSectionProps {
   relatedPersons: RelatedPerson[];
@@ -11,15 +11,15 @@ export function RelatedPersonsSection({
   clientInn,
 }: RelatedPersonsSectionProps) {
   const getPersonIcon = (type: string) => {
-    return type === "ФЛ" ? <User size={16} /> : <UserCheck size={16} />;
+    return type === 'ФЛ' ? <User size={16} /> : <UserCheck size={16} />;
   };
 
   const getStatusClass = (isClient: boolean) => {
-    return isClient ? "success" : "warning";
+    return isClient ? 'success' : 'warning';
   };
 
   const getStatusText = (isClient: boolean) => {
-    return isClient ? "Клиент банка" : "Не клиент банка";
+    return isClient ? 'Клиент банка' : 'Не клиент банка';
   };
 
   return (
@@ -36,13 +36,16 @@ export function RelatedPersonsSection({
         </div>
       ) : (
         <div className="related-persons">
-          {relatedPersons.map((person) => (
-            <div key={person.id} className="person-card">
+          {relatedPersons.map((person, index) => (
+            <div
+              key={person.id || `person-${index}-${person.inn}`}
+              className="person-card"
+            >
               <div
                 style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
                 }}
               >
                 <div>
@@ -51,9 +54,9 @@ export function RelatedPersonsSection({
                   </strong>
                   <div
                     style={{
-                      fontSize: "0.9rem",
-                      color: "var(--dark-gray)",
-                      margin: "5px 0",
+                      fontSize: '0.9rem',
+                      color: 'var(--dark-gray)',
+                      margin: '5px 0',
                     }}
                   >
                     ИНН: {person.inn} | Тип: {person.type} | {person.relation}
@@ -74,12 +77,12 @@ export function RelatedPersonsSection({
                       target="_blank"
                       rel="noopener noreferrer"
                       style={{
-                        color: "var(--primary-blue)",
-                        textDecoration: "none",
-                        fontWeight: "600",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "4px",
+                        color: 'var(--primary-blue)',
+                        textDecoration: 'none',
+                        fontWeight: '600',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
                       }}
                     >
                       <ExternalLink size={14} />
@@ -94,7 +97,7 @@ export function RelatedPersonsSection({
       )}
 
       {/* Информация о поиске связанных лиц */}
-      <div className="result-box info" style={{ marginTop: "20px" }}>
+      <div className="result-box info" style={{ marginTop: '20px' }}>
         <h4>
           <i className="fas fa-info-circle"></i> Информация о связанных лицах
         </h4>
@@ -103,7 +106,7 @@ export function RelatedPersonsSection({
           определены на основе анализа учредителей, руководителей и других
           аффилированных лиц.
         </p>
-        <p style={{ marginTop: "10px" }}>
+        <p style={{ marginTop: '10px' }}>
           <strong>ИНН основного клиента:</strong> {clientInn}
         </p>
         <p>

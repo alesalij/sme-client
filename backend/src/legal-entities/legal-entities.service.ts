@@ -1,15 +1,25 @@
-import { Injectable } from "@nestjs/common";
-import { ProxyService } from "../common/proxy.service";
+import { Injectable } from '@nestjs/common';
+import { ProxyService } from '../common/proxy.service';
+import { EmailService } from '../common/email.service';
+
+export interface BatchImportResult {
+  success: number;
+  failed: number;
+  errors: string[];
+}
 
 @Injectable()
 export class LegalEntitiesService {
-  constructor(private proxy: ProxyService) {}
+  constructor(
+    private proxy: ProxyService,
+    private emailService: EmailService,
+  ) {}
 
   /**
    * Получить все юридические лица
    */
   async findAll(params: { skip?: number; take?: number }) {
-    return this.proxy.get("LEGAL_ENTITIES_API", "/legal-entities", {
+    return this.proxy.get('LEGAL_ENTITIES_API', '/legal-entities', {
       skip: String(params.skip || 0),
       take: String(params.take || 20),
     });
@@ -19,7 +29,7 @@ export class LegalEntitiesService {
    * Получить юридическое лицо по ID
    */
   async findById(id: string) {
-    return this.proxy.get("LEGAL_ENTITIES_API", `/legal-entities/${id}`);
+    return this.proxy.get('LEGAL_ENTITIES_API', `/legal-entities/${id}`);
   }
 
   /**
@@ -27,7 +37,7 @@ export class LegalEntitiesService {
    */
   async findByInn(inn: string) {
     return this.proxy.get(
-      "LEGAL_ENTITIES_API",
+      'LEGAL_ENTITIES_API',
       `/legal-entities/by-inn/${inn}`,
     );
   }
@@ -44,7 +54,7 @@ export class LegalEntitiesService {
     activity?: string;
     registrationDate?: string;
   }) {
-    return this.proxy.post("LEGAL_ENTITIES_API", "/legal-entities", data);
+    return this.proxy.post('LEGAL_ENTITIES_API', '/legal-entities', data);
   }
 
   /**
@@ -62,7 +72,7 @@ export class LegalEntitiesService {
     },
   ) {
     return this.proxy.patch(
-      "LEGAL_ENTITIES_API",
+      'LEGAL_ENTITIES_API',
       `/legal-entities/${id}`,
       data,
     );
@@ -72,7 +82,7 @@ export class LegalEntitiesService {
    * Удалить юридическое лицо
    */
   async delete(id: string) {
-    return this.proxy.delete("LEGAL_ENTITIES_API", `/legal-entities/${id}`);
+    return this.proxy.delete('LEGAL_ENTITIES_API', `/legal-entities/${id}`);
   }
 
   /**
@@ -83,14 +93,14 @@ export class LegalEntitiesService {
     questionnaireData: Record<string, unknown>;
     userId: string;
   }) {
-    return this.proxy.post("LEGAL_ENTITIES_API", "/questionnaires", data);
+    return this.proxy.post('LEGAL_ENTITIES_API', '/questionnaires', data);
   }
 
   /**
    * Получить последнюю анкету
    */
   async getQuestionnaire(legalEntityId: string) {
-    return this.proxy.get("LEGAL_ENTITIES_API", "/questionnaires/latest", {
+    return this.proxy.get('LEGAL_ENTITIES_API', '/questionnaires/latest', {
       legalEntityId,
     });
   }
@@ -114,16 +124,17 @@ export class LegalEntitiesService {
       okved?: string;
       type?: string;
     }>,
-  ) {
-    const results = {
+    notifyEmail?: string,
+  ): Promise<BatchImportResult> {
+    const results: BatchImportResult = {
       success: 0,
       failed: 0,
-      errors: [] as string[],
+      errors: [],
     };
 
     for (const item of items) {
       try {
-        await this.proxy.post("LEGAL_ENTITIES_API", "/legal-entities", item);
+        await this.proxy.post('LEGAL_ENTITIES_API', '/legal-entities', item);
         results.success++;
       } catch (error) {
         results.failed++;
@@ -131,6 +142,34 @@ export class LegalEntitiesService {
           `Failed to import ${item.inn || item.name}: ${(error as Error).message}`,
         );
       }
+    }
+
+    // Отправить результат на почту
+    if (notifyEmail && this.emailService.isConfigured()) {
+      const htmlBody = `
+        <h2>Результат импорта юридических лиц</h2>
+        <p><strong>Успешно:</strong> ${results.success}</p>
+        <p><strong>Ошибок:</strong> ${results.failed}</p>
+        ${
+          results.errors.length > 0
+            ? `
+          <h3>Ошибки:</h3>
+          <ul>
+            ${results.errors.map((e) => `<li>${e}</li>`).join('')}
+          </ul>
+        `
+            : ''
+        }
+        <p style="color: #666; font-size: 12px; margin-top: 20px;">
+          Автоматическое уведомление от SME Client
+        </p>
+      `;
+
+      await this.emailService.send({
+        to: notifyEmail,
+        subject: `[SME Client] Результат импорта юридических лиц`,
+        html: htmlBody,
+      });
     }
 
     return results;
