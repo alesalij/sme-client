@@ -19,9 +19,6 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
-
 # Copy package files
 COPY package*.json ./
 
@@ -40,4 +37,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 
 # Start
 USER node
-CMD ["dumb-init", "node", "dist/main"]
+CMD ["node", "dist/main"]
