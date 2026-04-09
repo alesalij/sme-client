@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import * as util from 'util';
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const sendmail = require('sendmail');
+import * as nodemailer from 'nodemailer';
+import { Transporter } from 'nodemailer';
 
 export interface EmailOptions {
   to: string | string[];
@@ -14,35 +13,44 @@ export interface EmailOptions {
 
 @Injectable()
 export class EmailService {
-  private sendmailAsync: ReturnType<typeof util.promisify> | null = null;
+  private transporter: Transporter | null = null;
   private from: string;
   private isEnabled: boolean = false;
 
   constructor(private config: ConfigService) {
-    const smtpHost = this.config.get('EMAIL_SMTP_HOST') || 'mail.rccf.ru';
-    const smtpPort = this.config.get('EMAIL_SMTP_PORT') || '275';
+    const host = this.config.get('EMAIL_HOST') || 'mail.rccf.ru';
+    const port = this.config.get('EMAIL_PORT') || '275';
+    const user = this.config.get('EMAIL_USER');
+    const password = this.config.get('EMAIL_PASS');
     const from = this.config.get('EMAIL_FROM') || 'sme@rencredit.ru';
 
-    if (smtpHost && smtpPort) {
-      const sendmailInstance = sendmail({
-        silent: true,
-        smtpHost,
-        smtpPort: parseInt(smtpPort),
-      });
+    const transportConfig: any = {
+      host,
+      port: parseInt(port as string),
+      tls: {
+        rejectUnauthorized: false,
+      },
+    };
 
-      this.sendmailAsync = util.promisify(sendmailInstance);
+    // Добавляем аутентификацию только если есть user и password
+    if (user && password) {
+      transportConfig.auth = { user, pass: password };
+      transportConfig.secure =
+        (this.config.get('EMAIL_SECURE') as string) === 'true';
+    }
+
+    if (host) {
+      this.transporter = nodemailer.createTransport(transportConfig);
       this.from = from;
       this.isEnabled = true;
-      console.log(
-        `Email configured: ${smtpHost}:${smtpPort}, from: ${this.from}`,
-      );
+      console.log(`Email configured: ${host}:${port}, from: ${this.from}`);
     } else {
       console.log('Email not configured');
     }
   }
 
   async send(options: EmailOptions): Promise<boolean> {
-    if (!this.isEnabled || !this.sendmailAsync) {
+    if (!this.isEnabled || !this.transporter) {
       console.log('Email disabled or not configured');
       return false;
     }
@@ -55,7 +63,7 @@ export class EmailService {
       : undefined;
 
     try {
-      const reply = await this.sendmailAsync({
+      await this.transporter.sendMail({
         from: this.from,
         to,
         cc,

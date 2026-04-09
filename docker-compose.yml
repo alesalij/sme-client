@@ -9,9 +9,8 @@ services:
     container_name: sme_client
     ports:
       - "80:80"
-    environment:
-      - NODE_ENV=${NODE_ENV:-production}
-      - VITE_API_URL=${VITE_API_URL:-http://localhost:3001}
+    env_file:
+      - ./client-data-sme/.env
     restart: unless-stopped
     depends_on:
       backend:
@@ -25,21 +24,10 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     container_name: sme_client_backend
-    environment:
-      # Server
-      PORT: "3001"
-      NODE_ENV: ${NODE_ENV:-production}
-      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost}
-
-      # External Services (dev/prod)
-      LEGAL_ENTITIES_API_DEV_URL: ${LEGAL_ENTITIES_API_DEV_URL:-http://localhost:4001}
-      LEGAL_ENTITIES_API_PROD_URL: ${LEGAL_ENTITIES_API_PROD_URL:-https://legal-entities-api.production.com}
-      CHECKS_API_DEV_URL: ${CHECKS_API_DEV_URL:-http://localhost:4002}
-      CHECKS_API_PROD_URL: ${CHECKS_API_PROD_URL:-https://checks-api.production.com}
-      USERS_API_DEV_URL: ${USERS_API_DEV_URL:-http://localhost:4003}
-      USERS_API_PROD_URL: ${USERS_API_PROD_URL:-https://users-api.production.com}
     ports:
       - "3001:3001"
+    env_file:
+      - ./backend/.env
     restart: unless-stopped
     networks:
       - sme_network

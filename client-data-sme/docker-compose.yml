@@ -9,8 +9,8 @@ services:
     container_name: client-data-sme
     ports:
       - "80:80"
-    environment:
-      - NODE_ENV=production
+    env_file:
+      - .env
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
