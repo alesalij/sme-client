@@ -36,6 +36,7 @@
     "sendmail": "^1.6.1",
     "tunnel": "^0.0.6",
     "uuid": "^13.0.0",
+    "xml2js": "^0.6.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -51,6 +52,7 @@
     "@types/sendmail": "^1.4.7",
     "@types/tunnel": "^0.0.7",
     "@types/uuid": "^10.0.0",
+    "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^8.57.0",
     "@typescript-eslint/parser": "^8.57.0",
     "eslint": "^8.57.0",

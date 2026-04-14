@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ProxyService } from '../common/proxy.service';
 import { EmailService } from '../common/email.service';
+import { Builder } from 'xml2js';
 
 export interface BatchImportResult {
   success: number;
@@ -132,10 +133,35 @@ export class LegalEntitiesService {
       errors: [],
     };
 
+    const importedItems: Array<{
+      inn: string;
+      name?: string;
+      ogrn?: string;
+      kpp?: string;
+      createdAt?: string;
+    }> = [];
+
     for (const item of items) {
       try {
-        await this.proxy.post('LEGAL_ENTITIES_API', '/legal-entities', item);
+        const response = await this.proxy.post<{
+          id?: number;
+          inn: string;
+          name?: string;
+          ogrn?: string;
+          kpp?: string;
+          createdAt?: string;
+        }>('LEGAL_ENTITIES_API', '/legal-entities', item);
+
         results.success++;
+        if (response) {
+          importedItems.push({
+            inn: item.inn || '',
+            name: item.name,
+            ogrn: item.ogrn,
+            kpp: item.kpp,
+            createdAt: response.createdAt || new Date().toISOString(),
+          });
+        }
       } catch (error) {
         results.failed++;
         results.errors.push(
@@ -143,6 +169,9 @@ export class LegalEntitiesService {
         );
       }
     }
+
+    // Создать XML из результатов
+    const xmlContent = this.createImportReportXml(importedItems, results);
 
     // Отправить результат на почту
     if (notifyEmail && this.emailService.isConfigured()) {
@@ -169,9 +198,63 @@ export class LegalEntitiesService {
         to: notifyEmail,
         subject: `[SME Client] Результат импорта юридических лиц`,
         html: htmlBody,
+        attachments: [
+          {
+            filename: `import-report-${new Date().toISOString().split('T')[0]}.xml`,
+            content: xmlContent,
+            contentType: 'application/xml',
+          },
+        ],
       });
     }
 
     return results;
+  }
+
+  /**
+   * Создать XML отчёт из импортированных данных
+   */
+  private createImportReportXml(
+    items: Array<{
+      inn: string;
+      name?: string;
+      ogrn?: string;
+      kpp?: string;
+      createdAt?: string;
+    }>,
+    results: BatchImportResult,
+  ): string {
+    const builder = new Builder({
+      xmldec: { version: '1.0', encoding: 'UTF-8' },
+    });
+
+    // Формируем объектную структуру XML
+    const xmlObject: any = {
+      importReport: {
+        timestamp: new Date().toISOString(),
+        summary: {
+          success: results.success,
+          failed: results.failed,
+        },
+        items: {
+          item: items.map((item) => ({
+            inn: item.inn,
+            name: item.name || '',
+            ogrn: item.ogrn || '',
+            kpp: item.kpp || '',
+            createdAt: item.createdAt || '',
+          })),
+        },
+      },
+    };
+
+    // Добавляем ошибки если есть
+    if (results.errors.length > 0) {
+      xmlObject.importReport.errors = {
+        error: results.errors,
+      };
+    }
+
+    return builder.buildObject(xmlObject);
   }
 }

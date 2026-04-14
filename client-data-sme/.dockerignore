@@ -1,15 +1,8 @@
-# Зависимости
-node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
-# Результаты сборки
-dist/
-dist-ssr/
-*.local
 
 # Переменные окружения
 .env
@@ -44,10 +37,10 @@ docs/
 .gitlab-ci.yml
 .travis.yml
 
-# Docker файлы
-Dockerfile
-docker-compose*.yml
-.dockerignore
+# Docker файлы (оставляем для справки)
+# Dockerfile
+# docker-compose*.yml
+# .dockerignore
 
 # Тестирование
 coverage/

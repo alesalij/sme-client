@@ -1,32 +1,15 @@
-FROM node:20-alpine AS builder
-
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm ci
-
-# Copy source
-COPY . .
-
-# Build
-RUN npm run build
-
 # Production image
 FROM node:20-alpine
 
 WORKDIR /app
 
-# Copy package files
+# Copy built files and dependencies (built locally)
+COPY dist ./dist
+COPY node_modules ./node_modules
 COPY package*.json ./
 
-# Install production dependencies only
-RUN npm ci --only=production
-
-# Copy built files
-COPY --from=builder /app/dist ./dist
+# Create logs directory with proper permissions
+RUN mkdir -p logs && chown -R node:node logs
 
 # Expose port
 EXPOSE 3001
