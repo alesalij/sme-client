@@ -1,4 +1,4 @@
-import InputMask from "react-input-mask";
+import { InputMask } from '@react-input/mask';
 
 interface MaskedInputProps {
   value: string | undefined;
@@ -26,13 +26,12 @@ export function MaskedInput({
   return (
     <InputMask
       mask={mask}
-      value={value || ""}
+      value={value || ''}
       onChange={handleChange}
       placeholder={placeholder}
       id={id}
       disabled={disabled}
       className={className}
-      maskChar={null}
     />
   );
 }

@@ -14,7 +14,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@nestjs-modules/mailer": "^2.3.4",
     "@nestjs/common": "^11.1.16",
     "@nestjs/config": "^4.0.3",
     "@nestjs/core": "^11.1.16",
@@ -33,11 +32,8 @@
     "pg": "^8.20.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
-    "sendmail": "^1.6.1",
     "tunnel": "^0.0.6",
-    "uuid": "^13.0.0",
-    "xml2js": "^0.6.2",
-    "zod": "^4.3.6"
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.16",
@@ -49,9 +45,7 @@
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
     "@types/pg": "^8.20.0",
-    "@types/sendmail": "^1.4.7",
     "@types/tunnel": "^0.0.7",
-    "@types/uuid": "^10.0.0",
     "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^8.57.0",
     "@typescript-eslint/parser": "^8.57.0",
