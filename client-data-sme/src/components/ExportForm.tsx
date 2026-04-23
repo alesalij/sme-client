@@ -1,5 +1,5 @@
-import { Download, Trash2, Mail } from "lucide-react";
-import { ExportOptions } from "@/types";
+import { Download, Trash2, Mail } from 'lucide-react';
+import { ExportOptions } from '@/types';
 
 interface ExportFormProps {
   displayOptions: ExportOptions;
@@ -35,11 +35,11 @@ export function ExportForm({
 
   return (
     <div className="section">
-      <h4 style={{ marginBottom: "15px", color: "var(--primary-blue)" }}>
+      <h4 style={{ marginBottom: '15px', color: 'var(--primary-blue)' }}>
         <i className="fas fa-cogs"></i> Дополнительные данные
       </h4>
 
-      <h5 style={{ marginBottom: "10px", color: "var(--dark-gray)" }}>
+      <h5 style={{ marginBottom: '10px', color: 'var(--dark-gray)' }}>
         Краткий набор:
       </h5>
       <div className="checkbox-group">
@@ -48,7 +48,7 @@ export function ExportForm({
             type="checkbox"
             id="exportShortName"
             checked={displayOptions.exportShortName}
-            onChange={() => toggleDisplayOption("exportShortName")}
+            onChange={() => toggleDisplayOption('exportShortName')}
           />
           <label htmlFor="exportShortName">Наименование</label>
         </div>
@@ -57,7 +57,7 @@ export function ExportForm({
             type="checkbox"
             id="exportShortInn"
             checked={displayOptions.exportShortInn}
-            onChange={() => toggleDisplayOption("exportShortInn")}
+            onChange={() => toggleDisplayOption('exportShortInn')}
           />
           <label htmlFor="exportShortInn">ИНН</label>
         </div>
@@ -66,7 +66,7 @@ export function ExportForm({
             type="checkbox"
             id="exportShortOgrn"
             checked={displayOptions.exportShortOgrn}
-            onChange={() => toggleDisplayOption("exportShortOgrn")}
+            onChange={() => toggleDisplayOption('exportShortOgrn')}
           />
           <label htmlFor="exportShortOgrn">ОГРН</label>
         </div>
@@ -75,7 +75,7 @@ export function ExportForm({
             type="checkbox"
             id="exportShortKpp"
             checked={displayOptions.exportShortKpp}
-            onChange={() => toggleDisplayOption("exportShortKpp")}
+            onChange={() => toggleDisplayOption('exportShortKpp')}
           />
           <label htmlFor="exportShortKpp">КПП</label>
         </div>
@@ -84,7 +84,7 @@ export function ExportForm({
             type="checkbox"
             id="exportShortAccount"
             checked={displayOptions.exportShortAccount}
-            onChange={() => toggleDisplayOption("exportShortAccount")}
+            onChange={() => toggleDisplayOption('exportShortAccount')}
           />
           <label htmlFor="exportShortAccount">Счет</label>
         </div>
@@ -93,7 +93,7 @@ export function ExportForm({
             type="checkbox"
             id="exportShortRegAddress"
             checked={displayOptions.exportShortRegAddress}
-            onChange={() => toggleDisplayOption("exportShortRegAddress")}
+            onChange={() => toggleDisplayOption('exportShortRegAddress')}
           />
           <label htmlFor="exportShortRegAddress">Адрес регистрации</label>
         </div>
@@ -102,7 +102,7 @@ export function ExportForm({
             type="checkbox"
             id="exportShortFactAddress"
             checked={displayOptions.exportShortFactAddress}
-            onChange={() => toggleDisplayOption("exportShortFactAddress")}
+            onChange={() => toggleDisplayOption('exportShortFactAddress')}
           />
           <label htmlFor="exportShortFactAddress">Адрес фактический</label>
         </div>
@@ -111,7 +111,7 @@ export function ExportForm({
             type="checkbox"
             id="exportShortCeo"
             checked={displayOptions.exportShortCeo}
-            onChange={() => toggleDisplayOption("exportShortCeo")}
+            onChange={() => toggleDisplayOption('exportShortCeo')}
           />
           <label htmlFor="exportShortCeo">ЕИО: ФИО</label>
         </div>
@@ -120,7 +120,7 @@ export function ExportForm({
             type="checkbox"
             id="exportShortBeneficiary"
             checked={displayOptions.exportShortBeneficiary}
-            onChange={() => toggleDisplayOption("exportShortBeneficiary")}
+            onChange={() => toggleDisplayOption('exportShortBeneficiary')}
           />
           <label htmlFor="exportShortBeneficiary">Бенефициар: ФИО</label>
         </div>
@@ -129,7 +129,7 @@ export function ExportForm({
             type="checkbox"
             id="exportShortRegDate"
             checked={displayOptions.exportShortRegDate}
-            onChange={() => toggleDisplayOption("exportShortRegDate")}
+            onChange={() => toggleDisplayOption('exportShortRegDate')}
           />
           <label htmlFor="exportShortRegDate">Дата регистрации</label>
         </div>
@@ -138,13 +138,13 @@ export function ExportForm({
             type="checkbox"
             id="exportShortOkved"
             checked={displayOptions.exportShortOkved}
-            onChange={() => toggleDisplayOption("exportShortOkved")}
+            onChange={() => toggleDisplayOption('exportShortOkved')}
           />
           <label htmlFor="exportShortOkved">ОКВЭД</label>
         </div>
       </div>
 
-      <h5 style={{ margin: "20px 0 10px 0", color: "var(--dark-gray)" }}>
+      <h5 style={{ margin: '20px 0 10px 0', color: 'var(--dark-gray)' }}>
         Расширенный набор:
       </h5>
       <div className="checkbox-group">
@@ -153,7 +153,7 @@ export function ExportForm({
             type="checkbox"
             id="exportExtAccountDetails"
             checked={displayOptions.exportExtAccountDetails}
-            onChange={() => toggleDisplayOption("exportExtAccountDetails")}
+            onChange={() => toggleDisplayOption('exportExtAccountDetails')}
           />
           <label htmlFor="exportExtAccountDetails">Счет</label>
         </div>
@@ -162,7 +162,7 @@ export function ExportForm({
             type="checkbox"
             id="exportExtResidency"
             checked={displayOptions.exportExtResidency}
-            onChange={() => toggleDisplayOption("exportExtResidency")}
+            onChange={() => toggleDisplayOption('exportExtResidency')}
           />
           <label htmlFor="exportExtResidency">Статус (резидент)</label>
         </div>
@@ -171,7 +171,7 @@ export function ExportForm({
             type="checkbox"
             id="exportExtCeoDetails"
             checked={displayOptions.exportExtCeoDetails}
-            onChange={() => toggleDisplayOption("exportExtCeoDetails")}
+            onChange={() => toggleDisplayOption('exportExtCeoDetails')}
           />
           <label htmlFor="exportExtCeoDetails">ЕИО: полные данные</label>
         </div>
@@ -180,7 +180,7 @@ export function ExportForm({
             type="checkbox"
             id="exportExtBeneficiaryDetails"
             checked={displayOptions.exportExtBeneficiaryDetails}
-            onChange={() => toggleDisplayOption("exportExtBeneficiaryDetails")}
+            onChange={() => toggleDisplayOption('exportExtBeneficiaryDetails')}
           />
           <label htmlFor="exportExtBeneficiaryDetails">
             Бенефициар: полные данные
@@ -191,7 +191,7 @@ export function ExportForm({
             type="checkbox"
             id="exportExtAllOkved"
             checked={displayOptions.exportExtAllOkved}
-            onChange={() => toggleDisplayOption("exportExtAllOkved")}
+            onChange={() => toggleDisplayOption('exportExtAllOkved')}
           />
           <label htmlFor="exportExtAllOkved">ОКВЭД (все)</label>
         </div>
@@ -200,7 +200,7 @@ export function ExportForm({
             type="checkbox"
             id="exportExtRelatedPersons"
             checked={displayOptions.exportExtRelatedPersons}
-            onChange={() => toggleDisplayOption("exportExtRelatedPersons")}
+            onChange={() => toggleDisplayOption('exportExtRelatedPersons')}
           />
           <label htmlFor="exportExtRelatedPersons">
             Связанные лица из БД AML SME
@@ -209,7 +209,7 @@ export function ExportForm({
       </div>
 
       {/* Дата актуальности */}
-      <div className="form-group" style={{ marginTop: "20px" }}>
+      <div className="form-group" style={{ marginTop: '20px' }}>
         <label htmlFor="actualDateExport">Дата актуальности</label>
         <div className="date-input-container">
           <input
@@ -217,14 +217,15 @@ export function ExportForm({
             id="actualDateExport"
             value={actualDate}
             onChange={(e) => onActualDateChange(e.target.value)}
+            max={new Date().toISOString().split('T')[0]}
           />
         </div>
       </div>
 
       {/* Email для уведомления */}
-      <div className="form-group" style={{ marginTop: "15px" }}>
+      <div className="form-group" style={{ marginTop: '15px' }}>
         <label htmlFor="notifyEmail">
-          <Mail size={14} style={{ marginRight: "5px" }} />
+          <Mail size={14} style={{ marginRight: '5px' }} />
           Email для отправки результата
         </label>
         <input
@@ -239,10 +240,10 @@ export function ExportForm({
       {/* Кнопки действий */}
       <div
         style={{
-          marginTop: "20px",
-          display: "flex",
-          gap: "10px",
-          alignItems: "center",
+          marginTop: '20px',
+          display: 'flex',
+          gap: '10px',
+          alignItems: 'center',
         }}
       >
         <button
@@ -250,7 +251,7 @@ export function ExportForm({
           disabled={isExporting || exportItemsCount === 0}
         >
           <Download size={16} />
-          {isExporting ? "Выгрузка..." : "Запустить выгрузку"}
+          {isExporting ? 'Выгрузка...' : 'Запустить выгрузку'}
         </button>
 
         <button

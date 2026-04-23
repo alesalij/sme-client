@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 import {
   SearchParams,
   SearchResult,
@@ -7,19 +7,19 @@ import {
   ExportItem,
   ExportResult,
   ExportOptions,
-} from "@/types";
-import { mockSearchClients, mockGetRelatedPersons } from "./mockData";
+} from '@/types';
+import { mockSearchClients, mockGetRelatedPersons } from './mockData';
 
 // Конфигурация API
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "https://srvap6229.rccf.ru:8090";
+  import.meta.env.VITE_API_BASE_URL || 'https://srvap6229.rccf.ru:8090';
 
 // Создаем экземпляр axios
 const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 30000,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
   withCredentials: true,
 });
@@ -34,7 +34,7 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
-    console.error("[API] Request error:", error);
+    console.error('[API] Request error:', error);
     return Promise.reject(error);
   },
 );
@@ -46,7 +46,7 @@ api.interceptors.response.use(
   },
   (error) => {
     console.error(
-      "[API] Response error:",
+      '[API] Response error:',
       error.response?.data || error.message,
     );
     return Promise.reject(error);
@@ -61,7 +61,7 @@ export const searchApi = {
     // const { data } = await api.post('/api/v1/clients/search', params)
 
     // Пока используем тестовые данные для демонстрации
-    const enableMockData = import.meta.env.VITE_ENABLE_MOCK_DATA === "true";
+    const enableMockData = import.meta.env.VITE_ENABLE_MOCK_DATA === 'true';
 
     if (enableMockData) {
       // Имитация задержки сети
@@ -70,21 +70,21 @@ export const searchApi = {
     }
 
     // Реальный API вызов (закомментирован до настройки сервера)
-    const { data } = await api.post("/api/v1/clients/search", params);
+    const { data } = await api.post('/api/v1/clients/search', params);
     return data;
   },
 
   // Получение деталей клиента по ID
   async getClientDetails(clientId: number): Promise<Client> {
-    const enableMockData = import.meta.env.VITE_ENABLE_MOCK_DATA === "true";
+    const enableMockData = import.meta.env.VITE_ENABLE_MOCK_DATA === 'true';
 
     if (enableMockData) {
       await new Promise((resolve) => setTimeout(resolve, 500));
       // Находим клиента в тестовых данных
-      const { mockSearchClients } = await import("./mockData");
+      const { mockSearchClients } = await import('./mockData');
       const result = mockSearchClients({});
       const client = result.clients.find((c) => c.id === clientId);
-      if (!client) throw new Error("Клиент не найден");
+      if (!client) throw new Error('Клиент не найден');
       return client;
     }
 
@@ -94,7 +94,7 @@ export const searchApi = {
 
   // Получение связанных лиц
   async getRelatedPersons(inn: string): Promise<RelatedPerson[]> {
-    const enableMockData = import.meta.env.VITE_ENABLE_MOCK_DATA === "true";
+    const enableMockData = import.meta.env.VITE_ENABLE_MOCK_DATA === 'true';
 
     if (enableMockData) {
       await new Promise((resolve) => setTimeout(resolve, 800));
@@ -109,7 +109,7 @@ export const searchApi = {
 
   // Поиск через URSA
   async searchThroughUrsa(params: SearchParams): Promise<unknown> {
-    const { data } = await api.post("/api/v1/clients/ursa-search", params);
+    const { data } = await api.post('/api/v1/clients/ursa-search', params);
     return data;
   },
 };
@@ -120,7 +120,7 @@ export const legalEntitiesApi = {
   async batchImport(
     items: ExportItem[],
   ): Promise<{ success: number; failed: number; errors: string[] }> {
-    const { data } = await api.post("/api/legal-entities/batch", { items });
+    const { data } = await api.post('/api/legal-entities/batch', { items });
     return data;
   },
 };
@@ -134,7 +134,7 @@ export const exportApi = {
     actualDate?: string,
     notifyEmail?: string,
   ): Promise<ExportResult> {
-    const { data } = await api.post("/api/v1/export/mass", {
+    const { data } = await api.post('/api/v1/export/mass', {
       items,
       options: options as Record<string, boolean>,
       actualDate,
@@ -146,11 +146,11 @@ export const exportApi = {
   // Загрузка файла для массовой выгрузки
   async uploadExportFile(file: File): Promise<ExportItem[]> {
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append('file', file);
 
-    const { data } = await api.post("/api/v1/export/upload", formData, {
+    const { data } = await api.post('/api/v1/export/upload', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
     return data;
@@ -159,7 +159,7 @@ export const exportApi = {
   // Скачивание результата экспорта
   async downloadExportResult(exportId: string): Promise<Blob> {
     const response = await api.get(`/api/v1/export/${exportId}/download`, {
-      responseType: "blob",
+      responseType: 'blob',
     });
     return response.data;
   },
@@ -170,34 +170,34 @@ export const validationApi = {
   // Валидация ИНН
   validateInn(inn: string): {
     isValid: boolean;
-    type?: "ЮЛ" | "ИП";
+    type?: 'ЮЛ' | 'ИП';
     error?: string;
   } {
     if (!inn || !/^\d+$/.test(inn)) {
-      return { isValid: false, error: "ИНН должен содержать только цифры" };
+      return { isValid: false, error: 'ИНН должен содержать только цифры' };
     }
 
     if (inn.length !== 10 && inn.length !== 12) {
       return {
         isValid: false,
-        error: "ИНН должен содержать 10 (для ЮЛ) или 12 (для ИП) знаков",
+        error: 'ИНН должен содержать 10 (для ЮЛ) или 12 (для ИП) знаков',
       };
     }
 
-    const type = inn.length === 10 ? "ЮЛ" : "ИП";
+    const type = inn.length === 10 ? 'ЮЛ' : 'ИП';
     return { isValid: true, type };
   },
 
   // Валидация ОГРН
   validateOgrn(ogrn: string): { isValid: boolean; error?: string } {
     if (!ogrn || !/^\d+$/.test(ogrn)) {
-      return { isValid: false, error: "ОГРН должен содержать только цифры" };
+      return { isValid: false, error: 'ОГРН должен содержать только цифры' };
     }
 
     if (ogrn.length !== 13 && ogrn.length !== 15) {
       return {
         isValid: false,
-        error: "ОГРН должен содержать 13 (для ЮЛ) или 15 (для ИП) знаков",
+        error: 'ОГРН должен содержать 13 (для ЮЛ) или 15 (для ИП) знаков',
       };
     }
 
@@ -209,14 +209,14 @@ export const validationApi = {
     if (!account || !/^\d+$/.test(account)) {
       return {
         isValid: false,
-        error: "Номер счета должен содержать только цифры",
+        error: 'Номер счета должен содержать только цифры',
       };
     }
 
     if (account.length < 20 || account.length > 25) {
       return {
         isValid: false,
-        error: "Номер счета должен содержать от 20 до 25 знаков",
+        error: 'Номер счета должен содержать от 20 до 25 знаков',
       };
     }
 
@@ -229,12 +229,19 @@ export const validationApi = {
 
     const date = new Date(dateString);
     if (isNaN(date.getTime())) {
-      return { isValid: false, error: "Некорректный формат даты" };
+      return { isValid: false, error: 'Некорректный формат даты' };
     }
 
-    const now = new Date();
-    if (date > now) {
-      return { isValid: false, error: "Дата не может быть в будущем" };
+    // Сравниваем только даты (без времени) - разрешаем до сегодняшнего дня включительно
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Устанавливаем время выбранной даты на начало дня для корректного сравнения
+    const dateOnly = new Date(dateString);
+    dateOnly.setHours(0, 0, 0, 0);
+
+    if (dateOnly > today) {
+      return { isValid: false, error: 'Дата не может быть в будущем' };
     }
 
     return { isValid: true };

@@ -1,5 +1,5 @@
-import React from "react";
-import { Client, DisplayOptions } from "@/types";
+import React from 'react';
+import { Client, DisplayOptions } from '@/types';
 import {
   MapPin,
   CreditCard,
@@ -8,7 +8,7 @@ import {
   UserCheck,
   Crown,
   ExternalLink,
-} from "lucide-react";
+} from 'lucide-react';
 
 interface ClientDetailsProps {
   client: Client;
@@ -18,33 +18,33 @@ interface ClientDetailsProps {
 export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
   const getStatusClass = (status: string) => {
     switch (status) {
-      case "действующий":
-        return "success";
-      case "неактивный":
-        return "warning";
+      case 'действующий':
+        return 'success';
+      case 'неактивный':
+        return 'warning';
       default:
-        return "info";
+        return 'info';
     }
   };
 
   const getDataSourceClass = (source: string) => {
-    return source === "БД" ? "info" : "warning";
+    return source === 'БД' ? 'info' : 'warning';
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("ru-RU");
+    return new Date(dateString).toLocaleDateString('ru-RU');
   };
 
   const getAccountStatusClass = (status?: string) => {
     switch (status) {
-      case "открыт":
-        return "success";
-      case "закрыт":
-        return "danger";
-      case "блокирован":
-        return "warning";
+      case 'открыт':
+        return 'success';
+      case 'закрыт':
+        return 'danger';
+      case 'блокирован':
+        return 'warning';
       default:
-        return "info";
+        return 'info';
     }
   };
 
@@ -63,37 +63,37 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
             <div
               key={index}
               style={{
-                margin: "10px0",
-                padding: "10px",
-                background: "white",
-                borderRadius: "4px",
-                borderLeft: "4px solid var(--primary-blue)",
+                margin: '10px0',
+                padding: '10px',
+                background: 'white',
+                borderRadius: '4px',
+                borderLeft: '4px solid var(--primary-blue)',
               }}
             >
               <strong>{account.number}</strong> -
               <span
                 className={`status-badge status-${getAccountStatusClass(account.status)}`}
               >
-                {account.status || "неизвестно"}
+                {account.status || 'неизвестно'}
               </span>
               {account.openDate && (
                 <>
                   <br />
-                  <Calendar size={14} /> Дата открытия:{" "}
+                  <Calendar size={14} /> Дата открытия:{' '}
                   {formatDate(account.openDate)}
                 </>
               )}
               {account.closeDate && (
                 <>
                   <br />
-                  <Calendar size={14} /> Дата закрытия:{" "}
+                  <Calendar size={14} /> Дата закрытия:{' '}
                   {formatDate(account.closeDate)}
                 </>
               )}
               {account.blockDate && (
                 <>
                   <br />
-                  <Calendar size={14} /> Дата блокировки:{" "}
+                  <Calendar size={14} /> Дата блокировки:{' '}
                   {formatDate(account.blockDate)}
                 </>
               )}
@@ -111,7 +111,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
             <ExternalLink size={16} /> Статус резидентности
           </h4>
           <p>
-            <strong>Статус:</strong>{" "}
+            <strong>Статус:</strong>{' '}
             <span className="status-badge status-success">Резидент РФ</span>
           </p>
         </div>,
@@ -138,7 +138,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
             <strong>ИНН:</strong> 123456789012
           </p>
           <p>
-            <strong>Статус:</strong>{" "}
+            <strong>Статус:</strong>{' '}
             <span className="status-badge status-success">Клиент банка</span>
           </p>
           <p>
@@ -171,7 +171,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
             <strong>ИНН:</strong> 987654321098
           </p>
           <p>
-            <strong>Статус:</strong>{" "}
+            <strong>Статус:</strong>{' '}
             <span className="status-badge status-warning">Не клиент банка</span>
           </p>
           <p>
@@ -193,16 +193,16 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
           <h4>
             <List size={16} /> Все виды деятельности (ОКВЭД)
           </h4>
-          <ul style={{ marginLeft: "20px" }}>
-            <li>
+          <ul style={{ marginLeft: '20px' }}>
+            <li key="okved-1">
               <strong>62.01</strong> - Разработка компьютерного программного
               обеспечения (основной)
             </li>
-            <li>
+            <li key="okved-2">
               <strong>62.02</strong> - Деятельность по оказанию услуг в области
               информационных технологий
             </li>
-            <li>
+            <li key="okved-3">
               <strong>63.11.1</strong> - Деятельность по созданию и
               использованию баз данных и информационных ресурсов
             </li>
@@ -239,7 +239,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
           <div>
             <strong>ОГРН:</strong> {client.ogrn}
           </div>
-          {"kpp" in client && client.kpp && (
+          {'kpp' in client && client.kpp && (
             <div>
               <strong>КПП:</strong> {client.kpp}
             </div>
@@ -248,7 +248,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
             <strong>Номер клиента:</strong> {client.clientNumber}
           </div>
           <div>
-            <strong>Статус:</strong>{" "}
+            <strong>Статус:</strong>{' '}
             <span
               className={`status-badge status-${getStatusClass(client.status)}`}
             >
@@ -256,7 +256,7 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
             </span>
           </div>
           <div>
-            <strong>Источник данных:</strong>{" "}
+            <strong>Источник данных:</strong>{' '}
             <span
               className={`status-badge status-${getDataSourceClass(client.dataSource)}`}
             >
@@ -302,23 +302,23 @@ export function ClientDetails({ client, displayOptions }: ClientDetailsProps) {
           </p>
         )}
 
-        <div style={{ marginTop: "10px" }}>
+        <div style={{ marginTop: '10px' }}>
           <strong>Счета:</strong>
           {client.accounts.map((account, index) => (
             <div
               key={index}
               style={{
-                margin: "5px0",
-                padding: "5px",
-                background: "white",
-                borderRadius: "4px",
+                margin: '5px0',
+                padding: '5px',
+                background: 'white',
+                borderRadius: '4px',
               }}
             >
               <strong>{account.number}</strong> -
               <span
                 className={`status-badge status-${getAccountStatusClass(account.status)}`}
               >
-                {account.status || "неизвестно"}
+                {account.status || 'неизвестно'}
               </span>
               {account.openDate && (
                 <>

@@ -1,6 +1,6 @@
-import { Search, Eraser } from "lucide-react";
-import { SearchParams, DisplayOptions } from "@/types";
-import { MaskedInput } from "./MaskedInput";
+import { Search, Eraser } from 'lucide-react';
+import { SearchParams, DisplayOptions } from '@/types';
+import { MaskedInput } from './MaskedInput';
 
 interface SearchFormProps {
   searchParams: SearchParams;
@@ -45,8 +45,8 @@ export function SearchForm({
             type="text"
             id="clientIdInput"
             placeholder="ID клиента"
-            value={searchParams.clientNumber || ""}
-            onChange={(e) => updateSearchParams("clientNumber", e.target.value)}
+            value={searchParams.clientNumber || ''}
+            onChange={(e) => updateSearchParams('clientNumber', e.target.value)}
           />
         </div>
 
@@ -57,7 +57,7 @@ export function SearchForm({
             mask="999999999999"
             placeholder="Введите ИНН (10 или 12 знаков)"
             value={searchParams.inn}
-            onChange={(value) => updateSearchParams("inn", value)}
+            onChange={(value) => updateSearchParams('inn', value)}
           />
         </div>
 
@@ -68,7 +68,7 @@ export function SearchForm({
             mask="999999999999999"
             placeholder="Введите ОГРН (13 или 15 знаков)"
             value={searchParams.ogrn}
-            onChange={(value) => updateSearchParams("ogrn", value)}
+            onChange={(value) => updateSearchParams('ogrn', value)}
           />
         </div>
 
@@ -78,8 +78,8 @@ export function SearchForm({
             type="text"
             id="nameInput"
             placeholder="Введите название или часть названия"
-            value={searchParams.name || ""}
-            onChange={(e) => updateSearchParams("name", e.target.value)}
+            value={searchParams.name || ''}
+            onChange={(e) => updateSearchParams('name', e.target.value)}
           />
         </div>
 
@@ -90,7 +90,7 @@ export function SearchForm({
             mask="99999999999999999999"
             placeholder="Введите номер счета (20 знаков)"
             value={searchParams.account}
-            onChange={(value) => updateSearchParams("account", value)}
+            onChange={(value) => updateSearchParams('account', value)}
           />
         </div>
 
@@ -100,8 +100,8 @@ export function SearchForm({
             type="text"
             id="fioInput"
             placeholder="Введите ФИО для ИП"
-            value={searchParams.fio || ""}
-            onChange={(e) => updateSearchParams("fio", e.target.value)}
+            value={searchParams.fio || ''}
+            onChange={(e) => updateSearchParams('fio', e.target.value)}
           />
         </div>
 
@@ -111,20 +111,21 @@ export function SearchForm({
             <input
               type="date"
               id="actualDateSearch"
-              value={searchParams.actualDate || ""}
-              onChange={(e) => updateSearchParams("actualDate", e.target.value)}
+              value={searchParams.actualDate || ''}
+              onChange={(e) => updateSearchParams('actualDate', e.target.value)}
+              max={new Date().toISOString().split('T')[0]}
             />
           </div>
         </div>
       </div>
 
       {/* Дополнительные данные для отображения */}
-      <div className="section" style={{ marginTop: "20px" }}>
-        <h4 style={{ marginBottom: "15px", color: "var(--primary-blue)" }}>
+      <div className="section" style={{ marginTop: '20px' }}>
+        <h4 style={{ marginBottom: '15px', color: 'var(--primary-blue)' }}>
           <i className="fas fa-cogs"></i> Дополнительные данные
         </h4>
 
-        <h5 style={{ marginBottom: "10px", color: "var(--dark-gray)" }}>
+        <h5 style={{ marginBottom: '10px', color: 'var(--dark-gray)' }}>
           Краткий набор:
         </h5>
         <div className="checkbox-group">
@@ -133,7 +134,7 @@ export function SearchForm({
               type="checkbox"
               id="searchShortName"
               checked={displayOptions.searchShortName || false}
-              onChange={() => toggleDisplayOption("searchShortName")}
+              onChange={() => toggleDisplayOption('searchShortName')}
             />
             <label htmlFor="searchShortName">Наименование</label>
           </div>
@@ -142,7 +143,7 @@ export function SearchForm({
               type="checkbox"
               id="searchShortInn"
               checked={displayOptions.searchShortInn || false}
-              onChange={() => toggleDisplayOption("searchShortInn")}
+              onChange={() => toggleDisplayOption('searchShortInn')}
             />
             <label htmlFor="searchShortInn">ИНН</label>
           </div>
@@ -151,7 +152,7 @@ export function SearchForm({
               type="checkbox"
               id="searchShortOgrn"
               checked={displayOptions.searchShortOgrn || false}
-              onChange={() => toggleDisplayOption("searchShortOgrn")}
+              onChange={() => toggleDisplayOption('searchShortOgrn')}
             />
             <label htmlFor="searchShortOgrn">ОГРН</label>
           </div>
@@ -160,7 +161,7 @@ export function SearchForm({
               type="checkbox"
               id="searchShortKpp"
               checked={displayOptions.searchShortKpp || false}
-              onChange={() => toggleDisplayOption("searchShortKpp")}
+              onChange={() => toggleDisplayOption('searchShortKpp')}
             />
             <label htmlFor="searchShortKpp">КПП</label>
           </div>
@@ -169,7 +170,7 @@ export function SearchForm({
               type="checkbox"
               id="searchShortAccount"
               checked={displayOptions.searchShortAccount || false}
-              onChange={() => toggleDisplayOption("searchShortAccount")}
+              onChange={() => toggleDisplayOption('searchShortAccount')}
             />
             <label htmlFor="searchShortAccount">Счет</label>
           </div>
@@ -178,7 +179,7 @@ export function SearchForm({
               type="checkbox"
               id="searchShortRegAddress"
               checked={displayOptions.searchShortRegAddress || false}
-              onChange={() => toggleDisplayOption("searchShortRegAddress")}
+              onChange={() => toggleDisplayOption('searchShortRegAddress')}
             />
             <label htmlFor="searchShortRegAddress">Адрес регистрации</label>
           </div>
@@ -187,7 +188,7 @@ export function SearchForm({
               type="checkbox"
               id="searchShortFactAddress"
               checked={displayOptions.searchShortFactAddress || false}
-              onChange={() => toggleDisplayOption("searchShortFactAddress")}
+              onChange={() => toggleDisplayOption('searchShortFactAddress')}
             />
             <label htmlFor="searchShortFactAddress">Адрес фактический</label>
           </div>
@@ -196,7 +197,7 @@ export function SearchForm({
               type="checkbox"
               id="searchShortCeo"
               checked={displayOptions.searchShortCeo || false}
-              onChange={() => toggleDisplayOption("searchShortCeo")}
+              onChange={() => toggleDisplayOption('searchShortCeo')}
             />
             <label htmlFor="searchShortCeo">ЕИО: ФИО</label>
           </div>
@@ -205,7 +206,7 @@ export function SearchForm({
               type="checkbox"
               id="searchShortBeneficiary"
               checked={displayOptions.searchShortBeneficiary || false}
-              onChange={() => toggleDisplayOption("searchShortBeneficiary")}
+              onChange={() => toggleDisplayOption('searchShortBeneficiary')}
             />
             <label htmlFor="searchShortBeneficiary">Бенефициар: ФИО</label>
           </div>
@@ -214,7 +215,7 @@ export function SearchForm({
               type="checkbox"
               id="searchShortRegDate"
               checked={displayOptions.searchShortRegDate || false}
-              onChange={() => toggleDisplayOption("searchShortRegDate")}
+              onChange={() => toggleDisplayOption('searchShortRegDate')}
             />
             <label htmlFor="searchShortRegDate">Дата регистрации</label>
           </div>
@@ -223,13 +224,13 @@ export function SearchForm({
               type="checkbox"
               id="searchShortOkved"
               checked={displayOptions.searchShortOkved || false}
-              onChange={() => toggleDisplayOption("searchShortOkved")}
+              onChange={() => toggleDisplayOption('searchShortOkved')}
             />
             <label htmlFor="searchShortOkved">ОКВЭД</label>
           </div>
         </div>
 
-        <h5 style={{ margin: "20px 0 10px 0", color: "var(--dark-gray)" }}>
+        <h5 style={{ margin: '20px 0 10px 0', color: 'var(--dark-gray)' }}>
           Расширенный набор:
         </h5>
         <div className="checkbox-group">
@@ -238,7 +239,7 @@ export function SearchForm({
               type="checkbox"
               id="searchExtAccountDetails"
               checked={displayOptions.searchExtAccountDetails || false}
-              onChange={() => toggleDisplayOption("searchExtAccountDetails")}
+              onChange={() => toggleDisplayOption('searchExtAccountDetails')}
             />
             <label htmlFor="searchExtAccountDetails">Счет</label>
           </div>
@@ -247,7 +248,7 @@ export function SearchForm({
               type="checkbox"
               id="searchExtResidency"
               checked={displayOptions.searchExtResidency || false}
-              onChange={() => toggleDisplayOption("searchExtResidency")}
+              onChange={() => toggleDisplayOption('searchExtResidency')}
             />
             <label htmlFor="searchExtResidency">Статус (резидент)</label>
           </div>
@@ -256,7 +257,7 @@ export function SearchForm({
               type="checkbox"
               id="searchExtCeoDetails"
               checked={displayOptions.searchExtCeoDetails || false}
-              onChange={() => toggleDisplayOption("searchExtCeoDetails")}
+              onChange={() => toggleDisplayOption('searchExtCeoDetails')}
             />
             <label htmlFor="searchExtCeoDetails">ЕИО: полные данные</label>
           </div>
@@ -266,7 +267,7 @@ export function SearchForm({
               id="searchExtBeneficiaryDetails"
               checked={displayOptions.searchExtBeneficiaryDetails || false}
               onChange={() =>
-                toggleDisplayOption("searchExtBeneficiaryDetails")
+                toggleDisplayOption('searchExtBeneficiaryDetails')
               }
             />
             <label htmlFor="searchExtBeneficiaryDetails">
@@ -278,7 +279,7 @@ export function SearchForm({
               type="checkbox"
               id="searchExtAllOkved"
               checked={displayOptions.searchExtAllOkved || false}
-              onChange={() => toggleDisplayOption("searchExtAllOkved")}
+              onChange={() => toggleDisplayOption('searchExtAllOkved')}
             />
             <label htmlFor="searchExtAllOkved">ОКВЭД (все)</label>
           </div>
@@ -287,7 +288,7 @@ export function SearchForm({
               type="checkbox"
               id="searchExtRelatedPersons"
               checked={displayOptions.searchExtRelatedPersons || false}
-              onChange={() => toggleDisplayOption("searchExtRelatedPersons")}
+              onChange={() => toggleDisplayOption('searchExtRelatedPersons')}
             />
             <label htmlFor="searchExtRelatedPersons">
               Связанные лица из БД AML SME
@@ -300,12 +301,12 @@ export function SearchForm({
       <div>
         <button onClick={onSearch} disabled={isLoading}>
           <Search size={16} />
-          {isLoading ? "Поиск..." : "Поиск клиентов"}
+          {isLoading ? 'Поиск...' : 'Поиск клиентов'}
         </button>
         <button
           className="btn-secondary"
           onClick={onClear}
-          style={{ marginLeft: "10px" }}
+          style={{ marginLeft: '10px' }}
         >
           <Eraser size={16} />
           Очистить форму
