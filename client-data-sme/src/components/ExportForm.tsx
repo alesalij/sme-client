@@ -1,5 +1,6 @@
 import { Download, Trash2, Mail } from 'lucide-react';
 import { ExportOptions } from '@/types';
+import { CheckboxItem } from './CheckboxItem';
 
 interface ExportFormProps {
   displayOptions: ExportOptions;
@@ -43,169 +44,114 @@ export function ExportForm({
         Краткий набор:
       </h5>
       <div className="checkbox-group">
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortName"
-            checked={displayOptions.exportShortName}
-            onChange={() => toggleDisplayOption('exportShortName')}
-          />
-          <label htmlFor="exportShortName">Наименование</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortInn"
-            checked={displayOptions.exportShortInn}
-            onChange={() => toggleDisplayOption('exportShortInn')}
-          />
-          <label htmlFor="exportShortInn">ИНН</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortOgrn"
-            checked={displayOptions.exportShortOgrn}
-            onChange={() => toggleDisplayOption('exportShortOgrn')}
-          />
-          <label htmlFor="exportShortOgrn">ОГРН</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortKpp"
-            checked={displayOptions.exportShortKpp}
-            onChange={() => toggleDisplayOption('exportShortKpp')}
-          />
-          <label htmlFor="exportShortKpp">КПП</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortAccount"
-            checked={displayOptions.exportShortAccount}
-            onChange={() => toggleDisplayOption('exportShortAccount')}
-          />
-          <label htmlFor="exportShortAccount">Счет</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortRegAddress"
-            checked={displayOptions.exportShortRegAddress}
-            onChange={() => toggleDisplayOption('exportShortRegAddress')}
-          />
-          <label htmlFor="exportShortRegAddress">Адрес регистрации</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortFactAddress"
-            checked={displayOptions.exportShortFactAddress}
-            onChange={() => toggleDisplayOption('exportShortFactAddress')}
-          />
-          <label htmlFor="exportShortFactAddress">Адрес фактический</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortCeo"
-            checked={displayOptions.exportShortCeo}
-            onChange={() => toggleDisplayOption('exportShortCeo')}
-          />
-          <label htmlFor="exportShortCeo">ЕИО: ФИО</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortBeneficiary"
-            checked={displayOptions.exportShortBeneficiary}
-            onChange={() => toggleDisplayOption('exportShortBeneficiary')}
-          />
-          <label htmlFor="exportShortBeneficiary">Бенефициар: ФИО</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortRegDate"
-            checked={displayOptions.exportShortRegDate}
-            onChange={() => toggleDisplayOption('exportShortRegDate')}
-          />
-          <label htmlFor="exportShortRegDate">Дата регистрации</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportShortOkved"
-            checked={displayOptions.exportShortOkved}
-            onChange={() => toggleDisplayOption('exportShortOkved')}
-          />
-          <label htmlFor="exportShortOkved">ОКВЭД</label>
-        </div>
+        <CheckboxItem
+          id="exportShortName"
+          label="Наименование"
+          checked={displayOptions.exportShortName}
+          onChange={() => toggleDisplayOption('exportShortName')}
+        />
+        <CheckboxItem
+          id="exportShortInn"
+          label="ИНН"
+          checked={displayOptions.exportShortInn}
+          onChange={() => toggleDisplayOption('exportShortInn')}
+        />
+        <CheckboxItem
+          id="exportShortOgrn"
+          label="ОГРН"
+          checked={displayOptions.exportShortOgrn}
+          onChange={() => toggleDisplayOption('exportShortOgrn')}
+        />
+        <CheckboxItem
+          id="exportShortKpp"
+          label="КПП"
+          checked={displayOptions.exportShortKpp}
+          onChange={() => toggleDisplayOption('exportShortKpp')}
+        />
+        <CheckboxItem
+          id="exportShortAccount"
+          label="Счет"
+          checked={displayOptions.exportShortAccount}
+          onChange={() => toggleDisplayOption('exportShortAccount')}
+        />
+        <CheckboxItem
+          id="exportShortRegAddress"
+          label="Адрес регистрации"
+          checked={displayOptions.exportShortRegAddress}
+          onChange={() => toggleDisplayOption('exportShortRegAddress')}
+        />
+        <CheckboxItem
+          id="exportShortFactAddress"
+          label="Адрес фактический"
+          checked={displayOptions.exportShortFactAddress}
+          onChange={() => toggleDisplayOption('exportShortFactAddress')}
+        />
+        <CheckboxItem
+          id="exportShortCeo"
+          label="ЕИО: ФИО"
+          checked={displayOptions.exportShortCeo}
+          onChange={() => toggleDisplayOption('exportShortCeo')}
+        />
+        <CheckboxItem
+          id="exportShortBeneficiary"
+          label="Бенефициар: ФИО"
+          checked={displayOptions.exportShortBeneficiary}
+          onChange={() => toggleDisplayOption('exportShortBeneficiary')}
+        />
+        <CheckboxItem
+          id="exportShortRegDate"
+          label="Дата регистрации"
+          checked={displayOptions.exportShortRegDate}
+          onChange={() => toggleDisplayOption('exportShortRegDate')}
+        />
+        <CheckboxItem
+          id="exportShortOkved"
+          label="ОКВЭД"
+          checked={displayOptions.exportShortOkved}
+          onChange={() => toggleDisplayOption('exportShortOkved')}
+        />
       </div>
 
       <h5 style={{ margin: '20px 0 10px 0', color: 'var(--dark-gray)' }}>
         Расширенный набор:
       </h5>
       <div className="checkbox-group">
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportExtAccountDetails"
-            checked={displayOptions.exportExtAccountDetails}
-            onChange={() => toggleDisplayOption('exportExtAccountDetails')}
-          />
-          <label htmlFor="exportExtAccountDetails">Счет</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportExtResidency"
-            checked={displayOptions.exportExtResidency}
-            onChange={() => toggleDisplayOption('exportExtResidency')}
-          />
-          <label htmlFor="exportExtResidency">Статус (резидент)</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportExtCeoDetails"
-            checked={displayOptions.exportExtCeoDetails}
-            onChange={() => toggleDisplayOption('exportExtCeoDetails')}
-          />
-          <label htmlFor="exportExtCeoDetails">ЕИО: полные данные</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportExtBeneficiaryDetails"
-            checked={displayOptions.exportExtBeneficiaryDetails}
-            onChange={() => toggleDisplayOption('exportExtBeneficiaryDetails')}
-          />
-          <label htmlFor="exportExtBeneficiaryDetails">
-            Бенефициар: полные данные
-          </label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportExtAllOkved"
-            checked={displayOptions.exportExtAllOkved}
-            onChange={() => toggleDisplayOption('exportExtAllOkved')}
-          />
-          <label htmlFor="exportExtAllOkved">ОКВЭД (все)</label>
-        </div>
-        <div className="checkbox-item">
-          <input
-            type="checkbox"
-            id="exportExtRelatedPersons"
-            checked={displayOptions.exportExtRelatedPersons}
-            onChange={() => toggleDisplayOption('exportExtRelatedPersons')}
-          />
-          <label htmlFor="exportExtRelatedPersons">
-            Связанные лица из БД AML SME
-          </label>
-        </div>
+        <CheckboxItem
+          id="exportExtAccountDetails"
+          label="Счет"
+          checked={displayOptions.exportExtAccountDetails}
+          onChange={() => toggleDisplayOption('exportExtAccountDetails')}
+        />
+        <CheckboxItem
+          id="exportExtResidency"
+          label="Статус (резидент)"
+          checked={displayOptions.exportExtResidency}
+          onChange={() => toggleDisplayOption('exportExtResidency')}
+        />
+        <CheckboxItem
+          id="exportExtCeoDetails"
+          label="ЕИО: полные данные"
+          checked={displayOptions.exportExtCeoDetails}
+          onChange={() => toggleDisplayOption('exportExtCeoDetails')}
+        />
+        <CheckboxItem
+          id="exportExtBeneficiaryDetails"
+          label="Бенефициар: полные данные"
+          checked={displayOptions.exportExtBeneficiaryDetails}
+          onChange={() => toggleDisplayOption('exportExtBeneficiaryDetails')}
+        />
+        <CheckboxItem
+          id="exportExtAllOkved"
+          label="ОКВЭД (все)"
+          checked={displayOptions.exportExtAllOkved}
+          onChange={() => toggleDisplayOption('exportExtAllOkved')}
+        />
+        <CheckboxItem
+          id="exportExtRelatedPersons"
+          label="Связанные лица из БД AML SME"
+          checked={displayOptions.exportExtRelatedPersons}
+          onChange={() => toggleDisplayOption('exportExtRelatedPersons')}
+        />
       </div>
 
       {/* Дата актуальности */}

@@ -1,6 +1,7 @@
 import { Search, Eraser } from 'lucide-react';
 import { SearchParams, DisplayOptions } from '@/types';
 import { MaskedInput } from './MaskedInput';
+import { CheckboxItem } from './CheckboxItem';
 
 interface SearchFormProps {
   searchParams: SearchParams;
@@ -129,171 +130,114 @@ export function SearchForm({
           Краткий набор:
         </h5>
         <div className="checkbox-group">
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortName"
-              checked={displayOptions.searchShortName || false}
-              onChange={() => toggleDisplayOption('searchShortName')}
-            />
-            <label htmlFor="searchShortName">Наименование</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortInn"
-              checked={displayOptions.searchShortInn || false}
-              onChange={() => toggleDisplayOption('searchShortInn')}
-            />
-            <label htmlFor="searchShortInn">ИНН</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortOgrn"
-              checked={displayOptions.searchShortOgrn || false}
-              onChange={() => toggleDisplayOption('searchShortOgrn')}
-            />
-            <label htmlFor="searchShortOgrn">ОГРН</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortKpp"
-              checked={displayOptions.searchShortKpp || false}
-              onChange={() => toggleDisplayOption('searchShortKpp')}
-            />
-            <label htmlFor="searchShortKpp">КПП</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortAccount"
-              checked={displayOptions.searchShortAccount || false}
-              onChange={() => toggleDisplayOption('searchShortAccount')}
-            />
-            <label htmlFor="searchShortAccount">Счет</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortRegAddress"
-              checked={displayOptions.searchShortRegAddress || false}
-              onChange={() => toggleDisplayOption('searchShortRegAddress')}
-            />
-            <label htmlFor="searchShortRegAddress">Адрес регистрации</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortFactAddress"
-              checked={displayOptions.searchShortFactAddress || false}
-              onChange={() => toggleDisplayOption('searchShortFactAddress')}
-            />
-            <label htmlFor="searchShortFactAddress">Адрес фактический</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortCeo"
-              checked={displayOptions.searchShortCeo || false}
-              onChange={() => toggleDisplayOption('searchShortCeo')}
-            />
-            <label htmlFor="searchShortCeo">ЕИО: ФИО</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortBeneficiary"
-              checked={displayOptions.searchShortBeneficiary || false}
-              onChange={() => toggleDisplayOption('searchShortBeneficiary')}
-            />
-            <label htmlFor="searchShortBeneficiary">Бенефициар: ФИО</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortRegDate"
-              checked={displayOptions.searchShortRegDate || false}
-              onChange={() => toggleDisplayOption('searchShortRegDate')}
-            />
-            <label htmlFor="searchShortRegDate">Дата регистрации</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchShortOkved"
-              checked={displayOptions.searchShortOkved || false}
-              onChange={() => toggleDisplayOption('searchShortOkved')}
-            />
-            <label htmlFor="searchShortOkved">ОКВЭД</label>
-          </div>
+          <CheckboxItem
+            id="searchShortName"
+            label="Наименование"
+            checked={displayOptions.searchShortName || false}
+            onChange={() => toggleDisplayOption('searchShortName')}
+          />
+          <CheckboxItem
+            id="searchShortInn"
+            label="ИНН"
+            checked={displayOptions.searchShortInn || false}
+            onChange={() => toggleDisplayOption('searchShortInn')}
+          />
+          <CheckboxItem
+            id="searchShortOgrn"
+            label="ОГРН"
+            checked={displayOptions.searchShortOgrn || false}
+            onChange={() => toggleDisplayOption('searchShortOgrn')}
+          />
+          <CheckboxItem
+            id="searchShortKpp"
+            label="КПП"
+            checked={displayOptions.searchShortKpp || false}
+            onChange={() => toggleDisplayOption('searchShortKpp')}
+          />
+          <CheckboxItem
+            id="searchShortAccount"
+            label="Счет"
+            checked={displayOptions.searchShortAccount || false}
+            onChange={() => toggleDisplayOption('searchShortAccount')}
+          />
+          <CheckboxItem
+            id="searchShortRegAddress"
+            label="Адрес регистрации"
+            checked={displayOptions.searchShortRegAddress || false}
+            onChange={() => toggleDisplayOption('searchShortRegAddress')}
+          />
+          <CheckboxItem
+            id="searchShortFactAddress"
+            label="Адрес фактический"
+            checked={displayOptions.searchShortFactAddress || false}
+            onChange={() => toggleDisplayOption('searchShortFactAddress')}
+          />
+          <CheckboxItem
+            id="searchShortCeo"
+            label="ЕИО: ФИО"
+            checked={displayOptions.searchShortCeo || false}
+            onChange={() => toggleDisplayOption('searchShortCeo')}
+          />
+          <CheckboxItem
+            id="searchShortBeneficiary"
+            label="Бенефициар: ФИО"
+            checked={displayOptions.searchShortBeneficiary || false}
+            onChange={() => toggleDisplayOption('searchShortBeneficiary')}
+          />
+          <CheckboxItem
+            id="searchShortRegDate"
+            label="Дата регистрации"
+            checked={displayOptions.searchShortRegDate || false}
+            onChange={() => toggleDisplayOption('searchShortRegDate')}
+          />
+          <CheckboxItem
+            id="searchShortOkved"
+            label="ОКВЭД"
+            checked={displayOptions.searchShortOkved || false}
+            onChange={() => toggleDisplayOption('searchShortOkved')}
+          />
         </div>
 
         <h5 style={{ margin: '20px 0 10px 0', color: 'var(--dark-gray)' }}>
           Расширенный набор:
         </h5>
         <div className="checkbox-group">
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchExtAccountDetails"
-              checked={displayOptions.searchExtAccountDetails || false}
-              onChange={() => toggleDisplayOption('searchExtAccountDetails')}
-            />
-            <label htmlFor="searchExtAccountDetails">Счет</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchExtResidency"
-              checked={displayOptions.searchExtResidency || false}
-              onChange={() => toggleDisplayOption('searchExtResidency')}
-            />
-            <label htmlFor="searchExtResidency">Статус (резидент)</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchExtCeoDetails"
-              checked={displayOptions.searchExtCeoDetails || false}
-              onChange={() => toggleDisplayOption('searchExtCeoDetails')}
-            />
-            <label htmlFor="searchExtCeoDetails">ЕИО: полные данные</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchExtBeneficiaryDetails"
-              checked={displayOptions.searchExtBeneficiaryDetails || false}
-              onChange={() =>
-                toggleDisplayOption('searchExtBeneficiaryDetails')
-              }
-            />
-            <label htmlFor="searchExtBeneficiaryDetails">
-              Бенефициар: полные данные
-            </label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchExtAllOkved"
-              checked={displayOptions.searchExtAllOkved || false}
-              onChange={() => toggleDisplayOption('searchExtAllOkved')}
-            />
-            <label htmlFor="searchExtAllOkved">ОКВЭД (все)</label>
-          </div>
-          <div className="checkbox-item">
-            <input
-              type="checkbox"
-              id="searchExtRelatedPersons"
-              checked={displayOptions.searchExtRelatedPersons || false}
-              onChange={() => toggleDisplayOption('searchExtRelatedPersons')}
-            />
-            <label htmlFor="searchExtRelatedPersons">
-              Связанные лица из БД AML SME
-            </label>
-          </div>
+          <CheckboxItem
+            id="searchExtAccountDetails"
+            label="Счет"
+            checked={displayOptions.searchExtAccountDetails || false}
+            onChange={() => toggleDisplayOption('searchExtAccountDetails')}
+          />
+          <CheckboxItem
+            id="searchExtResidency"
+            label="Статус (резидент)"
+            checked={displayOptions.searchExtResidency || false}
+            onChange={() => toggleDisplayOption('searchExtResidency')}
+          />
+          <CheckboxItem
+            id="searchExtCeoDetails"
+            label="ЕИО: полные данные"
+            checked={displayOptions.searchExtCeoDetails || false}
+            onChange={() => toggleDisplayOption('searchExtCeoDetails')}
+          />
+          <CheckboxItem
+            id="searchExtBeneficiaryDetails"
+            label="Бенефициар: полные данные"
+            checked={displayOptions.searchExtBeneficiaryDetails || false}
+            onChange={() => toggleDisplayOption('searchExtBeneficiaryDetails')}
+          />
+          <CheckboxItem
+            id="searchExtAllOkved"
+            label="ОКВЭД (все)"
+            checked={displayOptions.searchExtAllOkved || false}
+            onChange={() => toggleDisplayOption('searchExtAllOkved')}
+          />
+          <CheckboxItem
+            id="searchExtRelatedPersons"
+            label="Связанные лица из БД AML SME"
+            checked={displayOptions.searchExtRelatedPersons || false}
+            onChange={() => toggleDisplayOption('searchExtRelatedPersons')}
+          />
         </div>
       </div>
 
