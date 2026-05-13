@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Search, Eye, EyeOff } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { searchApi, validationApi } from "@/api/client";
-import { SearchParams, DisplayOptions, Client } from "@/types";
-import { ClientCard } from "@/components/ClientCard";
-import { ClientDetails } from "@/components/ClientDetails";
-import { RelatedPersonsSection } from "@/components/RelatedPersonsSection";
-import { SearchForm } from "@/components/SearchForm";
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Search, Eye, EyeOff } from 'lucide-react';
+import { toast } from 'react-hot-toast';
+import { searchApi, validationApi } from '@/api/client';
+import { SearchParams, DisplayOptions, Client } from '@/types';
+import { ClientCard } from '@/components/ClientCard';
+import { ClientDetails } from '@/components/ClientDetails';
+import { RelatedPersonsSection } from '@/components/RelatedPersonsSection';
+import { SearchForm } from '@/components/SearchForm';
 
 export function SearchPage() {
   const [searchParams, setSearchParams] = useState<SearchParams>({});
@@ -34,7 +34,7 @@ export function SearchPage() {
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: ["clients", searchParams, displayOptions],
+    queryKey: ['clients', searchParams],
     queryFn: () =>
       searchApi.searchClients({ ...searchParams, ...displayOptions }),
     enabled: false, // Запускаем вручную
@@ -42,7 +42,7 @@ export function SearchPage() {
 
   // Запрос связанных лиц
   const { data: relatedPersons } = useQuery({
-    queryKey: ["related", selectedClient?.inn],
+    queryKey: ['related', selectedClient?.inn],
     queryFn: () =>
       selectedClient ? searchApi.getRelatedPersons(selectedClient.inn) : [],
     enabled: !!selectedClient && displayOptions.searchExtRelatedPersons,
@@ -53,7 +53,7 @@ export function SearchPage() {
     if (searchParams.inn) {
       const innValidation = validationApi.validateInn(searchParams.inn);
       if (!innValidation.isValid) {
-        toast.error(innValidation.error || "Некорректный ИНН");
+        toast.error(innValidation.error || 'Некорректный ИНН');
         return;
       }
     }
@@ -61,7 +61,7 @@ export function SearchPage() {
     if (searchParams.ogrn) {
       const ogrnValidation = validationApi.validateOgrn(searchParams.ogrn);
       if (!ogrnValidation.isValid) {
-        toast.error(ogrnValidation.error || "Некорректный ОГРН");
+        toast.error(ogrnValidation.error || 'Некорректный ОГРН');
         return;
       }
     }
@@ -71,7 +71,7 @@ export function SearchPage() {
         searchParams.account,
       );
       if (!accountValidation.isValid) {
-        toast.error(accountValidation.error || "Некорректный номер счета");
+        toast.error(accountValidation.error || 'Некорректный номер счета');
         return;
       }
     }
@@ -81,7 +81,7 @@ export function SearchPage() {
         searchParams.actualDate,
       );
       if (!dateValidation.isValid) {
-        toast.error(dateValidation.error || "Некорректная дата");
+        toast.error(dateValidation.error || 'Некорректная дата');
         return;
       }
     }
@@ -91,15 +91,15 @@ export function SearchPage() {
       (param) => param && param.trim(),
     );
     if (!hasParams) {
-      toast.error("Пожалуйста, введите хотя бы один параметр поиска");
+      toast.error('Пожалуйста, введите хотя бы один параметр поиска');
       return;
     }
 
     try {
       await refetch();
     } catch (error) {
-      toast.error("Ошибка при поиске клиентов");
-      console.error("Search error:", error);
+      toast.error('Ошибка при поиске клиентов');
+      console.error('Search error:', error);
     }
   };
 
@@ -112,7 +112,7 @@ export function SearchPage() {
     setSelectedClient(client);
   };
 
-  const fillExample = (inn: string, type: "ЮЛ" | "ИП") => {
+  const fillExample = (inn: string, type: 'ЮЛ' | 'ИП') => {
     setSearchParams({ inn });
     toast.success(`Заполнен пример ${type}: ${inn}`);
   };
@@ -135,7 +135,7 @@ export function SearchPage() {
               </h4>
               <button
                 className="btn-secondary"
-                style={{ padding: "8px 16px", fontSize: "0.9rem" }}
+                style={{ padding: '8px 16px', fontSize: '0.9rem' }}
                 onClick={() => setShowExamples(false)}
               >
                 <EyeOff size={16} /> Скрыть примеры
@@ -144,21 +144,21 @@ export function SearchPage() {
             <div className="example-grid">
               <div
                 className="example-item"
-                onClick={() => fillExample("7713123456", "ЮЛ")}
+                onClick={() => fillExample('7713123456', 'ЮЛ')}
               >
                 <div className="example-type">Юридическое лицо</div>
                 <div className="example-value">7713123456</div>
               </div>
               <div
                 className="example-item"
-                onClick={() => fillExample("7713987654", "ЮЛ")}
+                onClick={() => fillExample('7713987654', 'ЮЛ')}
               >
                 <div className="example-type">Юридическое лицо</div>
                 <div className="example-value">7713987654</div>
               </div>
               <div
                 className="example-item"
-                onClick={() => fillExample("123456789012", "ИП")}
+                onClick={() => fillExample('123456789012', 'ИП')}
               >
                 <div className="example-type">
                   Индивидуальный предприниматель
@@ -167,7 +167,7 @@ export function SearchPage() {
               </div>
               <div
                 className="example-item"
-                onClick={() => fillExample("987654321098", "ИП")}
+                onClick={() => fillExample('987654321098', 'ИП')}
               >
                 <div className="example-type">
                   Индивидуальный предприниматель
