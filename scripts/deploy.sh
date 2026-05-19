@@ -1,16 +1,16 @@
 #!/bin/bash
 
-# Скрипт быстрого деплоя
+# Скрипт быстрого деплоя всего проекта (frontend + backend)
 # Этот скрипт собирает и разворачивает приложение используя Docker
 
-set -e  # Выход при ошибке
+set -e
 
 # Цвета для вывода
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # Без цвета
+NC='\033[0m'
 
 # Функции
 log_info() {
@@ -42,16 +42,11 @@ if ! command -v docker-compose &> /dev/null; then
 fi
 
 # Парсинг аргументов
-MODE="production"
 REBUILD=false
 DETACHED=true
 
 while [[ $# -gt 0 ]]; do
     case $1 in
-        --dev)
-            MODE="development"
-            shift
-            ;;
         --rebuild)
             REBUILD=true
             shift
@@ -64,7 +59,6 @@ while [[ $# -gt 0 ]]; do
             echo "Использование: ./deploy.sh [ОПЦИИ]"
             echo ""
             echo "Опции:"
-            echo "  --dev        Запуск в режиме разработки"
             echo "  --rebuild    Пересобрать образы перед запуском"
             echo "  --no-detach  Не запускать в фоновом режиме"
             echo "  --help       Показать справку"
@@ -80,60 +74,38 @@ done
 
 # Функция деплоя
 deploy() {
-    log_info "Запуск деплоя в режиме $MODE..."
+    log_info "Запуск деплоя проекта (frontend + backend)..."
     echo ""
+
+    COMPOSE_FILE="docker-compose.prod.yml"
 
     # Остановка существующих контейнеров
     log_info "Остановка существующих контейнеров..."
-    if [ "$MODE" = "development" ]; then
-        docker-compose -f docker-compose.dev.yml down 2>/dev/null || true
-    else
-        docker-compose -f docker-compose.prod.yml down 2>/dev/null || true
-    fi
+    docker-compose -f $COMPOSE_FILE down 2>/dev/null || true
     log_success "Контейнеры остановлены"
     echo ""
 
     # Пересборка если запрошено
     if [ "$REBUILD" = true ]; then
         log_info "Пересборка Docker образов..."
-        if [ "$MODE" = "development" ]; then
-            docker-compose -f docker-compose.dev.yml build --no-cache
-        else
-            docker-compose -f docker-compose.prod.yml build --no-cache
-        fi
+        docker-compose -f $COMPOSE_FILE build --no-cache
         log_success "Образы пересобраны"
+        echo ""
+    fi
+
+    # Генерация SSL-сертификатов если их нет
+    if [ ! -f "./nginx/ssl/cert.pem" ] || [ ! -f "./nginx/ssl/key.pem" ]; then
+        log_info "SSL-сертификаты не найдены. Генерация самоподписанных сертификатов..."
+        bash "$(dirname "$0")/generate-ssl.sh"
         echo ""
     fi
 
     # Запуск контейнеров
     log_info "Запуск контейнеров..."
-    if [ "$MODE" = "development" ]; then
-        COMPOSE_FILE="docker-compose.dev.yml"
-        SERVICE_NAME="client-data-sme-dev"
-        PORT="5173"
-        
-        if [ "$DETACHED" = true ]; then
-            docker-compose -f $COMPOSE_FILE up -d
-        else
-            docker-compose -f $COMPOSE_FILE up
-        fi
+    if [ "$DETACHED" = true ]; then
+        docker-compose -f $COMPOSE_FILE up -d
     else
-        COMPOSE_FILE="docker-compose.prod.yml"
-        SERVICE_NAME="client-data-sme-app"
-        PORT="443"
-
-        # Генерация SSL-сертификатов если их нет
-        if [ ! -f "./nginx/ssl/cert.pem" ] || [ ! -f "./nginx/ssl/key.pem" ]; then
-            log_info "SSL-сертификаты не найдены. Генерация самоподписанных сертификатов..."
-            bash "$(dirname "$0")/generate-ssl.sh"
-            echo ""
-        fi
-
-        if [ "$DETACHED" = true ]; then
-            docker-compose -f $COMPOSE_FILE up -d
-        else
-            docker-compose -f $COMPOSE_FILE up
-        fi
+        docker-compose -f $COMPOSE_FILE up
     fi
 
     log_success "Контейнеры запущены"
@@ -143,16 +115,9 @@ deploy() {
     if [ "$DETACHED" = true ]; then
         log_info "Ожидание готовности приложения..."
         for i in {1..30}; do
-            if [ "$MODE" = "development" ]; then
-                if curl -s http://localhost:$PORT/health > /dev/null 2>&1; then
-                    log_success "Приложение готово!"
-                    break
-                fi
-            else
-                if curl -sk https://localhost/health > /dev/null 2>&1; then
-                    log_success "Приложение готово!"
-                    break
-                fi
+            if curl -sk https://localhost/health > /dev/null 2>&1; then
+                log_success "Приложение готово!"
+                break
             fi
             if [ $i -eq 30 ]; then
                 log_warning "Health check истекло время ожидания, но контейнеры запущены"
@@ -169,24 +134,18 @@ deploy() {
     echo ""
 
     # Сообщение об успехе
-    log_success "Деплой успешно завершен!"
+    log_success "Деплой проекта успешно завершен!"
     echo ""
     echo "📝 Информация о приложении:"
-    echo "   - Режим: $MODE"
-    echo "   - Сервис: $SERVICE_NAME"
-    if [ "$MODE" = "development" ]; then
-        echo "   - URL: http://localhost:$PORT"
-        echo "   - Health check: http://localhost:$PORT/health"
-    else
-        echo "   - URL: https://localhost"
-        echo "   - Health check: https://localhost/health (или http://localhost/health)"
-    fi
+    echo "   - URL: https://localhost"
+    echo "   - Health check: https://localhost/health (или http://localhost/health)"
+    echo "   - Swagger Docs: https://localhost/docs"
     echo ""
     echo "📋 Полезные команды:"
     echo "   - Просмотр логов: docker-compose -f $COMPOSE_FILE logs -f"
     echo "   - Остановка контейнеров: docker-compose -f $COMPOSE_FILE down"
     echo "   - Перезапуск контейнеров: docker-compose -f $COMPOSE_FILE restart"
-    echo "   - Выполнение в контейнере: docker-compose -f $COMPOSE_FILE exec $SERVICE_NAME sh"
+    echo "   - Выполнение в контейнере: docker-compose -f $COMPOSE_FILE exec <service> sh"
 }
 
 # Запуск деплоя

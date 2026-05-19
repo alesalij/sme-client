@@ -109,6 +109,11 @@ pids
 # dotenv environment variables file
 .env
 
+# SSL certificates
+nginx/ssl/*.pem
+nginx/ssl/*.key
+nginx/ssl/*.crt
+
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
 

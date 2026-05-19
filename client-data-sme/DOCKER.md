@@ -84,7 +84,7 @@ CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
 ### docker-compose.yml (Production)
 
 ```yaml
-version: "3.8"
+version: '3.8'
 
 services:
   client-data-sme:
@@ -93,19 +93,19 @@ services:
       dockerfile: Dockerfile
     container_name: client-data-sme
     ports:
-      - "80:80"
+      - '80:80'
     environment:
       - NODE_ENV=production
     restart: unless-stopped
     healthcheck:
       test:
         [
-          "CMD",
-          "wget",
-          "--quiet",
-          "--tries=1",
-          "--spider",
-          "http://localhost/health",
+          'CMD',
+          'wget',
+          '--quiet',
+          '--tries=1',
+          '--spider',
+          'http://localhost/health',
         ]
       interval: 30s
       timeout: 10s
@@ -122,7 +122,7 @@ networks:
 ### docker-compose.dev.yml (Development)
 
 ```yaml
-version: "3.8"
+version: '3.8'
 
 services:
   client-data-sme-dev:
@@ -131,7 +131,7 @@ services:
       dockerfile: Dockerfile.dev
     container_name: client-data-sme-dev
     ports:
-      - "5173:5173"
+      - '5173:5173'
     volumes:
       - ./src:/app/src
       - ./public:/app/public
@@ -160,6 +160,33 @@ The nginx configuration includes:
 - SPA routing support
 - Health check endpoint
 - Optional API proxy (commented out)
+
+### SSL / HTTPS
+
+По умолчанию production-деплой использует HTTPS через Nginx reverse proxy.
+
+**Автоматическая генерация (самоподписанные сертификаты):**
+
+```bash
+# Запускается автоматически при ./scripts/deploy.sh
+# Или вручную:
+./scripts/generate-ssl.sh
+```
+
+**Использование собственных сертификатов:**
+Поместите файлы в `nginx/ssl/`:
+
+- `cert.pem` — сертификат (включая промежуточные, если есть)
+- `key.pem` — приватный ключ
+
+**Let's Encrypt (для публичных доменов):**
+Можно заменить volume в `docker-compose.prod.yml` на пути certbot:
+
+```yaml
+volumes:
+  - /etc/letsencrypt/live/your-domain/fullchain.pem:/etc/nginx/ssl/cert.pem:ro
+  - /etc/letsencrypt/live/your-domain/privkey.pem:/etc/nginx/ssl/key.pem:ro
+```
 
 ### Environment Variables
 
@@ -261,10 +288,22 @@ docker-compose -f docker-compose.dev.yml up
 
 ```bash
 # Build and start
+docker-compose -f docker-compose.prod.yml up -d
+
+# Access at https://localhost
+# Health check at https://localhost/health
+```
+
+> **Примечание:** При первом запуске автоматически генерируются самоподписанные SSL-сертификаты. Для использования собственных сертификатов поместите их в `nginx/ssl/cert.pem` и `nginx/ssl/key.pem`.
+
+### 3. Production Deployment (HTTP only — legacy)
+
+```bash
+# Build and start
 docker-compose up -d
 
-# Access at http://localhost
-# Health check at http://localhost/health
+# Access at http://localhost:5180
+# Health check at http://localhost:5180/health
 ```
 
 ### 3. Behind Reverse Proxy

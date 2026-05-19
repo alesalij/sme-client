@@ -31,6 +31,29 @@ npm install
 npm run start:dev
 ```
 
+## Docker Deployment
+
+### Production (HTTPS)
+
+```bash
+# Build and run with HTTPS
+./scripts/deploy.sh
+
+# Access at https://localhost
+# Swagger Docs: https://localhost/docs
+# Health check: https://localhost/health
+```
+
+> **Note:** Self-signed SSL certificates are auto-generated on first run. Replace `nginx/ssl/cert.pem` and `nginx/ssl/key.pem` with your own certificates if needed.
+
+### HTTP only (legacy)
+
+```bash
+docker-compose up -d
+
+# Access at http://localhost:3001
+```
+
 ## Scripts
 
 | Command             | Description                         |
@@ -49,12 +72,12 @@ npm run start:dev
 ```typescript
 export const servicesConfig: ServiceConfig[] = [
   {
-    key: "LEGAL_ENTITIES_API",
-    name: "API юридических лиц",
-    devUrl: process.env.LEGAL_ENTITIES_API_DEV_URL || "http://localhost:4001",
+    key: 'LEGAL_ENTITIES_API',
+    name: 'API юридических лиц',
+    devUrl: process.env.LEGAL_ENTITIES_API_DEV_URL || 'http://localhost:4001',
     prodUrl:
       process.env.LEGAL_ENTITIES_API_PROD_URL ||
-      "https://legal-entities-api.production.com",
+      'https://legal-entities-api.production.com',
     timeout: 15000, // 15 секунд
     rateLimit: {
       max: 200, // 200 запросов

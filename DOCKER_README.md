@@ -2,40 +2,61 @@
 
 ## Quick Start
 
+### Production Deployment (HTTPS)
+
 ```bash
-# Build and start all services
+# Build and start all services with HTTPS
+./scripts/deploy.sh
+
+# Access at https://localhost
+# Swagger Docs: https://localhost/docs
+# Health check: https://localhost/health
+```
+
+> **Note:** Self-signed SSL certificates are auto-generated on first run. Replace `nginx/ssl/cert.pem` and `nginx/ssl/key.pem` with your own certificates if needed.
+
+### HTTP only (legacy)
+
+```bash
+# Build and start all services (HTTP)
 docker-compose up -d
 
-# View logs
-docker-compose logs -f
-
-# Stop all services
-docker-compose down
-
-# Stop with volumes (WARNING: deletes database data)
-docker-compose down -v
+# Access at http://localhost:5180 (frontend)
+# Access at http://localhost:3001 (backend)
+# Swagger Docs: http://localhost:3001/docs
 ```
 
 ## Services
 
-| Service          | Port | URL                         |
-| ---------------- | ---- | --------------------------- |
-| PostgreSQL       | 5432 | postgresql://localhost:5432 |
-| Backend (NestJS) | 3001 | http://localhost:3001       |
-| Swagger API Docs | 3001 | http://localhost:3001/docs  |
+| Service          | Port (HTTPS) | Port (HTTP) | URL                    |
+| ---------------- | ------------ | ----------- | ---------------------- |
+| Frontend         | 443          | 5180        | https://localhost      |
+| Backend (NestJS) | 443          | 3001        | https://localhost/api  |
+| Swagger API Docs | 443          | 3001        | https://localhost/docs |
 
 ## Environment Variables
 
-Create `.env` file in root directory:
+### Frontend (client-data-sme/.env)
 
 ```env
-
-# JWT
-JWT_SECRET=your-super-secret-jwt-key-change-in-production
-JWT_EXPIRES_IN=24h
-
-# Server
 NODE_ENV=production
+VITE_API_BASE_URL=/api
+VITE_APP_TITLE=Client Data SME
+VITE_ENABLE_MOCK_DATA=false
+```
+
+### Backend (backend/.env)
+
+```env
+NODE_ENV=production
+
+# External services URLs (optional)
+LEGAL_ENTITIES_API_DEV_URL=http://localhost:4001
+LEGAL_ENTITIES_API_PROD_URL=https://srvap6229.rccf.ru:8090
+CHECKS_API_DEV_URL=http://localhost:4002
+CHECKS_API_PROD_URL=https://srvap6229.rccf.ru:8090
+USERS_API_DEV_URL=http://localhost:4003
+USERS_API_PROD_URL=https://srvap6229.rccf.ru:8090
 ```
 
 ## Development
@@ -43,24 +64,105 @@ NODE_ENV=production
 For development, you can run services individually:
 
 ```bash
-# Start PostgreSQL only
-docker-compose up -d postgres
+# Start frontend (development mode with hot-reload)
+cd client-data-sme
+docker-compose -f docker-compose.dev.yml up
 
-# Run backend locally
-cd backend && npm run start:dev
+# Start backend (development mode)
+cd backend
+npm run start:dev
 ```
 
-## Reset Database
+## Individual Service Deployment
+
+### Deploy Frontend Only
 
 ```bash
-docker-compose down -v
-docker-compose up -d postgres
-docker-compose up -d backend
+cd client-data-sme
+./scripts/deploy.sh
 ```
 
-## Default Users
+### Deploy Backend Only
 
-| Email             | Password | Role        |
-| ----------------- | -------- | ----------- |
-| admin@example.com | admin123 | ADMIN       |
-| test@example.com  | test123  | AML_OFFICER |
+```bash
+cd backend
+./scripts/deploy.sh
+```
+
+## SSL / HTTPS
+
+### Self-signed Certificates (auto-generated)
+
+Certificates are automatically generated on first deploy. To regenerate:
+
+```bash
+rm -rf nginx/ssl/*.pem nginx/ssl/*.key
+./scripts/generate-ssl.sh
+```
+
+### Custom Certificates
+
+Replace the files:
+
+- `nginx/ssl/cert.pem` — your certificate (include intermediate certs if needed)
+- `nginx/ssl/key.pem` — your private key
+
+### Let's Encrypt (for public domains)
+
+```bash
+# Get certificates with certbot
+certbot certonly --standalone -d your-domain.com
+
+# Mount in docker-compose.prod.yml
+volumes:
+  - /etc/letsencrypt/live/your-domain.com/fullchain.pem:/etc/nginx/ssl/cert.pem:ro
+  - /etc/letsencrypt/live/your-domain.com/privkey.pem:/etc/nginx/ssl/key.pem:ro
+```
+
+## Useful Commands
+
+```bash
+# View logs
+docker-compose -f docker-compose.prod.yml logs -f
+
+# Stop all services
+docker-compose -f docker-compose.prod.yml down
+
+# Restart services
+docker-compose -f docker-compose.prod.yml restart
+
+# Check status
+docker-compose -f docker-compose.prod.yml ps
+
+# Execute command in container
+docker-compose -f docker-compose.prod.yml exec <service> sh
+
+# Rebuild without cache
+docker-compose -f docker-compose.prod.yml build --no-cache
+```
+
+## Troubleshooting
+
+### SSL Certificate Warnings
+
+Self-signed certificates will trigger browser warnings. This is normal for local development.
+
+**Option 1:** Trust the certificate in your browser/system
+**Option 2:** Use Let's Encrypt or your own CA-signed certificate
+
+### Port Conflicts
+
+If ports 80/443 are already in use:
+
+- Stop other services using these ports
+- Or use individual service deployment on different ports
+
+### Frontend Cannot Connect to API
+
+Make sure `VITE_API_BASE_URL` is set to `/api` in `client-data-sme/.env` and rebuild:
+
+```bash
+cd client-data-sme
+npm run build
+docker-compose -f docker-compose.prod.yml up -d --build client
+```
